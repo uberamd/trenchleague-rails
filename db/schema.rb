@@ -28,9 +28,9 @@ ActiveRecord::Schema.define(version: 20170921181338) do
   end
 
   create_table "teams", force: :cascade do |t|
-    t.boolean "is_active"
-    t.boolean "is_banned"
-    t.boolean "is_deleted"
+    t.boolean "is_active", default: true
+    t.boolean "is_banned", default: false
+    t.boolean "is_deleted", default: false
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

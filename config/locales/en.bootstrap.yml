@@ -5,8 +5,8 @@ en:
   breadcrumbs:
     application:
       root: "Index"
-    pages:
-      pages: "Pages"
+    teams:
+      index: "Teams"
   helpers:
     actions: "Actions"
     links:
