@@ -1,15 +1,4 @@
 GIT
-  remote: git://github.com/thoughtbot/paperclip.git
-  revision: 82cd3781b4bbfe20778fe5f9a6802d348cd5ee1a
-  specs:
-    paperclip (5.1.0)
-      activemodel (>= 4.2.0)
-      activesupport (>= 4.2.0)
-      cocaine (~> 0.5.5)
-      mime-types
-      mimemagic (~> 0.3.0)
-
-GIT
   remote: https://github.com/seyhunak/twitter-bootstrap-rails.git
   revision: c236286b7d6e73affa1597f62fd51e9dbd268f1c
   specs:
@@ -18,6 +7,17 @@ GIT
       execjs (~> 2.7)
       less-rails (~> 2.8, >= 2.8.0)
       railties (~> 5.0, >= 5.0.1)
+
+GIT
+  remote: https://github.com/thoughtbot/paperclip.git
+  revision: 82cd3781b4bbfe20778fe5f9a6802d348cd5ee1a
+  specs:
+    paperclip (5.1.0)
+      activemodel (>= 4.2.0)
+      activesupport (>= 4.2.0)
+      cocaine (~> 0.5.5)
+      mime-types
+      mimemagic (~> 0.3.0)
 
 GEM
   remote: https://rubygems.org/
@@ -246,4 +246,4 @@ DEPENDENCIES
   web-console (>= 3.3.0)
 
 BUNDLED WITH
-   1.14.5
+   1.15.4

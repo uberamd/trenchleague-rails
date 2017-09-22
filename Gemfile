@@ -57,7 +57,7 @@ gem 'twitter-bootstrap-rails', git: 'https://github.com/seyhunak/twitter-bootstr
 gem 'omniauth-steam'
 gem 'bootstrap_form'
 gem 'redis' # for actioncable
-gem 'paperclip', git: 'git://github.com/thoughtbot/paperclip.git'
+gem 'paperclip', git: 'https://github.com/thoughtbot/paperclip.git'
 gem 'aws-sdk', '~> 2.3'
 gem 'access-granted', '~> 1.1.0'
 gem 'jquery-rails'
