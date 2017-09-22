@@ -1,24 +1,19 @@
-# README
+# Development Environment Setup
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Ubuntu
 
-Things you may want to cover:
+Perform a `bundle install`. You will need the following packages on your 
+system for this to succeed:
 
-* Ruby version
+* libpq-dev
 
-* System dependencies
+This was developed using Ruby 2.4.1 and Rails 5.1
 
-* Configuration
+## Docker
 
-* Database creation
+A docker compose file is included for creating the postgres database 
+server. It is available on localhost:15432, credentials for development 
+can be found in config/database.yml
 
-* Database initialization
+To use simply execute a `docker-compose up`
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...

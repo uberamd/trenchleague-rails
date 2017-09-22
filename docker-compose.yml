@@ -1,0 +1,10 @@
+version: '3.1'
+services:
+  db:
+    image: postgres
+    ports:
+      - 15432:5432
+    environment:
+      POSTGRES_USER: tl_development
+      POSTGRES_DB: tl_development
+      POSTGRES_PASSWORD: password
