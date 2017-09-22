@@ -1,4 +1,11 @@
 GIT
+  remote: https://github.com/evgenygarl/flag-icons-rails.git
+  revision: ac23c41824b3435058d9acd0b6583d35642a727e
+  specs:
+    flag-icons-rails (2.5.0)
+      sass (~> 3.2)
+
+GIT
   remote: https://github.com/seyhunak/twitter-bootstrap-rails.git
   revision: c236286b7d6e73affa1597f62fd51e9dbd268f1c
   specs:
@@ -226,6 +233,7 @@ DEPENDENCIES
   bootstrap_form
   byebug
   coffee-rails (~> 4.2)
+  flag-icons-rails!
   friendly_id
   jbuilder (~> 2.5)
   jquery-rails
