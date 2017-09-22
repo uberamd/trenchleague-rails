@@ -17,7 +17,7 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Teams <span class="caret"></span></a>
             <ul class="dropdown-menu">
               <% Team.order('name ASC').where(:is_active => true, :is_deleted => false).all.each do |team| %>
-                <li><a href="#"><%= team.name %></a></li>
+                <li><%= link_to team.name, team_path(team) %></li>
               <% end %>
               <li role="separator" class="divider"></li>
               <li><%= link_to 'Register New Team', new_team_path %></li>
