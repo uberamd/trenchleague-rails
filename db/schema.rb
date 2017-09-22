@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170921181338) do
+ActiveRecord::Schema.define(version: 20170922184217) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,6 +55,14 @@ ActiveRecord::Schema.define(version: 20170921181338) do
     t.integer "team_id"
     t.boolean "team_admin", default: false
     t.boolean "team_captain", default: false
+    t.string "profileurl"
+    t.boolean "team_join_approved", default: false
+    t.datetime "team_join_date"
+    t.integer "team_join_approved_by"
+    t.boolean "is_global_admin", default: false
+    t.boolean "is_league_admin", default: false
+    t.boolean "is_league_caster", default: false
+    t.boolean "is_match_admin", default: false
   end
 
 end
