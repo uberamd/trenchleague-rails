@@ -3,6 +3,11 @@ class AccessPolicy
 
   def configure
 
+    role :global_admin, { is_global_admin: true } do
+      can :manage, User
+      can :manage, Team
+    end
+
     role :player do
       can :create, Team
 
