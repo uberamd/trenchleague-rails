@@ -1,3 +1,30 @@
-<%= image_tag @team.logo.url(:medium) %>
-
-<%= @team.users.inspect %>
+<div class="row">
+  <div class="col-md-3">
+    <%= image_tag @team.logo.url(:medium), class: 'pad-10px-bottom img-responsive center-block' %>
+    <% if current_user.team_id == nil %>
+      <%= link_to 'Request to Join Team', join_team_path, class: 'btn btn-primary btn-block' %>
+    <% elsif current_user.team_id == @team.id && current_user.team_join_approved == true %>
+      <%= link_to 'Leave Team', '#', class: 'btn btn-danger btn-block', data: { confirm: 'Are you sure?' } %>
+    <% else %>
+      <%= button_to 'Join Request Pending, cancel?', {}, data: { confirm: 'Confirm Request' }, class: 'btn btn-warning btn-block' %>
+    <% end %>
+  </div>
+</div>
+<hr />
+<div class="row">
+  <% @team.users.where(:team_join_approved => true).all.each do |user| %>
+    <div class="col-md-3">
+      <div class="media">
+        <div class="media-left"><%= image_tag user.avatar %></div>
+        <div class="media-body">
+          <h4 class="media-heading">
+            <%= user.personaname %>
+            <%= flag_icon(user.loccountrycode.parameterize.underscore.to_sym) || nil %>
+          </h4>
+          <% if user.team_admin %><span class="label label-primary">Team Admin</span><% end %>
+          <% if user.team_captain %><span class="label label-info">Captain</span><% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
