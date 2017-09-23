@@ -1,11 +1,11 @@
 <div class="row">
   <div class="col-md-3">
-    <%= image_tag @team.logo.url(:medium), class: 'pad-10px-bottom img-responsive center-block' %>
-    <% if current_user.team_id == nil %>
+    <%= image_tag @team.logo.url(:medium), class: 'pad-15px-bottom img-responsive center-block' %>
+    <% if !current_user.nil? && current_user.team_id == nil %>
       <%= link_to 'Request to Join Team', join_team_path, class: 'btn btn-primary btn-block' %>
-    <% elsif current_user.team_id == @team.id && current_user.team_join_approved == true %>
-      <%= link_to 'Leave Team', '#', class: 'btn btn-danger btn-block', data: { confirm: 'Are you sure?' } %>
-    <% else %>
+    <% elsif !current_user.nil? && current_user.team_id == @team.id && current_user.team_join_approved == true %>
+      <%= link_to 'Leave Team', '#', class: 'btn btn-danger btn-block btn-sm', data: { confirm: 'Are you sure?' } %>
+    <% elsif !current_user.nil? %>
       <%= button_to 'Join Request Pending, cancel?', {}, data: { confirm: 'Confirm Request' }, class: 'btn btn-warning btn-block' %>
     <% end %>
   </div>
@@ -21,10 +21,57 @@
             <%= user.personaname %>
             <%= flag_icon(user.loccountrycode.parameterize.underscore.to_sym) || nil %>
           </h4>
-          <% if user.team_admin %><span class="label label-primary">Team Admin</span><% end %>
-          <% if user.team_captain %><span class="label label-info">Captain</span><% end %>
+          <p>
+            <% if user.team_admin %><span class="label label-primary">Team Admin</span><% end %>
+            <% if user.team_captain %><span class="label label-info">Captain</span><% end %>
+          </p>
+          <div class="row">
+            <div class="col-md-4"><strong><%= user.opendota_solo_mmr || '-' %></strong></div>
+            <div class="col-md-4"><strong><%= user.opendota_party_mmr || '-' %></strong></div>
+            <div class="col-md-4"><strong><%= user.opendota_estimated_mmr || '-' %></strong></div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">Solo</div>
+            <div class="col-md-4">Party</div>
+            <div class="col-md-4">Est.</div>
+          </div>
         </div>
       </div>
     </div>
   <% end %>
 </div>
+
+<% if can? :admin, @team %>
+<hr />
+<div class="row">
+  <h3>Pending Join Requests</h3>
+  <table class="table table-hover">
+    <thead>
+    <tr>
+      <th>Steam Name</th>
+      <th>Profiles</th>
+      <th>MMR (Solo/Party/Estimated)</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @team.users.where(:team_join_approved => false).all.each do |user| %>
+      <tr>
+        <td><%= user.personaname %> <%= flag_icon(user.loccountrycode.parameterize.underscore.to_sym) || nil %></td>
+        <td>
+          <% if user.profileurl != "" %>
+            <%= link_to 'Steam', user.profileurl, target: :_blank %>
+          <% end %>
+          <%= link_to 'Dotabuff', "https://www.dotabuff.com/players/#{user.get_short_steamid}/", target: :_blank %>
+          <%= link_to 'OpenDota', "https://www.opendota.com/players/#{user.get_short_steamid}/", target: :_blank %>
+        </td>
+        <td><%= user.opendota_solo_mmr || '-' %> / <%= user.opendota_party_mmr || '-' %> / <%= user.opendota_estimated_mmr || '-' %></td>
+        <td class="text-right">
+          <%= link_to 'Approve', '', class: 'btn btn-xs btn-default' %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+<% end %>

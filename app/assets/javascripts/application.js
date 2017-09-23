@@ -15,4 +15,9 @@
 //= require rails-ujs
 //= require turbolinks
 //= require twitter/bootstrap
+//= require bootstrap-toggle
 //= require_tree .
+
+$(document).on('ready page:change', function() {
+    $('input[type="checkbox"].toggle').bootstrapToggle(); // assumes the checkboxes have the class "toggle"
+});

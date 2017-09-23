@@ -1,4 +1,10 @@
 GIT
+  remote: https://github.com/chaps-io/access-granted.git
+  revision: 6ae406871f4b8f79f094f3e3d6f28b39a731073a
+  specs:
+    access-granted (1.2.0)
+
+GIT
   remote: https://github.com/evgenygarl/flag-icons-rails.git
   revision: ac23c41824b3435058d9acd0b6583d35642a727e
   specs:
@@ -29,7 +35,6 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    access-granted (1.1.2)
     actioncable (5.1.4)
       actionpack (= 5.1.4)
       nio4r (~> 2.0)
@@ -77,6 +82,7 @@ GEM
       aws-sdk-core (= 2.10.50)
     aws-sigv4 (1.0.2)
     bindex (0.5.0)
+    bootstrap-toggle-rails (2.2.1.0)
     bootstrap_form (2.7.0)
     builder (3.2.3)
     byebug (9.1.0)
@@ -100,6 +106,8 @@ GEM
     globalid (0.4.0)
       activesupport (>= 4.2.0)
     hashie (3.5.6)
+    httparty (0.15.6)
+      multi_xml (>= 0.5.2)
     i18n (0.8.6)
     jbuilder (2.7.0)
       activesupport (>= 4.2.0)
@@ -132,6 +140,7 @@ GEM
     mini_portile2 (2.3.0)
     minitest (5.10.3)
     multi_json (1.12.2)
+    multi_xml (0.6.0)
     nio4r (2.1.0)
     nokogiri (1.8.1)
       mini_portile2 (~> 2.3.0)
@@ -228,13 +237,15 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  access-granted (~> 1.1.0)
+  access-granted!
   aws-sdk (~> 2.3)
+  bootstrap-toggle-rails
   bootstrap_form
   byebug
   coffee-rails (~> 4.2)
   flag-icons-rails!
   friendly_id
+  httparty
   jbuilder (~> 2.5)
   jquery-rails
   listen (>= 3.0.5, < 3.2)

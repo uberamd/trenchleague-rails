@@ -28,6 +28,10 @@ class TeamsController < ApplicationController
   def show
     @team = Team.friendly.find(params[:id])
     add_breadcrumb @team.name
+
+    if current_user.id != nil
+      OpendotaMmrRefreshJob.perform_later current_user
+    end
   end
 
   def join_request

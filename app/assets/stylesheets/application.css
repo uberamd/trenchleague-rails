@@ -11,10 +11,11 @@
  * It is generally better to create a new file per style scope.
  *
  *= require flag-icon
+ *= require bootstrap-toggle
  *= require_tree .
  *= require_self
  */
 
-.pad-10px-bottom {
-    padding-bottom: 10px;
+.pad-15px-bottom {
+    padding-bottom: 15px;
 }

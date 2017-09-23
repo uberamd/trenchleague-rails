@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170922184217) do
+ActiveRecord::Schema.define(version: 20170923024256) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,6 +63,10 @@ ActiveRecord::Schema.define(version: 20170922184217) do
     t.boolean "is_league_admin", default: false
     t.boolean "is_league_caster", default: false
     t.boolean "is_match_admin", default: false
+    t.integer "opendota_solo_mmr"
+    t.integer "opendota_party_mmr"
+    t.integer "opendota_estimated_mmr"
+    t.datetime "opendota_mmr_updated"
   end
 
 end
