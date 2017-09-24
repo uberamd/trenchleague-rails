@@ -1,40 +1,137 @@
 <div class="row">
   <div class="col-md-3">
     <%= image_tag @team.logo.url(:medium), class: 'pad-15px-bottom img-responsive center-block' %>
-    <% if !current_user.nil? && current_user.team_id == nil %>
+    <% if !current_user.id.nil? && current_user.team_id == nil %>
       <%= link_to 'Request to Join Team', join_team_path, class: 'btn btn-primary btn-block' %>
-    <% elsif !current_user.nil? && current_user.team_id == @team.id && current_user.team_join_approved == true %>
+    <% elsif !current_user.id.nil? && current_user.team_id == @team.id && current_user.team_join_approved %>
       <%= link_to 'Leave Team', '#', class: 'btn btn-danger btn-block btn-sm', data: { confirm: 'Are you sure?' } %>
-    <% elsif !current_user.nil? %>
+    <% elsif !current_user.id.nil? && current_user.team_id == @team.id && !current_user.team_join_approved %>
       <%= button_to 'Join Request Pending, cancel?', {}, data: { confirm: 'Confirm Request' }, class: 'btn btn-warning btn-block' %>
     <% end %>
+  </div>
+
+  <div class="col-md-9">
+
+    <div class="row">
+      <div class="col-md-3 text-center">
+        <ul class="list-inline">
+          <li>
+            <h5>WINS</h5>
+            <h2 class="text-success">0</h2>
+          </li>
+          <li>
+            <h5></h5>
+            <h2>-</h2>
+          </li>
+          <li>
+            <h5>LOSSES</h5>
+            <h2 class="text-danger">0</h2>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-2 text-center">
+        <ul class="list-inline">
+          <li>
+            <h5>POINTS</h5>
+            <h2 class="text-success">0</h2>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-2 text-center">
+        <ul class="list-inline">
+          <li>
+            <h5>GROUP RANK</h5>
+            <h2>1</h2>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-5 text-right">
+        <ul class="list-inline">
+          <li>
+            <h5>SOLO MMR</h5>
+            <h2><%= @avg_mmr[:solo] %></h2>
+          </li>
+          <li>
+            <h5>PARTY MMR</h5>
+            <h2><%= @avg_mmr[:party] %></h2>
+          </li>
+          <li>
+            <h5>EST. MMR</h5>
+            <h2><%= @avg_mmr[:est] %></h2>
+          </li>
+        </ul>
+      </div>
+    </div> <!-- end win/loss/points/mmr team row -->
+
+    <div class="row">
+      <!-- here we will show upcoming matches and recent matches -->
+    </div>
   </div>
 </div>
 <hr />
 <div class="row">
-  <% @team.users.where(:team_join_approved => true).all.each do |user| %>
-    <div class="col-md-3">
-      <div class="media">
+  <% @team.users.order('personaname ASC').where(:team_join_approved => true).all.each do |user| %>
+    <div class="col-md-12">
+      <div class="media pad-15px-bottom">
         <div class="media-left"><%= image_tag user.avatar %></div>
         <div class="media-body">
-          <h4 class="media-heading">
-            <%= user.personaname %>
-            <%= flag_icon(user.loccountrycode.parameterize.underscore.to_sym) || nil %>
-          </h4>
-          <p>
-            <% if user.team_admin %><span class="label label-primary">Team Admin</span><% end %>
-            <% if user.team_captain %><span class="label label-info">Captain</span><% end %>
-          </p>
+
           <div class="row">
-            <div class="col-md-4"><strong><%= user.opendota_solo_mmr || '-' %></strong></div>
-            <div class="col-md-4"><strong><%= user.opendota_party_mmr || '-' %></strong></div>
-            <div class="col-md-4"><strong><%= user.opendota_estimated_mmr || '-' %></strong></div>
-          </div>
-          <div class="row">
-            <div class="col-md-4">Solo</div>
-            <div class="col-md-4">Party</div>
-            <div class="col-md-4">Est.</div>
-          </div>
+            <div class="col-md-6">
+              <h4 class="media-heading">
+                <%if can? :leagueadmin, @team %>
+                    <div class="btn-group">
+                      <button type="button" class="btn btn-info btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="glyphicon glyphicon-cog"></span>
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li><%= link_to 'Smurf Approve', smurf_update_team_path(@team, user, 'approve') %></a></li>
+                        <li><%= link_to 'Smurf Deny', smurf_update_team_path(@team, user, 'deny') %></a></li>
+                        <li><%= link_to 'Smurf Reset', smurf_update_team_path(@team, user, 'reset') %></a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a href="#">Kick from team</a></li>
+                      </ul>
+                    </div>
+                <% end %>
+                <%= user.loccountrycode.nil? ? '' : flag_icon(user.loccountrycode.parameterize.underscore.to_sym) %>
+                <% smurf_icon = 'glyphicon-question-sign' %>
+                <% smurf_icon = 'glyphicon-ok text-success' if user.smurf_check == 1 %>
+                <% smurf_icon = 'glyphicon-remove text-danger' if user.smurf_check == 2 %>
+                <%= user.personaname %> <span class="glyphicon <%= smurf_icon %>"></span>
+              </h4>
+              <% if user.is_global_admin %><span class="label label-danger">Global Admin</span>&nbsp;&nbsp;&nbsp;<% end %>
+              <% if user.is_league_admin %><span class="label label-danger">League Admin</span>&nbsp;&nbsp;&nbsp;<% end %>
+              <% if user.team_admin %><span class="label label-primary">Team Admin</span>&nbsp;&nbsp;&nbsp;<% end %>
+              <% if user.team_captain %><span class="label label-info">Captain</span>&nbsp;&nbsp;&nbsp;<% end %>
+              <p><strong>Profiles: </strong>
+                <%= link_to 'Dotabuff', "https://www.dotabuff.com/players/#{user.get_short_steamid}/", target: :_blank %> /
+                <%= link_to 'OpenDota', "https://www.opendota.com/players/#{user.get_short_steamid}/", target: :_blank %> /
+                <%= link_to 'Steam Community', user.profileurl, target: :_blank %>
+              </p>
+            </div>
+            <div class="col-md-6 text-right">
+              <ul class="list-inline">
+                <li>
+                  <h6>SOLO MMR</h6>
+                  <h4>
+                    <%= user.opendota_solo_mmr || '-' %>
+                  </h4>
+                </li>
+                <li>
+                  <h6>PARTY MMR</h6>
+                  <h4>
+                    <%= user.opendota_party_mmr || '-' %>
+                  </h4>
+                </li>
+                <li>
+                  <h6>EST. MMR</h6>
+                  <h4>
+                    <%= user.opendota_estimated_mmr || '-' %>
+                  </h4>
+                </li>
+              </ul>
+            </div>
+          </div> <!-- end top profile row -->
         </div>
       </div>
     </div>
@@ -44,34 +141,38 @@
 <% if can? :admin, @team %>
 <hr />
 <div class="row">
-  <h3>Pending Join Requests</h3>
-  <table class="table table-hover">
-    <thead>
-    <tr>
-      <th>Steam Name</th>
-      <th>Profiles</th>
-      <th>MMR (Solo/Party/Estimated)</th>
-      <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    <% @team.users.where(:team_join_approved => false).all.each do |user| %>
+  <div class="col-md-12">
+    <h3>Pending Join Requests</h3>
+  </div>
+  <div class="col-md-12">
+    <table class="table table-hover">
+      <thead>
       <tr>
-        <td><%= user.personaname %> <%= flag_icon(user.loccountrycode.parameterize.underscore.to_sym) || nil %></td>
-        <td>
-          <% if user.profileurl != "" %>
-            <%= link_to 'Steam', user.profileurl, target: :_blank %>
-          <% end %>
-          <%= link_to 'Dotabuff', "https://www.dotabuff.com/players/#{user.get_short_steamid}/", target: :_blank %>
-          <%= link_to 'OpenDota', "https://www.opendota.com/players/#{user.get_short_steamid}/", target: :_blank %>
-        </td>
-        <td><%= user.opendota_solo_mmr || '-' %> / <%= user.opendota_party_mmr || '-' %> / <%= user.opendota_estimated_mmr || '-' %></td>
-        <td class="text-right">
-          <%= link_to 'Approve', '', class: 'btn btn-xs btn-default' %>
-        </td>
+        <th>Steam Name</th>
+        <th>Profiles</th>
+        <th>MMR (Solo/Party/Estimated)</th>
+        <th></th>
       </tr>
-    <% end %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+      <% @team.users.where(:team_join_approved => false).all.each do |user| %>
+          <tr>
+            <td><%= user.personaname %> <%= user.loccountrycode.nil? ? '' : flag_icon(user.loccountrycode.parameterize.underscore.to_sym) %></td>
+            <td>
+              <% if user.profileurl != "" %>
+                  <%= link_to 'Steam', user.profileurl, target: :_blank %>
+              <% end %>
+              <%= link_to 'Dotabuff', "https://www.dotabuff.com/players/#{user.get_short_steamid}/", target: :_blank %>
+              <%= link_to 'OpenDota', "https://www.opendota.com/players/#{user.get_short_steamid}/", target: :_blank %>
+            </td>
+            <td><%= user.opendota_solo_mmr || '-' %> / <%= user.opendota_party_mmr || '-' %> / <%= user.opendota_estimated_mmr || '-' %></td>
+            <td class="text-right">
+              <%= link_to 'Approve', approve_join_team_path(@team, user), class: 'btn btn-xs btn-default' %>
+            </td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
 </div>
 <% end %>

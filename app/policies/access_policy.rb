@@ -6,11 +6,13 @@ class AccessPolicy
     role :global_admin, { is_global_admin: true } do
       can :admin, User
       can :admin, Team
+      can :leagueadmin, Team
     end
 
     role :league_admin, { is_league_admin: true } do
       can :admin, User
       can :admin, Team
+      can :leagueadmin, Team
     end
 
     role :team_admin do

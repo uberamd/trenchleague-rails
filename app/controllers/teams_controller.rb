@@ -32,6 +32,8 @@ class TeamsController < ApplicationController
     if current_user.id != nil
       OpendotaMmrRefreshJob.perform_later current_user
     end
+
+    @avg_mmr = @team.get_average_mmr
   end
 
   def join_request
@@ -48,16 +50,7 @@ class TeamsController < ApplicationController
   def join_approve
     @team = Team.friendly.find(params[:id])
 
-    # check to see if the logged in user is on the current team
-    if current_user.team_id != @team.id
-      flash[:danger] = "You are not a member of team #{@team.name}."
-      redirect_to @team and return
-    end
-
-    if !current_user.team_admin || !current_user.team_captain
-      flash[:danger] = 'You do not have the required permissions to approve join requests.'
-      redirect_to @team and return
-    end
+    authorize! :admin, @team
 
     # ok, we have permissions to do this action, lets do
     user = User.find(params[:user])
@@ -87,6 +80,38 @@ class TeamsController < ApplicationController
     @team = Team.friendly.find(params[:id])
 
     # check to see if the logged in user is on the current team
+  end
+
+  def smurf_check
+    @team = Team.friendly.find(params[:id])
+
+    authorize! :leagueadmin, @team
+
+    user = User.find(params[:user])
+
+    # verify the user is even on this team
+    if user.team_id != @team.id && user.team_join_approved
+      flash[:danger] = "User #{user.personaname} can't be modified, isn't on #{@team.name}"
+      redirect_to @team and return
+    end
+
+    # do stuff now
+    case params[:smurfaction]
+      when 'approve'
+        user.smurf_check = 1
+        flash[:success] = "User #{user.personaname} has been APPROVED for play"
+      when 'deny'
+        user.smurf_check = 2
+        flash[:success] = "User #{user.personaname} has been DENIED for play"
+      when 'reset'
+        user.smurf_check = 0
+        flash[:success] = "User #{user.personaname} has had their smurf check status reset"
+      else
+        flash[:danger] = "Something wen't wrong, cannot handle smurfaction #{params[:smurfaction]} on user #{user.personaname}"
+    end
+
+    user.save!
+    redirect_to @team and return
   end
 
   def index

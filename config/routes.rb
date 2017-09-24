@@ -11,6 +11,7 @@ Rails.application.routes.draw do
   resources :teams
   get '/teams/:id/join', to: 'teams#join_request', as: 'join_team'
   get '/teams/:id/join/:user/approve', to: 'teams#join_approve', as: 'approve_join_team'
+  get '/teams/:id/user/:user/smurf/:smurfaction', to: 'teams#smurf_check', as: 'smurf_update_team'
 
   root to: 'static_page#index'
 end

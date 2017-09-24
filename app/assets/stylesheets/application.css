@@ -19,3 +19,26 @@
 .pad-15px-bottom {
     padding-bottom: 15px;
 }
+
+@media (min-width: 768px) {
+    .row.equal {
+        display: flex;
+        flex-wrap: wrap;
+    }
+}
+
+
+/*
+ * This is so we can view the cog dropdown options on the team page, to prevent them from
+ * getting cut off
+ */
+.media,
+.media-body {
+    overflow: visible;
+}
+.media:after,
+.media-body:after{
+    content:'';
+    clear:both;
+    display:block;
+}
