@@ -4,15 +4,15 @@ class AccessPolicy
   def configure
 
     role :global_admin, { is_global_admin: true } do
-      can :admin, User
-      can :admin, Team
-      can :leagueadmin, Team
+      can [:leagueadmin, :admin], User
+      can [:leagueadmin, :admin], Team
+      can [:leagueadmin, :admin], Group
     end
 
     role :league_admin, { is_league_admin: true } do
-      can :admin, User
-      can :admin, Team
-      can :leagueadmin, Team
+      can [:leagueadmin, :admin], User
+      can [:leagueadmin, :admin], Team
+      can [:leagueadmin, :admin], Group
     end
 
     role :team_admin do

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170923213247) do
+ActiveRecord::Schema.define(version: 20170924181447) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,12 @@ ActiveRecord::Schema.define(version: 20170923213247) do
     t.index ["sluggable_type"], name: "index_friendly_id_slugs_on_sluggable_type"
   end
 
+  create_table "groups", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "teams", force: :cascade do |t|
     t.boolean "is_active", default: true
     t.boolean "is_banned", default: false
@@ -39,6 +45,7 @@ ActiveRecord::Schema.define(version: 20170923213247) do
     t.integer "logo_file_size"
     t.datetime "logo_updated_at"
     t.string "slug"
+    t.integer "group_id"
   end
 
   create_table "users", force: :cascade do |t|

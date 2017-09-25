@@ -85,7 +85,7 @@ class TeamsController < ApplicationController
   def smurf_check
     @team = Team.friendly.find(params[:id])
 
-    authorize! :leagueadmin, @team
+    authorize! :leagueadmin, Team
 
     user = User.find(params[:user])
 

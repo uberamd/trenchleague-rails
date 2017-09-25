@@ -1,0 +1,117 @@
+<div class="row">
+  <div class="col-md-6">
+    <div class="well well-sm">
+      <h4>Create new group</h4>
+      <%= bootstrap_form_tag url: groups_create_admin_path do |f| %>
+          <%= f.text_field :name %>
+          <%= f.submit 'Create Group' %>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <h4>Manage current groups</h4>
+    <table class="table table-hover">
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Teams</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @groups.each do |group| %>
+      <tr>
+        <td><%= group.name %></td>
+        <td><%= group.teams.count %></td>
+        <td class="text-right">
+          <%= link_to 'Delete', groups_delete_admin_path(group.id), data: { confirm: "Are you sure you want to reject this user?" }, class: 'btn btn-danger btn-xs' %>
+        </td>
+      </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+<hr />
+<div class="row">
+  <% @groups.each do |group| %>
+  <div class="col-md-6">
+    <div class="row">
+      <div class="col-md-12">
+        <h4>Group <%= group.name %></h4>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <% group.teams.each do |team| %>
+            <% team_eligible = team.team_eligible? %>
+            <div class="media">
+              <div class="media-left">
+                <%= link_to team do %>
+                  <%= image_tag team.logo.url(:tiny_square) %>
+                <% end %>
+              </div>
+              <div class="media-body">
+                <h4 class="media-heading">
+                  <%= team.name %>
+                  <% eligibility_icon = 'glyphicon-ok text-success' if team_eligible %>
+                  <% eligibility_icon = 'glyphicon-remove text-danger' if !team_eligible %>
+                  <span class="glyphicon <%= eligibility_icon %>"></span>
+                </h4>
+                <ul class="list-inline">
+                  <% avg_mmr = team.get_average_mmr %>
+                  <li class="text-center"><h5>Players</h5><%= team.users.where(:team_join_approved => true).count %></li>
+                  <li class="text-center"><h5>Solo MMR</h5><%= avg_mmr[:solo] %></li>
+                  <li class="text-center"><h5>Party MMR</h5><%= avg_mmr[:party] %></li>
+                  <li class="text-center"><h5>Est MMR</h5><%= avg_mmr[:est] %></li>
+                </ul>
+              </div>
+            </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <% end %>
+</div>
+<hr />
+<div class="row">
+  <div class="col-md-12">
+    <%= bootstrap_form_tag url: groups_update_assignments_admin_path do |f| %>
+    <table class="table table-hover" id="admin_groups_table">
+      <thead>
+      <tr>
+        <th>Team</th>
+        <th>Verified Players</th>
+        <th>Unverified Players</th>
+        <th>Avg. Solo</th>
+        <th>Avg. Party</th>
+        <th>Avg. Est</th>
+        <th>Group</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% Team.order('name ASC').all.each do |team| %>
+      <% mmr_hash = team.get_average_mmr %>
+      <tr>
+        <td><%= team.name %></td>
+        <td><%= team.users.where(:team_join_approved => true, :smurf_check => 1).all.count %></td>
+        <td><%= team.users.where(:team_join_approved => true).where.not(:smurf_check => 1).all.count %></td>
+        <td><%= mmr_hash[:solo] %></td>
+        <td><%= mmr_hash[:party] %></td>
+        <td><%= mmr_hash[:est] %></td>
+        <td>
+          <%= f.select("team_#{team.id}", options_from_collection_for_select(Group.all, 'id', 'name', team.group_id), { include_blank: 'None', hide_label: true }, { class: 'input-sm' }) %>
+        </td>
+      </tr>
+      <% end %>
+      <tr>
+        <td colspan="7" class="text-right">
+          <%= f.submit 'Update Team Assignments', class: 'btn btn-primary' %>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+    <% end %>
+  </div>
+</div>

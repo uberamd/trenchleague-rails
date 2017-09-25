@@ -42,3 +42,7 @@
     clear:both;
     display:block;
 }
+
+#admin_groups_table td {
+    vertical-align: middle !important;
+}

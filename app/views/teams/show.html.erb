@@ -37,10 +37,18 @@
           </li>
         </ul>
       </div>
-      <div class="col-md-2 text-center">
+      <div class="col-md-1 text-center">
         <ul class="list-inline">
           <li>
-            <h5>GROUP RANK</h5>
+            <h5>GROUP</h5>
+            <h2><%= @team.group.nil? ? '-' : @team.group.name %></h2>
+          </li>
+        </ul>
+      </div>
+      <div class="col-md-1 text-center">
+        <ul class="list-inline">
+          <li>
+            <h5>POSITION</h5>
             <h2>1</h2>
           </li>
         </ul>
@@ -79,7 +87,7 @@
           <div class="row">
             <div class="col-md-6">
               <h4 class="media-heading">
-                <%if can? :leagueadmin, @team %>
+                <%if can? :leagueadmin, Team %>
                     <div class="btn-group">
                       <button type="button" class="btn btn-info btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <span class="glyphicon glyphicon-cog"></span>
@@ -159,15 +167,16 @@
           <tr>
             <td><%= user.personaname %> <%= user.loccountrycode.nil? ? '' : flag_icon(user.loccountrycode.parameterize.underscore.to_sym) %></td>
             <td>
-              <% if user.profileurl != "" %>
-                  <%= link_to 'Steam', user.profileurl, target: :_blank %>
-              <% end %>
-              <%= link_to 'Dotabuff', "https://www.dotabuff.com/players/#{user.get_short_steamid}/", target: :_blank %>
+              <%= link_to 'Dotabuff', "https://www.dotabuff.com/players/#{user.get_short_steamid}/", target: :_blank %> /
               <%= link_to 'OpenDota', "https://www.opendota.com/players/#{user.get_short_steamid}/", target: :_blank %>
+              <% if user.profileurl != "" %>
+                  / <%= link_to 'Steam', user.profileurl, target: :_blank %>
+              <% end %>
             </td>
             <td><%= user.opendota_solo_mmr || '-' %> / <%= user.opendota_party_mmr || '-' %> / <%= user.opendota_estimated_mmr || '-' %></td>
             <td class="text-right">
-              <%= link_to 'Approve', approve_join_team_path(@team, user), class: 'btn btn-xs btn-default' %>
+              <%= link_to 'Approve', approve_join_team_path(@team, user), class: 'btn btn-xs btn-default' %>&nbsp;
+              <%= link_to 'Reject', root_path, data: { confirm: "Are you sure you want to reject this user?" }, class: 'btn btn-xs btn-danger' %>
             </td>
           </tr>
       <% end %>
