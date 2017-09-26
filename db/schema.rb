@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170925180059) do
+ActiveRecord::Schema.define(version: 20170926234810) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -94,6 +94,7 @@ ActiveRecord::Schema.define(version: 20170925180059) do
     t.integer "opendota_estimated_mmr"
     t.datetime "opendota_mmr_updated"
     t.integer "smurf_check", default: 0
+    t.integer "in_house_elo"
   end
 
 end
