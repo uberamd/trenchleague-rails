@@ -6,6 +6,19 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+# Create groups
+Group.create([
+    {
+        name: 'A'
+    },
+    {
+        name: 'B'
+    },
+    {
+        name: 'C'
+    }
+ ])
+
 # Create team EG
 Team.create([
     {
@@ -30,7 +43,8 @@ Team.create([
         logo_file_name: 'dump_garbage_litter_trash_trashcan_eco_ecology-512.png',
         logo_content_type: 'image/png',
         logo_updated_at: '2017-09-22 22:37:36.135115',
-        slug: 'ohgeez'
+        slug: 'ohgeez',
+        group_id: 1
     }
 ])
 
@@ -63,6 +77,7 @@ User.create([
         team_id: 2,
         team_admin: true,
         team_captain: true,
+        is_league_admin: true,
         profileurl: 'http://steamcommunity.com/id/scrodes/',
         team_join_approved: true,
         team_join_date: '2017-09-22 22:37:38.288592',
@@ -264,6 +279,838 @@ User.create([
         team_join_approved_by: 8
     },
 ])
+
+# Create team hail esports id 4
+Team.create([
+                {
+                    is_active: true,
+                    name: 'Hail eSports',
+                    created_at: '2017-09-22 22:37:36.496592',
+                    updated_at: '2017-09-22 22:37:36.496592',
+                    logo_file_name: 'd2logo.jpg',
+                    logo_content_type: 'image/jpeg',
+                    logo_updated_at: '2017-09-25 14:44:27.339747',
+                    slug: 'hail-esports',
+                    group_id: 1
+                }
+            ])
+
+# spooky_ghost 14
+User.create([
+                {
+                    steamid: '76561198059806834',
+                    is_active: true,
+                    is_deleted: false,
+                    is_banned: false,
+                    created_at: '2017-09-22 22:40:07.398089',
+                    updated_at: '2017-09-22 22:40:07.398089',
+                    team_id: 4,
+                    team_admin: true,
+                    team_captain: true,
+                    team_join_approved: true,
+                    team_join_date: '2017-09-22 22:37:38.288592',
+                    team_join_approved_by: 14
+                }
+            ])
+
+# suitaloo 15
+User.create([
+                {
+                    steamid: '76561198017704502',
+                    is_active: true,
+                    is_deleted: false,
+                    is_banned: false,
+                    created_at: '2017-09-22 22:40:07.398089',
+                    updated_at: '2017-09-22 22:40:07.398089',
+                    team_id: 4,
+                    team_admin: false,
+                    team_captain: false,
+                    team_join_approved: true,
+                    team_join_date: '2017-09-22 22:37:38.288592',
+                    team_join_approved_by: 14
+                }
+            ])
+
+# eff1ngham 16
+User.create([
+                {
+                    steamid: '76561197994454042',
+                    is_active: true,
+                    is_deleted: false,
+                    is_banned: false,
+                    created_at: '2017-09-22 22:40:07.398089',
+                    updated_at: '2017-09-22 22:40:07.398089',
+                    team_id: 4,
+                    team_admin: false,
+                    team_captain: false,
+                    team_join_approved: true,
+                    team_join_date: '2017-09-22 22:37:38.288592',
+                    team_join_approved_by: 14
+                }
+            ])
+
+# patchcable 17
+User.create([
+                {
+                    steamid: '76561198124726591',
+                    is_active: true,
+                    is_deleted: false,
+                    is_banned: false,
+                    created_at: '2017-09-22 22:40:07.398089',
+                    updated_at: '2017-09-22 22:40:07.398089',
+                    team_id: 4,
+                    team_admin: false,
+                    team_captain: false,
+                    team_join_approved: true,
+                    team_join_date: '2017-09-22 22:37:38.288592',
+                    team_join_approved_by: 14
+                }
+            ])
+
+# cheese 18
+User.create([
+                {
+                    steamid: '76561198267987523',
+                    is_active: true,
+                    is_deleted: false,
+                    is_banned: false,
+                    created_at: '2017-09-22 22:40:07.398089',
+                    updated_at: '2017-09-22 22:40:07.398089',
+                    team_id: 4,
+                    team_admin: false,
+                    team_captain: false,
+                    team_join_approved: true,
+                    team_join_date: '2017-09-22 22:37:38.288592',
+                    team_join_approved_by: 14
+                }
+            ])
+
+# Create team Ho Ho Ha Ha id 5
+Team.create([
+                {
+                    is_active: true,
+                    name: 'Ho Ho Ha Ha',
+                    created_at: '2017-09-22 22:37:36.496592',
+                    updated_at: '2017-09-22 22:37:36.496592',
+                    logo_file_name: 'd2logo.jpg',
+                    logo_content_type: 'image/jpeg',
+                    logo_updated_at: '2017-09-25 14:44:27.339747',
+                    slug: 'ho-ho-ha-ha',
+                    group_id: 1
+                }
+            ])
+
+# potato 19
+User.create([
+                {
+                    steamid: '76561198066711838',
+                    is_active: true,
+                    is_deleted: false,
+                    is_banned: false,
+                    created_at: '2017-09-22 22:40:07.398089',
+                    updated_at: '2017-09-22 22:40:07.398089',
+                    team_id: 5,
+                    team_admin: true,
+                    team_captain: true,
+                    team_join_approved: true,
+                    team_join_date: '2017-09-22 22:37:38.288592',
+                    team_join_approved_by: 19
+                }
+            ])
+
+# themadhatter 20
+User.create([
+                {
+                    steamid: '76561198124812960',
+                    is_active: true,
+                    is_deleted: false,
+                    is_banned: false,
+                    created_at: '2017-09-22 22:40:07.398089',
+                    updated_at: '2017-09-22 22:40:07.398089',
+                    team_id: 5,
+                    team_admin: false,
+                    team_captain: false,
+                    team_join_approved: true,
+                    team_join_date: '2017-09-22 22:37:38.288592',
+                    team_join_approved_by: 19
+                }
+            ])
+
+# condemn me 21
+User.create([
+                {
+                    steamid: '76561198317914771',
+                    is_active: true,
+                    is_deleted: false,
+                    is_banned: false,
+                    created_at: '2017-09-22 22:40:07.398089',
+                    updated_at: '2017-09-22 22:40:07.398089',
+                    team_id: 5,
+                    team_admin: false,
+                    team_captain: false,
+                    team_join_approved: true,
+                    team_join_date: '2017-09-22 22:37:38.288592',
+                    team_join_approved_by: 19
+                }
+            ])
+
+# izumi <3 22
+User.create([
+                {
+                    steamid: '76561198353973104',
+                    is_active: true,
+                    is_deleted: false,
+                    is_banned: false,
+                    created_at: '2017-09-22 22:40:07.398089',
+                    updated_at: '2017-09-22 22:40:07.398089',
+                    team_id: 5,
+                    team_admin: false,
+                    team_captain: false,
+                    team_join_approved: true,
+                    team_join_date: '2017-09-22 22:37:38.288592',
+                    team_join_approved_by: 19
+                }
+            ])
+
+# hocus pocus 23
+User.create([
+                {
+                    steamid: '76561198171061478',
+                    is_active: true,
+                    is_deleted: false,
+                    is_banned: false,
+                    created_at: '2017-09-22 22:40:07.398089',
+                    updated_at: '2017-09-22 22:40:07.398089',
+                    team_id: 5,
+                    team_admin: false,
+                    team_captain: false,
+                    team_join_approved: true,
+                    team_join_date: '2017-09-22 22:37:38.288592',
+                    team_join_approved_by: 19
+                }
+            ])
+
+# positivity 24
+User.create([
+                {
+                    steamid: '76561198057746614',
+                    is_active: true,
+                    is_deleted: false,
+                    is_banned: false,
+                    created_at: '2017-09-22 22:40:07.398089',
+                    updated_at: '2017-09-22 22:40:07.398089',
+                    team_id: 5,
+                    team_admin: false,
+                    team_captain: false,
+                    team_join_approved: true,
+                    team_join_date: '2017-09-22 22:37:38.288592',
+                    team_join_approved_by: 19
+                }
+            ])
+
+# a harmless twig 25
+User.create([
+                {
+                    steamid: '76561198025865488',
+                    is_active: true,
+                    is_deleted: false,
+                    is_banned: false,
+                    created_at: '2017-09-22 22:40:07.398089',
+                    updated_at: '2017-09-22 22:40:07.398089',
+                    team_id: 5,
+                    team_admin: false,
+                    team_captain: false,
+                    team_join_approved: true,
+                    team_join_date: '2017-09-22 22:37:38.288592',
+                    team_join_approved_by: 19
+                }
+            ])
+
+# Create team Team Pokedotes id 6
+Team.create([
+                {
+                    is_active: true,
+                    name: 'Team PokeDotes',
+                    created_at: '2017-09-22 22:37:36.496592',
+                    updated_at: '2017-09-22 22:37:36.496592',
+                    logo_file_name: 'd2logo.jpg',
+                    logo_content_type: 'image/jpeg',
+                    logo_updated_at: '2017-09-25 14:44:27.339747',
+                    slug: 'team-pokedotes',
+                    group_id: 1
+                }
+            ])
+
+# kewl dude 26
+User.create([
+                {
+                    steamid: '76561198015329729',
+                    is_active: true,
+                    is_deleted: false,
+                    is_banned: false,
+                    created_at: '2017-09-22 22:40:07.398089',
+                    updated_at: '2017-09-22 22:40:07.398089',
+                    team_id: 6,
+                    team_admin: true,
+                    team_captain: true,
+                    team_join_approved: true,
+                    team_join_date: '2017-09-22 22:37:38.288592',
+                    team_join_approved_by: 26
+                }
+            ])
+
+# na-45 27
+User.create([
+                {
+                    steamid: '76561198019503291',
+                    is_active: true,
+                    is_deleted: false,
+                    is_banned: false,
+                    created_at: '2017-09-22 22:40:07.398089',
+                    updated_at: '2017-09-22 22:40:07.398089',
+                    team_id: 6,
+                    team_admin: false,
+                    team_captain: false,
+                    team_join_approved: true,
+                    team_join_date: '2017-09-22 22:37:38.288592',
+                    team_join_approved_by: 26
+                }
+            ])
+
+# charizardx 28
+User.create([
+                {
+                    steamid: '76561198047675037',
+                    is_active: true,
+                    is_deleted: false,
+                    is_banned: false,
+                    created_at: '2017-09-22 22:40:07.398089',
+                    updated_at: '2017-09-22 22:40:07.398089',
+                    team_id: 6,
+                    team_admin: false,
+                    team_captain: false,
+                    team_join_approved: true,
+                    team_join_date: '2017-09-22 22:37:38.288592',
+                    team_join_approved_by: 26
+                }
+            ])
+
+# lazy milonakis 29
+User.create([
+                {
+                    steamid: '76561198176783643',
+                    is_active: true,
+                    is_deleted: false,
+                    is_banned: false,
+                    created_at: '2017-09-22 22:40:07.398089',
+                    updated_at: '2017-09-22 22:40:07.398089',
+                    team_id: 6,
+                    team_admin: false,
+                    team_captain: false,
+                    team_join_approved: true,
+                    team_join_date: '2017-09-22 22:37:38.288592',
+                    team_join_approved_by: 26
+                }
+            ])
+
+# osomejake 30
+User.create([
+                {
+                    steamid: '76561198035672677',
+                    is_active: true,
+                    is_deleted: false,
+                    is_banned: false,
+                    created_at: '2017-09-22 22:40:07.398089',
+                    updated_at: '2017-09-22 22:40:07.398089',
+                    team_id: 6,
+                    team_admin: false,
+                    team_captain: false,
+                    team_join_approved: true,
+                    team_join_date: '2017-09-22 22:37:38.288592',
+                    team_join_approved_by: 26
+                }
+            ])
+
+# savvyq 31
+User.create([
+                {
+                    steamid: '76561198121043592',
+                    is_active: true,
+                    is_deleted: false,
+                    is_banned: false,
+                    created_at: '2017-09-22 22:40:07.398089',
+                    updated_at: '2017-09-22 22:40:07.398089',
+                    team_id: 6,
+                    team_admin: false,
+                    team_captain: false,
+                    team_join_approved: true,
+                    team_join_date: '2017-09-22 22:37:38.288592',
+                    team_join_approved_by: 26
+                }
+            ])
+
+# kung fu hung-su 32
+User.create([
+                {
+                    steamid: '76561197994105558',
+                    is_active: true,
+                    is_deleted: false,
+                    is_banned: false,
+                    created_at: '2017-09-22 22:40:07.398089',
+                    updated_at: '2017-09-22 22:40:07.398089',
+                    team_id: 6,
+                    team_admin: false,
+                    team_captain: false,
+                    team_join_approved: true,
+                    team_join_date: '2017-09-22 22:37:38.288592',
+                    team_join_approved_by: 26
+                }
+            ])
+
+# Create team iT4 id 7
+Team.create([
+                {
+                    is_active: true,
+                    name: 'iT4',
+                    created_at: '2017-09-22 22:37:36.496592',
+                    updated_at: '2017-09-22 22:37:36.496592',
+                    logo_file_name: 'd2logo.jpg',
+                    logo_content_type: 'image/jpeg',
+                    logo_updated_at: '2017-09-25 14:44:27.339747',
+                    slug: 'it4',
+                    group_id: 1
+                }
+            ])
+
+# mubobo 33
+User.create([
+                {
+                    steamid: '76561198112957550',
+                    is_active: true,
+                    is_deleted: false,
+                    is_banned: false,
+                    created_at: '2017-09-22 22:40:07.398089',
+                    updated_at: '2017-09-22 22:40:07.398089',
+                    team_id: 7,
+                    team_admin: true,
+                    team_captain: true,
+                    team_join_approved: true,
+                    team_join_date: '2017-09-22 22:37:38.288592',
+                    team_join_approved_by: 33
+                }
+            ])
+
+# jinqs 34
+User.create([
+                {
+                    steamid: '76561197960290364',
+                    is_active: true,
+                    is_deleted: false,
+                    is_banned: false,
+                    created_at: '2017-09-22 22:40:07.398089',
+                    updated_at: '2017-09-22 22:40:07.398089',
+                    team_id: 7,
+                    team_admin: false,
+                    team_captain: false,
+                    team_join_approved: true,
+                    team_join_date: '2017-09-22 22:37:38.288592',
+                    team_join_approved_by: 33
+                }
+            ])
+
+# dr.mcbutcheeks 35
+User.create([
+                {
+                    steamid: '76561197961794780',
+                    is_active: true,
+                    is_deleted: false,
+                    is_banned: false,
+                    created_at: '2017-09-22 22:40:07.398089',
+                    updated_at: '2017-09-22 22:40:07.398089',
+                    team_id: 7,
+                    team_admin: false,
+                    team_captain: false,
+                    team_join_approved: true,
+                    team_join_date: '2017-09-22 22:37:38.288592',
+                    team_join_approved_by: 33
+                }
+            ])
+
+# spooky 36
+User.create([
+                {
+                    steamid: '76561198035662250',
+                    is_active: true,
+                    is_deleted: false,
+                    is_banned: false,
+                    created_at: '2017-09-22 22:40:07.398089',
+                    updated_at: '2017-09-22 22:40:07.398089',
+                    team_id: 7,
+                    team_admin: false,
+                    team_captain: false,
+                    team_join_approved: true,
+                    team_join_date: '2017-09-22 22:37:38.288592',
+                    team_join_approved_by: 33
+                }
+            ])
+
+# aurora chat mod 37
+User.create([
+                {
+                    steamid: '76561198087909683',
+                    is_active: true,
+                    is_deleted: false,
+                    is_banned: false,
+                    created_at: '2017-09-22 22:40:07.398089',
+                    updated_at: '2017-09-22 22:40:07.398089',
+                    team_id: 7,
+                    team_admin: false,
+                    team_captain: false,
+                    team_join_approved: true,
+                    team_join_date: '2017-09-22 22:37:38.288592',
+                    team_join_approved_by: 33
+                }
+            ])
+
+# simpletom 38
+User.create([
+                {
+                    steamid: '76561197993367747',
+                    is_active: true,
+                    is_deleted: false,
+                    is_banned: false,
+                    created_at: '2017-09-22 22:40:07.398089',
+                    updated_at: '2017-09-22 22:40:07.398089',
+                    team_id: 7,
+                    team_admin: false,
+                    team_captain: false,
+                    team_join_approved: true,
+                    team_join_date: '2017-09-22 22:37:38.288592',
+                    team_join_approved_by: 33
+                }
+            ])
+
+# dayman 39
+User.create([
+                {
+                    steamid: '76561198053764824',
+                    is_active: true,
+                    is_deleted: false,
+                    is_banned: false,
+                    created_at: '2017-09-22 22:40:07.398089',
+                    updated_at: '2017-09-22 22:40:07.398089',
+                    team_id: 7,
+                    team_admin: false,
+                    team_captain: false,
+                    team_join_approved: true,
+                    team_join_date: '2017-09-22 22:37:38.288592',
+                    team_join_approved_by: 33
+                }
+            ])
+
+# Create team tilted gaming id 8
+Team.create([
+                {
+                    is_active: true,
+                    name: 'Tilted Gaming',
+                    created_at: '2017-09-22 22:37:36.496592',
+                    updated_at: '2017-09-22 22:37:36.496592',
+                    logo_file_name: 'd2logo.jpg',
+                    logo_content_type: 'image/jpeg',
+                    logo_updated_at: '2017-09-25 14:44:27.339747',
+                    slug: 'tilted-gaming',
+                    group_id: 1
+                }
+            ])
+
+# broterin 40
+User.create([
+                {
+                    steamid: '76561198039647776',
+                    is_active: true,
+                    is_deleted: false,
+                    is_banned: false,
+                    created_at: '2017-09-22 22:40:07.398089',
+                    updated_at: '2017-09-22 22:40:07.398089',
+                    team_id: 8,
+                    team_admin: true,
+                    team_captain: true,
+                    team_join_approved: true,
+                    team_join_date: '2017-09-22 22:37:38.288592',
+                    team_join_approved_by: 40
+                }
+            ])
+
+# mc7 41
+User.create([
+                {
+                    steamid: '76561198071969681',
+                    is_active: true,
+                    is_deleted: false,
+                    is_banned: false,
+                    created_at: '2017-09-22 22:40:07.398089',
+                    updated_at: '2017-09-22 22:40:07.398089',
+                    team_id: 8,
+                    team_admin: false,
+                    team_captain: false,
+                    team_join_approved: true,
+                    team_join_date: '2017-09-22 22:37:38.288592',
+                    team_join_approved_by: 40
+                }
+            ])
+
+
+# tim 42
+User.create([
+                {
+                    steamid: '76561198004438873',
+                    is_active: true,
+                    is_deleted: false,
+                    is_banned: false,
+                    created_at: '2017-09-22 22:40:07.398089',
+                    updated_at: '2017-09-22 22:40:07.398089',
+                    team_id: 8,
+                    team_admin: false,
+                    team_captain: false,
+                    team_join_approved: true,
+                    team_join_date: '2017-09-22 22:37:38.288592',
+                    team_join_approved_by: 40
+                }
+            ])
+
+# el 43
+User.create([
+                {
+                    steamid: '76561197997052778',
+                    is_active: true,
+                    is_deleted: false,
+                    is_banned: false,
+                    created_at: '2017-09-22 22:40:07.398089',
+                    updated_at: '2017-09-22 22:40:07.398089',
+                    team_id: 8,
+                    team_admin: false,
+                    team_captain: false,
+                    team_join_approved: true,
+                    team_join_date: '2017-09-22 22:37:38.288592',
+                    team_join_approved_by: 40
+                }
+            ])
+
+# kadmixx 44
+User.create([
+                {
+                    steamid: '76561198289284744',
+                    is_active: true,
+                    is_deleted: false,
+                    is_banned: false,
+                    created_at: '2017-09-22 22:40:07.398089',
+                    updated_at: '2017-09-22 22:40:07.398089',
+                    team_id: 8,
+                    team_admin: false,
+                    team_captain: false,
+                    team_join_approved: true,
+                    team_join_date: '2017-09-22 22:37:38.288592',
+                    team_join_approved_by: 40
+                }
+            ])
+
+# chet 45
+User.create([
+                {
+                    steamid: '76561198216189135',
+                    is_active: true,
+                    is_deleted: false,
+                    is_banned: false,
+                    created_at: '2017-09-22 22:40:07.398089',
+                    updated_at: '2017-09-22 22:40:07.398089',
+                    team_id: 8,
+                    team_admin: false,
+                    team_captain: false,
+                    team_join_approved: true,
+                    team_join_date: '2017-09-22 22:37:38.288592',
+                    team_join_approved_by: 40
+                }
+            ])
+
+# Create team boys without toys id 9
+Team.create([
+                {
+                    is_active: true,
+                    name: 'Boys without toys',
+                    created_at: '2017-09-22 22:37:36.496592',
+                    updated_at: '2017-09-22 22:37:36.496592',
+                    logo_file_name: 'd2logo.jpg',
+                    logo_content_type: 'image/jpeg',
+                    logo_updated_at: '2017-09-25 14:44:27.339747',
+                    slug: 'boys-without-toys',
+                    group_id: 2
+                }
+            ])
+
+# Create team We have a tree player id 10
+Team.create([
+                {
+                    is_active: true,
+                    name: 'We have a tree player',
+                    created_at: '2017-09-22 22:37:36.496592',
+                    updated_at: '2017-09-22 22:37:36.496592',
+                    logo_file_name: 'd2logo.jpg',
+                    logo_content_type: 'image/jpeg',
+                    logo_updated_at: '2017-09-25 14:44:27.339747',
+                    slug: 'we-have-a-tree-player',
+                    group_id: 2
+                }
+            ])
+
+# Create team Alliance.youth id 11
+Team.create([
+                {
+                    is_active: true,
+                    name: 'Alliance.Youth',
+                    created_at: '2017-09-22 22:37:36.496592',
+                    updated_at: '2017-09-22 22:37:36.496592',
+                    logo_file_name: 'd2logo.jpg',
+                    logo_content_type: 'image/jpeg',
+                    logo_updated_at: '2017-09-25 14:44:27.339747',
+                    slug: 'alliance-youth',
+                    group_id: 2
+                }
+            ])
+
+# Create team Jingle ballers id 12
+Team.create([
+                {
+                    is_active: true,
+                    name: 'Jingle Ballers',
+                    created_at: '2017-09-22 22:37:36.496592',
+                    updated_at: '2017-09-22 22:37:36.496592',
+                    logo_file_name: 'd2logo.jpg',
+                    logo_content_type: 'image/jpeg',
+                    logo_updated_at: '2017-09-25 14:44:27.339747',
+                    slug: 'jingle-ballers',
+                    group_id: 2
+                }
+            ])
+
+# Create team Top Flight Security id 13
+Team.create([
+                {
+                    is_active: true,
+                    name: 'Top Flight Security',
+                    created_at: '2017-09-22 22:37:36.496592',
+                    updated_at: '2017-09-22 22:37:36.496592',
+                    logo_file_name: 'd2logo.jpg',
+                    logo_content_type: 'image/jpeg',
+                    logo_updated_at: '2017-09-25 14:44:27.339747',
+                    slug: 'top-flight-security',
+                    group_id: 2
+                }
+            ])
+
+# Create team making new meta id 14
+Team.create([
+                {
+                    is_active: true,
+                    name: 'Making New Meta',
+                    created_at: '2017-09-22 22:37:36.496592',
+                    updated_at: '2017-09-22 22:37:36.496592',
+                    logo_file_name: 'd2logo.jpg',
+                    logo_content_type: 'image/jpeg',
+                    logo_updated_at: '2017-09-25 14:44:27.339747',
+                    slug: 'making-new-meta',
+                    group_id: 2
+                }
+            ])
+
+# Create team twice id 15
+Team.create([
+                {
+                    is_active: true,
+                    name: 'Twice',
+                    created_at: '2017-09-22 22:37:36.496592',
+                    updated_at: '2017-09-22 22:37:36.496592',
+                    logo_file_name: 'd2logo.jpg',
+                    logo_content_type: 'image/jpeg',
+                    logo_updated_at: '2017-09-25 14:44:27.339747',
+                    slug: 'twice',
+                    group_id: 3
+                }
+            ])
+
+# Create team collective 5 id 16
+Team.create([
+                {
+                    is_active: true,
+                    name: 'Collective 5',
+                    created_at: '2017-09-22 22:37:36.496592',
+                    updated_at: '2017-09-22 22:37:36.496592',
+                    logo_file_name: 'd2logo.jpg',
+                    logo_content_type: 'image/jpeg',
+                    logo_updated_at: '2017-09-25 14:44:27.339747',
+                    slug: 'collective-5',
+                    group_id: 3
+                }
+            ])
+
+# Create team please be gentler this time id 17
+Team.create([
+                {
+                    is_active: true,
+                    name: 'Please Be Gentler This Time',
+                    created_at: '2017-09-22 22:37:36.496592',
+                    updated_at: '2017-09-22 22:37:36.496592',
+                    logo_file_name: 'd2logo.jpg',
+                    logo_content_type: 'image/jpeg',
+                    logo_updated_at: '2017-09-25 14:44:27.339747',
+                    slug: 'please-be-gentler-this-time',
+                    group_id: 3
+                }
+            ])
+
+# Create team Misty Mountains id 18
+Team.create([
+                {
+                    is_active: true,
+                    name: 'Misty Mountains',
+                    created_at: '2017-09-22 22:37:36.496592',
+                    updated_at: '2017-09-22 22:37:36.496592',
+                    logo_file_name: 'd2logo.jpg',
+                    logo_content_type: 'image/jpeg',
+                    logo_updated_at: '2017-09-25 14:44:27.339747',
+                    slug: 'misty-mountains',
+                    group_id: 3
+                }
+            ])
+
+# Create team the norsemen id 19
+Team.create([
+                {
+                    is_active: true,
+                    name: 'The Norsemen',
+                    created_at: '2017-09-22 22:37:36.496592',
+                    updated_at: '2017-09-22 22:37:36.496592',
+                    logo_file_name: 'd2logo.jpg',
+                    logo_content_type: 'image/jpeg',
+                    logo_updated_at: '2017-09-25 14:44:27.339747',
+                    slug: 'the-norsemen',
+                    group_id: 3
+                }
+            ])
+
+# Create team nexus id 20
+Team.create([
+                {
+                    is_active: true,
+                    name: 'Nexus',
+                    created_at: '2017-09-22 22:37:36.496592',
+                    updated_at: '2017-09-22 22:37:36.496592',
+                    logo_file_name: 'd2logo.jpg',
+                    logo_content_type: 'image/jpeg',
+                    logo_updated_at: '2017-09-25 14:44:27.339747',
+                    slug: 'nexus',
+                    group_id: 3
+                }
+            ])
 
 User.all.each do |user|
     OpendotaMmrRefreshJob.perform_now user

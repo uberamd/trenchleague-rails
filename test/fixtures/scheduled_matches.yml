@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  team_1: 1
+  team_2: 1
+  team_1_accepted: false
+  team_2_accepted: false
+  team_one_user_id: 
+  team_two_user_id: 
+
+two:
+  team_1: 1
+  team_2: 1
+  team_1_accepted: false
+  team_2_accepted: false
+  team_one_user_id: 
+  team_two_user_id: 

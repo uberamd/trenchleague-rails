@@ -16,6 +16,8 @@
 //= require turbolinks
 //= require twitter/bootstrap
 //= require bootstrap-toggle
+//= require moment
+//= require bootstrap-datetimepicker
 //= require_tree .
 
 $(document).on('ready page:change', function() {

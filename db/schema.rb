@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170924181447) do
+ActiveRecord::Schema.define(version: 20170925180059) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,6 +29,25 @@ ActiveRecord::Schema.define(version: 20170924181447) do
 
   create_table "groups", force: :cascade do |t|
     t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "series", force: :cascade do |t|
+    t.datetime "scheduled_date"
+    t.datetime "target_begin_date"
+    t.datetime "target_end_date"
+    t.boolean "completed", default: false
+    t.datetime "recorded_on"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "team_series", force: :cascade do |t|
+    t.integer "team_id"
+    t.integer "series_id"
+    t.integer "team_approved_user_id"
+    t.datetime "team_approved_date"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

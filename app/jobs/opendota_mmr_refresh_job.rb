@@ -26,6 +26,13 @@ class OpendotaMmrRefreshJob < ApplicationJob
     end
 
     user.opendota_mmr_updated = Time.now()
+
+    # at least for now, update other fields as well
+    user.personaname = api_hash['profile']['personaname']
+    user.profileurl = api_hash['profile']['profileurl']
+    user.avatar = api_hash['profile']['avatarmedium']
+    user.loccountrycode = api_hash['profile']['loccountrycode']
+
     user.save!
   end
 end

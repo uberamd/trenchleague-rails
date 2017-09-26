@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  scheduled_date: 2017-09-25 12:59:36
+  target_begin_date: 2017-09-25 12:59:36
+  target_end_date: 2017-09-25 12:59:36
+  completed: false
+
+two:
+  scheduled_date: 2017-09-25 12:59:36
+  target_begin_date: 2017-09-25 12:59:36
+  target_end_date: 2017-09-25 12:59:36
+  completed: false

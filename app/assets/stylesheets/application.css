@@ -12,6 +12,7 @@
  *
  *= require flag-icon
  *= require bootstrap-toggle
+ *= require bootstrap-datetimepicker
  *= require_tree .
  *= require_self
  */

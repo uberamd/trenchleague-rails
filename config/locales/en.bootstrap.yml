@@ -7,6 +7,9 @@ en:
       root: "Index"
     teams:
       index: "Teams"
+    admin:
+      index: "Admin"
+      groups: "Groups"
   helpers:
     actions: "Actions"
     links:

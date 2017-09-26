@@ -5,6 +5,9 @@ class Team < ApplicationRecord
   has_many :users
   belongs_to :group, optional: true
 
+  has_many :team_series
+  has_many :series, through: :team_series
+
   has_attached_file :logo, styles: {
       thumb: '100x100>',
       thumb_square: '100x100#',

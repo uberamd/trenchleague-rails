@@ -176,7 +176,7 @@
             <td><%= user.opendota_solo_mmr || '-' %> / <%= user.opendota_party_mmr || '-' %> / <%= user.opendota_estimated_mmr || '-' %></td>
             <td class="text-right">
               <%= link_to 'Approve', approve_join_team_path(@team, user), class: 'btn btn-xs btn-default' %>&nbsp;
-              <%= link_to 'Reject', root_path, data: { confirm: "Are you sure you want to reject this user?" }, class: 'btn btn-xs btn-danger' %>
+              <%= link_to 'Reject', reject_join_team_path(@team, user), data: { confirm: "Are you sure you want to reject this user?" }, class: 'btn btn-xs btn-danger' %>
             </td>
           </tr>
       <% end %>

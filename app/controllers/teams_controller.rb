@@ -77,9 +77,34 @@ class TeamsController < ApplicationController
   end
 
   def join_reject
-    @team = Team.friendly.find(params[:id])
+    team = Team.friendly.find(params[:id])
 
-    # check to see if the logged in user is on the current team
+    authorize! :admin, team
+    user = User.find(params[:user])
+
+    # user is not even trying to join this team
+    if user.team_id != team.id
+      flash[:danger] = "User #{user.personaname} has no pending request to join this team."
+      redirect_to team and return
+    end
+
+    # reject the removal if the user holds status on the team -- should never happen unless people are
+    # trying to spoof calls
+    if user.team_id == team.id && user.team_join_approved
+      flash[:danger] = "User #{user.personaname} is already approved for this team."
+      redirect_to team and return
+    end
+
+    user.team_id = nil
+    user.team_join_approved = false
+    user.team_join_approved_by = nil
+    user.team_join_date = nil
+    user.team_captain = false
+    user.team_admin = false
+    user.smurf_check = 0
+
+    user.save!
+    redirect_to team and return
   end
 
   def smurf_check
