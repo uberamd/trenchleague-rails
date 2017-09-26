@@ -17,6 +17,15 @@
  *= require_self
  */
 
+@font-face {
+    font-family: 'Glyphicons Halflings';
+    src: url('../assets/glyphicons-halflings-regular.eot');
+    src: url('../assets/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'),
+    url('../assets/glyphicons-halflings-regular.woff') format('woff'),
+    url('../assets/glyphicons-halflings-regular.ttf') format('truetype'),
+    url('../assets/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+}
+
 .pad-15px-bottom {
     padding-bottom: 15px;
 }
@@ -45,5 +54,9 @@
 }
 
 #admin_groups_table td {
+    vertical-align: middle !important;
+}
+
+#teams_upcoming_matches_table td {
     vertical-align: middle !important;
 }

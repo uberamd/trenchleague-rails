@@ -19,6 +19,10 @@ class AccessPolicy
       can :admin, Team do |team,user|
         user.team_id == team.id && user.team_admin == true
       end
+
+      can :scheduleseries, Series do |series,user|
+        (user.team_id == series.teams[0].id || user.team_id == series.teams[1].id) && user.team_captain == true
+      end
     end
 
     role :player do

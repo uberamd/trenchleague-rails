@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
 
 
+  get 'players/show'
+
+  get 'series/show'
+
   # SESSION ROUTES
   ## this is where steam login returns back to
   post '/auth/steam/callback', to: 'sessions#create'
@@ -22,6 +26,12 @@ Rails.application.routes.draw do
   post '/admin/groups/update_assignments', to: 'admin#groups_update_assignments', as: 'groups_update_assignments_admin'
   get '/admin/groups/seed', to: 'admin#seed_series', as: 'groups_seed_admin'
   post '/admin/groups/seed', to: 'admin#seed_series_update', as: 'groups_update_seeds_admin'
+
+  # series routes
+  get '/series/:id', to: 'series#show', as: 'show_series'
+
+  # players routes
+  get '/players/:id', to: 'players#show', as: 'show_player'
 
   root to: 'static_page#index'
 end
