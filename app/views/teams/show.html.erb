@@ -155,9 +155,9 @@
       <tr>
         <th>Opponent</th>
         <th></th>
-        <th>Round Starts</th>
-        <th>Round Ends</th>
+        <th>Round Begins/Ends</th>
         <th>Scheduled Date</th>
+        <th>Confirmed</th>
         <th>Admin</th>
         <th>Caster</th>
         <th></th>
@@ -181,13 +181,19 @@
               <% end %>
             </td>
             <td>
-              <%= timeago_tag series.target_begin_date %>
+              <%= series.target_begin_date.strftime('%m/%d/%Y') %> (<%= timeago_tag series.target_begin_date, force: true %>)<br />
+              <%= series.target_end_date.strftime('%m/%d/%Y') %> (<%= timeago_tag series.target_end_date, force: true %>)
             </td>
             <td>
-              <%= timeago_tag series.target_end_date %>
+              <% if series.scheduled_date.nil? %>
+                Match not yet scheduled
+              <% else %>
+                <%= series.scheduled_date %><br />
+                <%= timeago_tag series.scheduled_date, force: true %>
+              <% end %>
             </td>
             <td>
-              <%= series.scheduled_date.nil? ? 'Match not yet scheduled' : series.scheduled_date %>
+              -
             </td>
             <td>
               None
@@ -196,7 +202,7 @@
               None
             </td>
             <td class="text-right">
-              <%= link_to 'View Series', show_series_path(series), class: 'btn btn-sm btn-primary' %>
+              <%= link_to 'View', show_series_path(series), class: 'btn btn-sm btn-primary' %>
             </td>
           </tr>
       <% end %>

@@ -7,12 +7,14 @@ class AccessPolicy
       can [:leagueadmin, :admin], User
       can [:leagueadmin, :admin], Team
       can [:leagueadmin, :admin], Group
+      can [:leagueadmin, :admin], Series
     end
 
     role :league_admin, { is_league_admin: true } do
       can [:leagueadmin, :admin], User
       can [:leagueadmin, :admin], Team
       can [:leagueadmin, :admin], Group
+      can [:leagueadmin, :admin], Series
     end
 
     role :team_admin do

@@ -1,2 +1,154 @@
-<h1>Series#show</h1>
-<p>Find me in app/views/series/show.html.erb</p>
+<div class="row">
+  <div class="col-md-5 text-center">
+    <h2><%= @series.teams[0].name %></h2>
+    <%= image_tag @series.teams[0].logo.url(:medium_square) %>
+  </div>
+  <div class="col-md-2 text-center">
+    <h2>vs</h2>
+  </div>
+  <div class="col-md-5 text-center">
+    <h2><%= @series.teams[1].name %></h2>
+    <%= image_tag @series.teams[1].logo.url(:medium_square) %>
+  </div>
+</div>
+<hr />
+<% if !@series.scheduled_date.nil? && !@series.completed %>
+    <!-- series has been scheduled by both teams but not yet completed/recorded -->
+    <div class="row">
+      <div class="col-md-6 text-left">
+        <h4>BEGINS</h4>
+        <h2><%= timeago_tag @series.scheduled_date, force: true %> <small><%= @series.scheduled_date %></small></h2>
+      </div>
+      <div class="col-md-6 text-left">
+        <h4>ADMIN</h4>
+        <% if !@series.admin_user_id.nil? %>
+          <div class="media">
+            <div class="media-left"><%= link_to image_tag(@series.admin.avatar), show_player_path(@series.admin.steamid) %></div>
+            <div class="media-body">
+              <div class="row">
+                <div class="col-md-12">
+                  <h4 class="media-heading">
+                    <%= @series.admin.loccountrycode.nil? ? '' : flag_icon(@series.admin.loccountrycode.parameterize.underscore.to_sym) %>
+                    <%= @series.admin.personaname %>
+                  </h4>
+                  <% if @series.admin.is_global_admin %><span class="label label-danger">Global Admin</span>&nbsp;&nbsp;&nbsp;<% end %>
+                  <% if @series.admin.is_league_admin %><span class="label label-danger">League Admin</span>&nbsp;&nbsp;&nbsp;<% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+<% end %>
+<% if can? :scheduleseries, @series %>
+    <% if @series.scheduled_date.nil? %>
+      <!-- if NO teams have suggested a series start time this will show -->
+      <div class="row">
+        <div class="col-md-12">
+          <div class="well well-sm">
+            <p><span class="glyphicon glyphicon-info-sign"></span> No date and time has been proposed for this series. As the captain of a team in a series, you're able
+            to propose a time below. The opposing captain will need to approve the proposed time.</p>
+            <%= bootstrap_form_tag url: update_series_path do |f| %>
+                <div class="row">
+                  <div class="col-md-10">
+                    <div class="input-group date text-right" id="scheduled-series-date">
+                      <span class="input-group-addon">Start Time (Eastern Time Zone)</span>
+                      <%= f.text_field 'scheduled_date', hide_label: true, control_class: 'form-control' %>
+                      <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <%= f.hidden_field_tag :seriesaction, 'propose' %>
+                    <%= f.submit 'Propose Series Time', class: 'btn btn-default' %>
+                  </div>
+                </div>
+                <script type="text/javascript">
+                    $(function () {
+                        $('#scheduled-series-date').datetimepicker({
+                            format: 'DD/MM/YYYY HH:mm'
+                        });
+                    });
+                </script>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    <% if @team_series.team_approved_date.nil? && !@series.scheduled_date.nil? %>
+      <!-- if YOUR team hasn't approved the proposed series start time you see this -->
+      <div class="row">
+        <div class="col-md-12">
+          <div class="panel panel-warning">
+            <div class="panel-heading"><h3 class="panel-title">Response Required</h3></div>
+            <div class="panel-body">
+              <p>Your opponent has proposed a time for this series. Please either approve the time, or reject their proposal and propose a new time.</p>
+              <p>The series cannot be played until both teams agree upon a time to play the game.</p>
+              <p>Please confirm with your team before accepting this time slot, as accepting will allow an admin and caster to join this series.</p>
+              <hr />
+              <p><strong>Proposed time: </strong><%= @series.scheduled_date %>, which is <%= timeago_tag @series.scheduled_date, force: true %></p>
+            </div>
+            <div class="panel-footer">
+              <div class="row">
+
+                <div class="col-md-6">
+                  <%= bootstrap_form_tag url: update_series_path do |f| %>
+                      <%= f.hidden_field_tag :seriesaction, 'proposereject' %>
+                      <%= f.submit 'REJECT Proposed Time', class: 'btn btn-danger' %>
+                  <% end %>
+                </div>
+                <div class="col-md-6 text-right">
+                  <%= bootstrap_form_tag url: update_series_path do |f| %>
+                      <%= f.hidden_field_tag :seriesaction, 'acceptseries' %>
+                      <%= f.submit 'Accept Proposed Time', class: 'btn btn-info' %>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    <% if !@series.scheduled_date.nil? && !@team_series.team_approved_date.nil? && @opponent_series.team_approved_date.nil? %>
+      <!-- if YOUR team HAS suggested a start time and the other team hasn't approved you will see this -->
+      <div class="row">
+        <div class="col-md-12">
+          <div class="panel panel-info">
+            <div class="panel-heading"><h3 class="panel-title">Awaiting Opponent Response</h3></div>
+            <div class="panel-body">
+              <p>Your opponent has yet to confirm or reject the proposed time for this match of <%= @series.scheduled_date %>.</p>
+              <p>If this time no longer works for your team you may remove your time proposal, otherwise you may message the other team
+              captain using the messaging area below.</p>
+            </div>
+            <div class="panel-footer text-right">
+              <%= bootstrap_form_tag url: update_series_path do |f| %>
+                <%= f.hidden_field_tag :seriesaction, 'selfreject' %>
+                <%= f.submit 'Remove Proposed Time', class: 'btn btn-danger' %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+<% end %>
+
+<% if can? :leagueadmin, @series %>
+  <hr />
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel panel-info">
+        <div class="panel-heading"><h3 class="panel-title">Series Admin</h3></div>
+        <div class="panel-body">
+          <div class="col-md-2">
+            <%= bootstrap_form_tag url: update_series_path do |f| %>
+                <%= f.hidden_field_tag :seriesaction, 'assignadmin' %>
+                <%= f.submit 'Admin This Series', class: 'btn btn-primary' %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

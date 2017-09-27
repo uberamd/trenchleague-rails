@@ -10,6 +10,8 @@ en:
     admin:
       index: "Admin"
       groups: "Groups"
+    series:
+      index: "Series"
   helpers:
     actions: "Actions"
     links:

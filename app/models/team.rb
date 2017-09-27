@@ -18,6 +18,8 @@ class Team < ApplicationRecord
       medium_stretched: '300x300!'
   }
 
+  validates :name, uniqueness: { case_sensitive: false }, length: { minimum: 2 }
+  validates :logo, attachment_presence: true
   validates_attachment_content_type :logo, :content_type => /\Aimage\/.*\Z/
 
   def get_average_mmr

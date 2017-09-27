@@ -28,7 +28,9 @@ Rails.application.routes.draw do
   post '/admin/groups/seed', to: 'admin#seed_series_update', as: 'groups_update_seeds_admin'
 
   # series routes
+  get '/series', to: 'series#index', as: 'series'
   get '/series/:id', to: 'series#show', as: 'show_series'
+  post '/series/:id', to: 'series#update', as: 'update_series'
 
   # players routes
   get '/players/:id', to: 'players#show', as: 'show_player'
