@@ -157,9 +157,9 @@
         <th></th>
         <th>Round Begins/Ends</th>
         <th>Scheduled Date</th>
-        <th>Confirmed</th>
-        <th>Admin</th>
-        <th>Caster</th>
+        <th class="text-center">Confirmed</th>
+        <th class="text-center">Admin</th>
+        <th class="text-center">Caster</th>
         <th></th>
       </tr>
       </thead>
@@ -192,14 +192,26 @@
                 <%= timeago_tag series.scheduled_date, force: true %>
               <% end %>
             </td>
-            <td>
-              -
+            <td class="text-center">
+              <% if series.confirmed? %>
+              <span class="glyphicon glyphicon-ok text-success"></span>
+              <% else %>
+              <span class="glyphicon glyphicon-remove text-danger"></span>
+              <% end %>
             </td>
-            <td>
-              None
+            <td class="text-center">
+              <% if series.has_admin? %>
+                  <span class="glyphicon glyphicon-ok text-success"></span>
+              <% else %>
+                  <span class="glyphicon glyphicon-remove text-danger"></span>
+              <% end %>
             </td>
-            <td>
-              None
+            <td class="text-center">
+              <% if series.has_caster? %>
+                  <span class="glyphicon glyphicon-ok text-success"></span>
+              <% else %>
+                  <span class="glyphicon glyphicon-remove text-danger"></span>
+              <% end %>
             </td>
             <td class="text-right">
               <%= link_to 'View', show_series_path(series), class: 'btn btn-sm btn-primary' %>

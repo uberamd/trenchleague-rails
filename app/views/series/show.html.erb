@@ -18,6 +18,9 @@
       <div class="col-md-6 text-left">
         <h4>BEGINS</h4>
         <h2><%= timeago_tag @series.scheduled_date, force: true %> <small><%= @series.scheduled_date %></small></h2>
+        <% if @series.team_series[0].team_approved_date && @series.team_series[1].team_approved_date %>
+        This time has been confirmed by both teams.
+        <% end %>
       </div>
       <div class="col-md-6 text-left">
         <h4>ADMIN</h4>
@@ -37,6 +40,26 @@
               </div>
             </div>
           </div>
+        <% end %>
+        <hr />
+        <h4>CASTER</h4>
+        <% if !@series.caster_user_id.nil? %>
+            <div class="media">
+              <div class="media-left"><%= link_to image_tag(@series.caster.avatar), show_player_path(@series.caster.steamid) %></div>
+              <div class="media-body">
+                <div class="row">
+                  <div class="col-md-12">
+                    <h4 class="media-heading">
+                      <%= @series.caster.loccountrycode.nil? ? '' : flag_icon(@series.caster.loccountrycode.parameterize.underscore.to_sym) %>
+                      <%= @series.caster.personaname %>
+                    </h4>
+                    <% if @series.caster.is_global_admin %><span class="label label-danger">Global Admin</span>&nbsp;&nbsp;&nbsp;<% end %>
+                    <% if @series.caster.is_league_admin %><span class="label label-danger">League Admin</span>&nbsp;&nbsp;&nbsp;<% end %>
+                    <% if @series.caster.is_league_caster %><span class="label label-success">Caster</span>&nbsp;&nbsp;&nbsp;<% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
         <% end %>
       </div>
     </div>
@@ -139,12 +162,31 @@
   <div class="row">
     <div class="col-md-12">
       <div class="panel panel-info">
-        <div class="panel-heading"><h3 class="panel-title">Series Admin</h3></div>
+        <div class="panel-heading"><h3 class="panel-title">Series Administration</h3></div>
         <div class="panel-body">
           <div class="col-md-2">
             <%= bootstrap_form_tag url: update_series_path do |f| %>
                 <%= f.hidden_field_tag :seriesaction, 'assignadmin' %>
                 <%= f.submit 'Admin This Series', class: 'btn btn-primary' %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<% if can? :cast, @series %>
+  <hr />
+  <div class="row">
+    <div class="col-md-12">
+      <div class="panel panel-success">
+        <div class="panel-heading"><h3 class="panel-title">Caster Options</h3></div>
+        <div class="panel-body">
+          <div class="col-md-2">
+            <%= bootstrap_form_tag url: caster_update_series_path do |f| %>
+              <%= f.hidden_field_tag :seriesaction, 'assigncaster' %>
+              <%= f.submit 'Cast This Series', class: 'btn btn-success' %>
             <% end %>
           </div>
         </div>

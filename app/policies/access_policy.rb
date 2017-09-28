@@ -7,14 +7,14 @@ class AccessPolicy
       can [:leagueadmin, :admin], User
       can [:leagueadmin, :admin], Team
       can [:leagueadmin, :admin], Group
-      can [:leagueadmin, :admin], Series
+      can [:leagueadmin, :admin, :cast], Series
     end
 
     role :league_admin, { is_league_admin: true } do
       can [:leagueadmin, :admin], User
       can [:leagueadmin, :admin], Team
       can [:leagueadmin, :admin], Group
-      can [:leagueadmin, :admin], Series
+      can [:leagueadmin, :admin, :cast], Series
     end
 
     role :team_admin do
@@ -25,6 +25,10 @@ class AccessPolicy
       can :scheduleseries, Series do |series,user|
         (user.team_id == series.teams[0].id || user.team_id == series.teams[1].id) && user.team_captain == true
       end
+    end
+
+    role :caster, { is_league_caster: true } do
+      can [:cast], Series
     end
 
     role :player do

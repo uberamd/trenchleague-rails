@@ -159,6 +159,24 @@ class SeriesController < ApplicationController
     end
   end
 
+  def caster_update
+    @series = Series.find(params[:id])
+
+    case params[:seriesaction]
+      when 'assigncaster'
+        authorize! :cast, @series
+
+        @series.caster = current_user
+        @series.save!
+
+        flash[:success] = 'Successfully assigned as the series caster.'
+        redirect_to show_series_path(@series) and return
+    end
+
+    flash[:danger] = 'What exactly are you trying to do?'
+    redirect_to show_series_path(@series) and return
+  end
+
   def index
   end
 end

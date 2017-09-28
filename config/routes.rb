@@ -31,6 +31,7 @@ Rails.application.routes.draw do
   get '/series', to: 'series#index', as: 'series'
   get '/series/:id', to: 'series#show', as: 'show_series'
   post '/series/:id', to: 'series#update', as: 'update_series'
+  post '/series/:id/caster', to: 'series#caster_update', as: 'caster_update_series'
 
   # players routes
   get '/players/:id', to: 'players#show', as: 'show_player'

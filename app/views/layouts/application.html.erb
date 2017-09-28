@@ -10,7 +10,7 @@
   </head>
 
   <body>
-    <nav class="navbar navbar-default" role="navigation">
+    <nav class="navbar navbar-inverse" role="navigation">
       <div class="container">
         <%= link_to 'TrenchLeague', root_path, class: 'navbar-brand' %>
         <ul class="nav navbar-nav">
@@ -26,6 +26,7 @@
           </li>
           <li><a href="#">Rules</a></li>
           <li><a href="#">Schedule</a></li>
+          <li><a href="#">In-House</a></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <% if can? :leagueadmin, Group %>
