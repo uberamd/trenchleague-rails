@@ -60,13 +60,3 @@
 #teams_upcoming_matches_table td {
     vertical-align: middle !important;
 }
-
-.vcenter {
-    display: inline-block;
-    vertical-align: middle;
-    float: none;
-}
-
-.trenchnav-bg {
-    background-color: #f44336;
-}
