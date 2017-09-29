@@ -32,7 +32,9 @@ class AccessPolicy
     end
 
     role :player do
-      can :create, Team
+      can :create, Team do |team,user|
+        !user.id.nil?
+      end
     end
   end
 end

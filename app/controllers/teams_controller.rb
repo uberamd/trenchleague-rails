@@ -3,6 +3,8 @@ class TeamsController < ApplicationController
   add_breadcrumb :index, :teams_path
 
   def new
+    authorize! :create, Team
+
     @team = Team.new
   end
 
