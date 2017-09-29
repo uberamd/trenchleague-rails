@@ -12,49 +12,67 @@
   <body>
     <nav class="navbar navbar-inverse" role="navigation">
       <div class="container">
-        <%= link_to 'TrenchLeague', root_path, class: 'navbar-brand' %>
-        <ul class="nav navbar-nav">
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Teams <span class="caret"></span></a>
-            <ul class="dropdown-menu">
-              <% Team.order('name ASC').where(:is_active => true, :is_deleted => false).all.each do |team| %>
-                <li><%= link_to team.name, team_path(team) %></li>
-              <% end %>
-              <li role="separator" class="divider"></li>
-              <li><%= link_to 'Register New Team', new_team_path %></li>
-            </ul>
-          </li>
-          <li><a href="#">Rules</a></li>
-          <li><a href="#">Schedule</a></li>
-          <li><a href="#">In-House</a></li>
-        </ul>
-        <ul class="nav navbar-nav navbar-right">
-          <% if can? :leagueadmin, Group %>
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#tlnav">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <%= link_to image_tag('/assets/logo.png'), root_path, class: 'navbar-left' %>
+        </div>
+        <div class="collapse navbar-collapse" id="tlnav">
+          <ul class="nav navbar-nav">
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Teams <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><%= link_to 'Groups', groups_admin_path %></li>
-                <li><%= link_to 'Seed Series', groups_seed_admin_path %></li>
+                <% Team.order('name ASC').where(:is_active => true, :is_deleted => false).all.each do |team| %>
+                    <li><%= link_to team.name, team_path(team) %></li>
+                <% end %>
+                <li role="separator" class="divider"></li>
+                <li><%= link_to 'Register New Team', new_team_path %></li>
               </ul>
             </li>
-          <% end %>
-          <% if current_user.id != nil %>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= current_user.personaname %> <span class="caret"></span></a>
-                <ul class="dropdown-menu">
-                  <li><%= link_to 'Logout', '/logout' %></li>
-                </ul>
-              </li>
-          <% else %>
-              <li><%= link_to 'Sign in with Steam', '/auth/steam' %></li>
-          <% end %>
-        </ul>
+            <li><a href="#">Rules</a></li>
+            <li><a href="#">Schedule</a></li>
+            <li><a href="#">In-House</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <% if can? :leagueadmin, Group %>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                    <li><%= link_to 'Groups', groups_admin_path %></li>
+                    <li><%= link_to 'Seed Series', groups_seed_admin_path %></li>
+                  </ul>
+                </li>
+            <% end %>
+            <% if current_user.id != nil %>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= current_user.personaname %> <span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                    <li><%= link_to 'Logout', '/logout' %></li>
+                  </ul>
+                </li>
+            <% else %>
+                <li><%= link_to 'Sign in with Steam', '/auth/steam' %></li>
+            <% end %>
+          </ul>
+        </div>
       </div>
     </nav>
     <div class="container">
       <%= bootstrap_flash %>
       <%= render_breadcrumbs(nil) %>
       <%= yield %>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <p class="text-center" id="league_footer">
+            <small>Powered by OpenLeague</small>
+          </p>
+        </div>
+      </div>
     </div>
   </body>
 </html>

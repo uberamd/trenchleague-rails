@@ -60,3 +60,27 @@
 #teams_upcoming_matches_table td {
     vertical-align: middle !important;
 }
+
+.navbar-nav > li > a {
+    line-height: 79px;
+}
+
+#home_stats_section > ul {
+    width: 100%;
+    display: table;
+    table-layout: fixed;
+}
+
+#home_stats_section > ul > li {
+    display: table-cell;
+    width: auto;
+    text-align: center;
+}
+
+#jumbo_logo {
+    background-color: #d32f2f !important;
+}
+
+#league_footer {
+    margin-top: 15px;
+}

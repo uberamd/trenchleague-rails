@@ -1,5 +1,7 @@
 class StaticPageController < ApplicationController
+  include StaticPageHelper
+
   def index
-    # we do nothing here, it's static.
+    @mmr_hash = league_averages
   end
 end

@@ -1,3 +1,82 @@
-<h1>StaticPage#index</h1>
-<p>Find me in app/views/static_page/index.html.erb</p>
-<%= current_user.inspect %>
+<div class="jumbotron text-center" id="jumbo_logo">
+  <img src="/assets/trenchwhite.png">
+</div>
+<div class="well well-sm">
+  <div class="row">
+    <div class="col-md-12 text-center" id="home_stats_section">
+      <ul class="list-inline">
+        <li>
+          <h5>REGISTERED TEAMS</h5>
+          <h2><%= Team.all.count %></h2>
+        </li>
+        <li>
+          <h5>TOTAL PLAYERS</h5>
+          <h2><%= User.all.count %></h2>
+        </li>
+        <li>
+          <h5>AVG. SOLO MMR</h5>
+          <h2><%= @mmr_hash[:solo] %></h2>
+        </li>
+        <li>
+          <h5>AVG. PARTY MMR</h5>
+          <h2><%= @mmr_hash[:party] %></h2>
+        </li>
+        <li>
+          <h5>CASTERS</h5>
+          <h2><%= User.where(:is_league_caster => true).all.count %></h2>
+        </li>
+        <li>
+          <h5>PRIZE POOL</h5>
+          <h2>$0 USD</h2>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-4">
+    <div class="thumbnail">
+      <img src="/assets/what-is.png">
+      <div class="caption">
+        <h3>What is the Trench League?</h3>
+        <p>
+          Great question! DotA 2 has a form of skill rating for each player called MMR, which goes from 0 to infinity,
+          although the highest anyone has ever gotten is a little over 9000. The "Trench" is anywhere under 3000 MMR,
+          and it's called that because once players fall in, it's a very long and treacherous climb to get out, filled
+          with feeders, flamers, and some of DotA 2's worst players. The Trench League is a tournament meant only
+          for those players.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="thumbnail">
+      <img src="/assets/sign-up-howto.png">
+      <div class="caption">
+        <h3>How do I sign up?</h3>
+        <p>
+          Registration is super easy. All you have to do is sign in with your Steam account and then connect your
+          Discord account. After that, you can access our growing Discord community, and use our super awesome online
+          portal to create and manage your team, as well as schedule matches and scrims with other Trench League teams.
+          When your team is ready to compete, there is a small $5 registration fee which is handled by our secure
+          payment provider, Stripe.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="thumbnail">
+      <img src="/assets/get-help.png">
+      <div class="caption">
+        <h3>Join the community</h3>
+        <p>
+          The Trench League is an ever growing community of gamers, both low and high MMR. If you want to learn more,
+          talk with other players in the league, recruit team members, be recruited, or even help out with the league,
+          then you should check out our Discord! We are looking for more admins, casters, developers, and sponsors, so
+          come on over and find one of the admins if you have any questions. We look forward to seeing you here!
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
