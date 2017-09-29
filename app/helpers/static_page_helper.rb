@@ -11,7 +11,7 @@ module StaticPageHelper
       mmr_hash[:solo] += user.opendota_solo_mmr
       mmr_hash[:solo_players] += 1
 
-      mmr_hash[:party] += user.opendota_solo_mmr
+      mmr_hash[:party] += user.opendota_party_mmr
       mmr_hash[:party_players] += 1
     end
 

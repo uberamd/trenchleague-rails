@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170928002430) do
+ActiveRecord::Schema.define(version: 20170929182928) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,6 +33,17 @@ ActiveRecord::Schema.define(version: 20170928002430) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "notifications", force: :cascade do |t|
+    t.bigint "user_id"
+    t.string "resource_type"
+    t.integer "resource_id"
+    t.boolean "is_read", default: false
+    t.datetime "seen_on"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_notifications_on_user_id"
+  end
+
   create_table "series", force: :cascade do |t|
     t.datetime "scheduled_date"
     t.datetime "target_begin_date"
@@ -43,6 +54,15 @@ ActiveRecord::Schema.define(version: 20170928002430) do
     t.datetime "updated_at", null: false
     t.integer "admin_user_id"
     t.integer "caster_user_id"
+  end
+
+  create_table "series_messages", force: :cascade do |t|
+    t.integer "series_id"
+    t.integer "user_id"
+    t.text "message"
+    t.boolean "is_deleted", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "team_series", force: :cascade do |t|
@@ -99,4 +119,5 @@ ActiveRecord::Schema.define(version: 20170928002430) do
     t.integer "in_house_elo"
   end
 
+  add_foreign_key "notifications", "users"
 end

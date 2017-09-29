@@ -1,6 +1,7 @@
 class Series < ApplicationRecord
   has_many :team_series
   has_many :teams, through: :team_series
+  has_many :series_messages
 
   belongs_to :admin, class_name: 'User', foreign_key: 'admin_user_id', optional: true
   belongs_to :caster, class_name: 'User', foreign_key: 'caster_user_id', optional: true

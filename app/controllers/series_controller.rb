@@ -1,11 +1,15 @@
 class SeriesController < ApplicationController
 
+  include SeriesHelper
+
   add_breadcrumb :index, :series_path
 
   def show
     @series = Series.find(params[:id])
     @team_series = TeamSeries.where(:team_id => current_user.team_id, :series_id => @series.id).first
     @opponent_series = TeamSeries.where(:series_id => @series.id).where.not(:team_id => current_user.team_id).first
+
+    @new_series_message = SeriesMessage.new
 
     add_breadcrumb "#{@series.teams[0].name} vs. #{@series.teams[1].name}"
   end
@@ -175,6 +179,42 @@ class SeriesController < ApplicationController
 
     flash[:danger] = 'What exactly are you trying to do?'
     redirect_to show_series_path(@series) and return
+  end
+
+  def post_message
+    @series = Series.find(params[:id])
+
+    authorize! :scheduleseries, @series
+
+    @message = SeriesMessage.new
+
+    @message.user_id = current_user.id
+    @message.series_id = @series.id
+    @message.message = params[:message]
+
+    notify_uids = []
+    if @message.save
+      # check to see if each captain should receive this notification
+      @series.teams.each do |team|
+        tmp_user = team.users.where(:team_captain => true).first
+
+        if tmp_user.id != current_user.id
+          # this user didn't send the message, create notification
+          notify_uids << tmp_user.id
+        end
+      end
+
+      notify_uids.each do |uid|
+        Notification.create({
+            user_id: uid,
+            resource_type: 'seriesmessage',
+            resource_id: @message.id
+                            })
+      end
+    end
+
+    flash[:success] = 'Message successfully posted.'
+    redirect_to show_series_path(@series, :anchor => "message-#{@message.id}") and return
   end
 
   def index
