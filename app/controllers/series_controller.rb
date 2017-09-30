@@ -8,6 +8,7 @@ class SeriesController < ApplicationController
     @series = Series.find(params[:id])
     @team_series = TeamSeries.where(:team_id => current_user.team_id, :series_id => @series.id).first
     @opponent_series = TeamSeries.where(:series_id => @series.id).where.not(:team_id => current_user.team_id).first
+    @matches = SeriesMatch.where(:series_id => @series.id).order('id ASC').all
 
     @new_series_message = SeriesMessage.new
 
@@ -159,6 +160,87 @@ class SeriesController < ApplicationController
         @series.save!
 
         flash[:success] = 'You have successfully been assigned as admin for this series.'
+
+      when 'recordresults'
+        authorize! :leagueadmin, @series
+
+        if params[:winner_game_1] != ""
+          @match_1 = SeriesMatch.new
+          @match_1.series = @series
+          @match_1.winning_team_id = params[:winner_game_1]
+          @match_1.losing_team_id = get_loser_from_match_winner(params[:winner_game_1], @series)
+          if params[:matchid_game_1] != ""
+            @match_1.match_id = params[:matchid_game_1]
+          end
+
+          if params[:vod_game_1] != ""
+            @match_1.vod_url = params[:vod_game_1]
+          end
+
+          @match_1.save!
+        end
+        if params[:winner_game_2] != ""
+          @match_2 = SeriesMatch.new
+          @match_2.series = @series
+          @match_2.winning_team_id = params[:winner_game_2]
+          @match_2.losing_team_id = get_loser_from_match_winner(params[:winner_game_2], @series)
+          if params[:matchid_game_2] != ""
+            @match_2.match_id = params[:matchid_game_2]
+          end
+
+          if params[:vod_game_2] != ""
+            @match_2.vod_url = params[:vod_game_2]
+          end
+
+          @match_2.save!
+        end
+        if params[:winner_game_3] != ""
+          @match_3 = SeriesMatch.new
+          @match_3.series = @series
+          @match_3.winning_team_id = params[:winner_game_3]
+          @match_3.losing_team_id = get_loser_from_match_winner(params[:winner_game_3], @series)
+          if params[:matchid_game_3] != ""
+            @match_3.match_id = params[:matchid_game_3]
+          end
+
+          if params[:vod_game_3] != ""
+            @match_3.vod_url = params[:vod_game_3]
+          end
+
+          @match_3.save!
+        end
+        if params[:winner_game_4] != ""
+          @match_4 = SeriesMatch.new
+          @match_4.series = @series
+          @match_4.winning_team_id = params[:winner_game_4]
+          @match_4.losing_team_id = get_loser_from_match_winner(params[:winner_game_4], @series)
+          if params[:matchid_game_4] != ""
+            @match_4.match_id = params[:matchid_game_4]
+          end
+
+          if params[:vod_game_4] != ""
+            @match_4.vod_url = params[:vod_game_4]
+          end
+
+          @match_4.save!
+        end
+        if params[:winner_game_5] != ""
+          @match_5 = SeriesMatch.new
+          @match_5.series = @series
+          @match_5.winning_team_id = params[:winner_game_5]
+          @match_5.losing_team_id = get_loser_from_match_winner(params[:winner_game_5], @series)
+          if params[:matchid_game_5] != ""
+            @match_5.match_id = params[:matchid_game_5]
+          end
+
+          if params[:vod_game_5] != ""
+            @match_5.vod_url = params[:vod_game_5]
+          end
+
+          @match_5.save!
+        end
+
+        flash[:success] = 'Series results successfully updated.'
         redirect_to show_series_path(@series) and return
     end
   end
@@ -218,5 +300,15 @@ class SeriesController < ApplicationController
   end
 
   def index
+  end
+
+  private
+
+  def get_loser_from_match_winner(winner_id, series)
+    if series.teams[0].id == winner_id.to_i
+      return series.teams[1].id
+    end
+
+    return series.teams[0].id
   end
 end

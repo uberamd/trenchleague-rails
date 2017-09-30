@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  series_id: 1
+  match_id: 1
+  winning_team_id: 1
+  losing_team_id: 1
+  vod_url: MyString
+
+two:
+  series_id: 1
+  match_id: 1
+  winning_team_id: 1
+  losing_team_id: 1
+  vod_url: MyString

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170929182928) do
+ActiveRecord::Schema.define(version: 20170930040056) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,6 +54,17 @@ ActiveRecord::Schema.define(version: 20170929182928) do
     t.datetime "updated_at", null: false
     t.integer "admin_user_id"
     t.integer "caster_user_id"
+  end
+
+  create_table "series_matches", force: :cascade do |t|
+    t.bigint "series_id"
+    t.integer "match_id"
+    t.integer "winning_team_id"
+    t.integer "losing_team_id"
+    t.string "vod_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["series_id"], name: "index_series_matches_on_series_id"
   end
 
   create_table "series_messages", force: :cascade do |t|
@@ -120,4 +131,5 @@ ActiveRecord::Schema.define(version: 20170929182928) do
   end
 
   add_foreign_key "notifications", "users"
+  add_foreign_key "series_matches", "series"
 end

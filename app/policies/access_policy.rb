@@ -33,7 +33,7 @@ class AccessPolicy
 
     role :player do
       can :create, Team do |team,user|
-        !user.id.nil?
+        !user.id.nil? && user.team_id.nil?
       end
     end
   end

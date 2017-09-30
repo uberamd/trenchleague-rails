@@ -225,6 +225,45 @@
                   <%= f.submit 'Admin This Series', class: 'btn btn-primary' %>
               <% end %>
             </div>
+            <div class="col-md-5">
+              <h5>RECORD RESULTS</h5>
+              <%= bootstrap_form_tag url: update_series_path do |f| %>
+                <fieldset>
+                  <legend>Game 1</legend>
+                  <%= f.select('winner_game_1', options_from_collection_for_select(@series.teams, 'id', 'name', @matches[0].winning_team_id ||= nil), { include_blank: 'None' }) %>
+                  <%= f.text_field 'matchid_game_1', value: @matches[0].nil? ? '' : @matches[0].match_id, label: 'Match ID Game 1' %>
+                  <%= f.text_field 'vod_game_1', label: 'VOD Game 1' %>
+                </fieldset>
+                <fieldset>
+                  <legend>Game 2</legend>
+                  <%= f.select('winner_game_2', options_from_collection_for_select(@series.teams, 'id', 'name', @matches[1].nil? ? '' : @matches[1].winning_team_id), { include_blank: 'None' }) %>
+                  <%= f.text_field 'matchid_game_2', value: @matches[1].nil? ? '' : @matches[1].match_id, label: 'Match ID Game 2' %>
+                  <%= f.text_field 'vod_game_2', label: 'VOD Game 2' %>
+                </fieldset>
+                <fieldset>
+                  <legend>Game 3</legend>
+                  <%= f.select('winner_game_3', options_from_collection_for_select(@series.teams, 'id', 'name', @matches[2].nil? ? '' : @matches[2].winning_team_id), { include_blank: 'None' }) %>
+                  <%= f.text_field 'matchid_game_3', value: @matches[3].nil? ? '' : @matches[3].match_id, label: 'Match ID Game 3' %>
+                  <%= f.text_field 'vod_game_3', label: 'VOD Game 3' %>
+                </fieldset>
+                <fieldset>
+                  <legend>Game 4</legend>
+                  <%= f.select('winner_game_4', options_from_collection_for_select(@series.teams, 'id', 'name', @matches[3].nil? ? '' : @matches[3].winning_team_id), { include_blank: 'None' }) %>
+                  <%= f.text_field 'matchid_game_4', value: @matches[4].nil? ? '' : @matches[4].match_id, label: 'Match ID Game 4' %>
+                  <%= f.text_field 'vod_game_4', label: 'VOD Game 4' %>
+                </fieldset>
+                <fieldset>
+                  <legend>Game 5</legend>
+                  <%= f.select('winner_game_5', options_from_collection_for_select(@series.teams, 'id', 'name', @matches[4].nil? ? '' : @matches[4].winning_team_id), { include_blank: 'None' }) %>
+                  <%= f.text_field 'matchid_game_5', value: @matches[5].nil? ? '' : @matches[5].match_id, label: 'Match ID Game 5' %>
+                  <%= f.text_field 'vod_game_5', label: 'VOD Game 5' %>
+                </fieldset>
+                <div class="text-right">
+                  <%= f.hidden_field_tag :seriesaction, 'recordresults' %>
+                  <%= f.submit 'Record Results' %>
+                </div>
+              <% end %>
+            </div>
           </div>
         </div>
       </div>
