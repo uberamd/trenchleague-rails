@@ -19,6 +19,7 @@
 //= require bootstrap-toggle
 //= require moment
 //= require bootstrap-datetimepicker
+//= require md_simple_editor
 //= require_tree .
 
 $(document).on('ready page:change', function() {

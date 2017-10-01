@@ -13,6 +13,8 @@
  *= require flag-icon
  *= require bootstrap-toggle
  *= require bootstrap-datetimepicker
+ *= require font-awesome
+ *= require md_simple_editor
  *= require_tree .
  *= require_self
  */

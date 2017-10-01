@@ -72,3 +72,7 @@ gem 'bootstrap3-datetimepicker-rails', '~> 4.17.47'
 
 gem 'rails-timeago', '~> 2.0'
 gem 'elo_rating', '~> 1.0'
+
+gem 'md_simple_editor'
+gem 'font-awesome-rails'
+gem 'redcarpet'

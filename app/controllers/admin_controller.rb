@@ -192,6 +192,31 @@ class AdminController < ApplicationController
     redirect_to league_settings_path and return
   end
 
+  def rules
+    authorize! :leagueadmin, Group
+
+    add_breadcrumb 'Edit Rules'
+
+    if Page.where(:shortname => 'rules').all.count == 0
+      Page.create(:shortname => 'rules')
+    end
+
+    @rules = Page.where(:shortname => 'rules').all.first
+  end
+
+  def update_page
+    authorize! :leagueadmin, Group
+
+    @page = Page.where(:shortname => params[:shortname]).all.first
+
+    @page.contents = params[:contents]
+    @page.user_id = current_user.id
+    @page.save
+
+    flash[:success] = "Page #{params[:shortname]} updated successfully."
+    redirect_to "/admin/#{params[:shortname]}" and return
+  end
+
   private
 
   def create_group_params

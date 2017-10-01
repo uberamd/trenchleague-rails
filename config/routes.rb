@@ -31,6 +31,8 @@ Rails.application.routes.draw do
   get '/admin/players', to: 'admin#players', as: 'players_admin'
   get '/admin/settings', to: 'admin#settings', as: 'league_setting'
   patch '/admin/settings', to: 'admin#update_settings', as: 'league_settings'
+  get '/admin/rules', to: 'admin#rules', as: 'rules_admin'
+  post '/admin/update_page', to: 'admin#update_page', as: 'update_page_admin'
 
   # series routes
   get '/series', to: 'series#index', as: 'series'
@@ -46,4 +48,6 @@ Rails.application.routes.draw do
   get '/schedules', to: 'schedules#index', as: 'schedules'
 
   root to: 'static_page#index'
+
+  get '/rules', to: 'static_page#rules', as: 'rules'
 end

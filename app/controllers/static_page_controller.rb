@@ -4,4 +4,12 @@ class StaticPageController < ApplicationController
   def index
     @mmr_hash = league_averages
   end
+
+  def rules
+    @rules = Page.where(:shortname => 'rules').all.first
+
+    if @rules.nil?
+      @rules = Page.new
+    end
+  end
 end

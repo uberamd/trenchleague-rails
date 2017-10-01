@@ -1,0 +1,13 @@
+<div class="row">
+  <div class="col-md-12">
+    <%= bootstrap_form_tag url: update_page_admin_path do |f| %>
+      <%= md_simple_editor  do %>
+        <%= f.text_area :contents, value: @rules.contents, label: false, rows: 50 %>
+      <% end %>
+      <div class="text-right">
+        <%= f.hidden_field_tag :shortname, 'rules' %>
+        <%= f.submit 'Update Rules' %>
+      </div>
+    <% end %>
+  </div>
+</div>
