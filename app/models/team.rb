@@ -7,6 +7,8 @@ class Team < ApplicationRecord
 
   has_many :team_series
   has_many :series, through: :team_series
+  has_many :won_matches, foreign_key: 'winning_team_id', class_name: 'SeriesMatch'
+  has_many :lost_matches, foreign_key: 'losing_team_id', class_name: 'SeriesMatch'
 
   has_attached_file :logo, styles: {
       thumb: '100x100>',

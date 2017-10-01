@@ -37,6 +37,12 @@
     }
 }
 
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+
 
 /*
  * This is so we can view the cog dropdown options on the team page, to prevent them from

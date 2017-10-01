@@ -1,16 +1,71 @@
-<div class="row">
-  <div class="col-md-5 text-center">
+<div class="row equal">
+  <div class="col-md-4 text-center">
     <h2><%= @series.teams[0].name %></h2>
     <%= link_to image_tag(@series.teams[0].logo.url(:medium_square)), @series.teams[0] %>
   </div>
-  <div class="col-md-2 text-center">
-    <h2>vs</h2>
+  <div class="col-md-4 text-center">
+    <% if @series.series_matches.count > 0 %>
+      <h1>
+        <%= @series.teams[0].won_matches.where(:series_id => @series.id).all.count %>
+        -
+        <%= @series.teams[1].won_matches.where(:series_id => @series.id).all.count %>
+      </h1>
+    <% else %>
+      <h2>vs</h2>
+    <% end %>
   </div>
-  <div class="col-md-5 text-center">
+  <div class="col-md-4 text-center">
     <h2><%= @series.teams[1].name %></h2>
     <%= link_to image_tag(@series.teams[1].logo.url(:medium_square)), @series.teams[1] %>
   </div>
 </div>
+<% if @series.completed %>
+<hr />
+<div class="row">
+  <div class="col-md-12">
+    <h2>SERIES RESULTS</h2>
+    <table class="table table-hover">
+      <thead>
+      <tr>
+        <th>Winner</th>
+        <th>Match ID</th>
+        <th>Links</th>
+        <th>VOD</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @series.series_matches.each do |match| %>
+          <tr>
+            <td>
+              <%= link_to image_tag(match.winner.logo.url(:tiny_square)), team_path(match.winner) %>
+              <%= match.winner.name %>
+            </td>
+            <td>
+              <%= match.match_id.nil? ? 'Not recorded' : match.match_id %>
+            </td>
+            <td>
+              <% if !match.match_id.nil? %>
+                  <%= link_to 'Dotabuff', "https://www.dotabuff.com/matches/#{match.match_id}", target: :_blank %> /
+                  <%= link_to 'OpenDota', "https://www.opendota.com/matches/#{match.match_id}", target: :_blank %>
+              <% else %>
+                  Match ID not provided.
+              <% end %>
+            </td>
+            <td>
+              <% if !match.vod_url.nil? %>
+                  <%= link_to 'View VOD', match.vod_url, target: :_blank %>
+              <% else %>
+                  VOD URL not provided.
+              <% end %>
+            </td>
+          </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<% end %>
 <hr />
 <% if !@series.scheduled_date.nil? && !@series.completed %>
     <!-- series has been scheduled by both teams but not yet completed/recorded -->
@@ -205,7 +260,9 @@
           <% end %>
         </div>
         <div class="panel-footer">
-          Only <span class="label label-danger">League Admins</span> and the two participating <span class="label label-info">Team Captains</span> will be able to see messages posted here.
+          Only <span class="label label-danger">League Admins</span> and the two participating
+          <span class="label label-info">Team Captains</span> will be able to see messages posted here. The opposing
+          captain will receive a notification when posting here.
         </div>
       </div>
     </div>
@@ -219,18 +276,12 @@
         <div class="panel panel-info">
           <div class="panel-heading"><h3 class="panel-title">Series Administration</h3></div>
           <div class="panel-body">
-            <div class="col-md-2">
-              <%= bootstrap_form_tag url: update_series_path do |f| %>
-                  <%= f.hidden_field_tag :seriesaction, 'assignadmin' %>
-                  <%= f.submit 'Admin This Series', class: 'btn btn-primary' %>
-              <% end %>
-            </div>
-            <div class="col-md-5">
+            <div class="col-md-6">
               <h5>RECORD RESULTS</h5>
               <%= bootstrap_form_tag url: update_series_path do |f| %>
                 <fieldset>
                   <legend>Game 1</legend>
-                  <%= f.select('winner_game_1', options_from_collection_for_select(@series.teams, 'id', 'name', @matches[0].winning_team_id ||= nil), { include_blank: 'None' }) %>
+                  <%= f.select('winner_game_1', options_from_collection_for_select(@series.teams, 'id', 'name', @matches[0].nil? ? '' : @matches[0].winning_team_id), { include_blank: 'None' }) %>
                   <%= f.text_field 'matchid_game_1', value: @matches[0].nil? ? '' : @matches[0].match_id, label: 'Match ID Game 1' %>
                   <%= f.text_field 'vod_game_1', label: 'VOD Game 1' %>
                 </fieldset>
@@ -243,26 +294,65 @@
                 <fieldset>
                   <legend>Game 3</legend>
                   <%= f.select('winner_game_3', options_from_collection_for_select(@series.teams, 'id', 'name', @matches[2].nil? ? '' : @matches[2].winning_team_id), { include_blank: 'None' }) %>
-                  <%= f.text_field 'matchid_game_3', value: @matches[3].nil? ? '' : @matches[3].match_id, label: 'Match ID Game 3' %>
+                  <%= f.text_field 'matchid_game_3', value: @matches[2].nil? ? '' : @matches[2].match_id, label: 'Match ID Game 3' %>
                   <%= f.text_field 'vod_game_3', label: 'VOD Game 3' %>
                 </fieldset>
                 <fieldset>
                   <legend>Game 4</legend>
                   <%= f.select('winner_game_4', options_from_collection_for_select(@series.teams, 'id', 'name', @matches[3].nil? ? '' : @matches[3].winning_team_id), { include_blank: 'None' }) %>
-                  <%= f.text_field 'matchid_game_4', value: @matches[4].nil? ? '' : @matches[4].match_id, label: 'Match ID Game 4' %>
+                  <%= f.text_field 'matchid_game_4', value: @matches[3].nil? ? '' : @matches[3].match_id, label: 'Match ID Game 4' %>
                   <%= f.text_field 'vod_game_4', label: 'VOD Game 4' %>
                 </fieldset>
                 <fieldset>
                   <legend>Game 5</legend>
                   <%= f.select('winner_game_5', options_from_collection_for_select(@series.teams, 'id', 'name', @matches[4].nil? ? '' : @matches[4].winning_team_id), { include_blank: 'None' }) %>
-                  <%= f.text_field 'matchid_game_5', value: @matches[5].nil? ? '' : @matches[5].match_id, label: 'Match ID Game 5' %>
+                  <%= f.text_field 'matchid_game_5', value: @matches[4].nil? ? '' : @matches[4].match_id, label: 'Match ID Game 5' %>
                   <%= f.text_field 'vod_game_5', label: 'VOD Game 5' %>
+                </fieldset>
+                <fieldset>
+                  <legend>Finalize</legend>
+                  <%= f.check_box :series_complete, label: 'Check if series is complete and all matches are referenced above.' %>
                 </fieldset>
                 <div class="text-right">
                   <%= f.hidden_field_tag :seriesaction, 'recordresults' %>
                   <%= f.submit 'Record Results' %>
                 </div>
               <% end %>
+            </div>
+            <div class="col-md-6">
+              <div>
+                <h5>OTHER CONTROLS</h5>
+                <div class="well well-sm">
+                  <p>Assigns you as the admin for this series. You will create the lobby for each game and record results.</p>
+                  <%= bootstrap_form_tag url: update_series_path do |f| %>
+                      <%= f.hidden_field_tag :seriesaction, 'assignadmin' %>
+                      <%= f.submit 'Admin This Series', class: 'btn btn-primary' %>
+                  <% end %>
+                </div>
+                <div class="well well-sm">
+                  <p>Removes the current Admin assigned to this series. Without an assigned admin the series cannot be played.</p>
+                  <%= bootstrap_form_tag url: update_series_path do |f| %>
+                      <%= f.hidden_field_tag :seriesaction, 'resetadmin' %>
+                      <%= f.submit 'Remove Assigned Admin', class: 'btn btn-danger' %>
+                  <% end %>
+                </div>
+                <div class="well well-sm">
+                  <p>Removes the current Caster assigned to this series, allowing for other casters to claim the series.</p>
+                  <%= bootstrap_form_tag url: update_series_path do |f| %>
+                      <%= f.hidden_field_tag :seriesaction, 'resetcaster' %>
+                      <%= f.submit 'Remove Assigned Caster', class: 'btn btn-danger' %>
+                  <% end %>
+                </div>
+                <div class="well well-sm">
+                  <p>Resets the scheduled time for this series. This will require both teams to agree on a new time to play.
+                  This is useful when teams accidentally schedule the wrong time, or teams schedule outside of the
+                  allowed window of play.</p>
+                  <%= bootstrap_form_tag url: update_series_path do |f| %>
+                      <%= f.hidden_field_tag :seriesaction, 'resetseriestime' %>
+                      <%= f.submit 'Unschedule Series', class: 'btn btn-danger' %>
+                  <% end %>
+                </div>
+              </div>
             </div>
           </div>
         </div>

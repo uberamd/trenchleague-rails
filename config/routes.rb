@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
 
 
+  get 'schedules/index'
+
   get 'players/show'
 
   get 'series/show'
@@ -36,6 +38,9 @@ Rails.application.routes.draw do
 
   # players routes
   get '/players/:id', to: 'players#show', as: 'show_player'
+
+  # schedules
+  get '/schedules', to: 'schedules#index', as: 'schedules'
 
   root to: 'static_page#index'
 end

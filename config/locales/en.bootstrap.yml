@@ -12,6 +12,8 @@ en:
       groups: "Groups"
     series:
       index: "Series"
+    schedules:
+      index: "Schedules"
   helpers:
     actions: "Actions"
     links:

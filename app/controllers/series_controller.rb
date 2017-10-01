@@ -164,6 +164,9 @@ class SeriesController < ApplicationController
       when 'recordresults'
         authorize! :leagueadmin, @series
 
+        # wipe out the old series matches, as we're replacing them
+        @series.series_matches.destroy_all
+
         if params[:winner_game_1] != ""
           @match_1 = SeriesMatch.new
           @match_1.series = @series
@@ -238,6 +241,12 @@ class SeriesController < ApplicationController
           end
 
           @match_5.save!
+        end
+
+        if params[:series_complete] != ""
+          @series.completed = true
+          @series.recorded_on = Time.now()
+          @series.save!
         end
 
         flash[:success] = 'Series results successfully updated.'
