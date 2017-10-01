@@ -1,0 +1,57 @@
+<div class="row">
+  <div class="col-md-12">
+    <table class="table table-hover">
+      <thead>
+      <tr>
+        <th>Display Name</th>
+        <th>Team</th>
+        <th>Roles</th>
+        <th>Profiles</th>
+        <th class="text-center">Solo MMR</th>
+        <th class="text-center">Party MMR</th>
+        <th class="text-center">In-Hosue ELO</th>
+        <th class="text-center">Ban Status</th>
+        <th class="text-center">Smurf Status</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @users.each do |user| %>
+      <tr>
+        <td><%= user.personaname %></td>
+        <td class="<%= user.team.nil? ? 'warning' : '' %>"><%= user.team.nil? ? 'No Team' : link_to(user.team.name, user.team) %></td>
+        <td>
+          <% if user.is_global_admin %><span class="label label-danger">Global Admin</span>&nbsp;&nbsp;&nbsp;<% end %>
+          <% if user.is_league_admin %><span class="label label-danger">League Admin</span>&nbsp;&nbsp;&nbsp;<% end %>
+          <% if user.team_captain %><span class="label label-info">Captain</span>&nbsp;&nbsp;&nbsp;<% end %>
+          <% if user.is_league_caster %><span class="label label-success">Caster</span><% end %>
+        </td>
+        <td>
+          <%= link_to 'Dotabuff', "https://www.dotabuff.com/players/#{user.get_short_steamid}/", target: :_blank %> /
+          <%= link_to 'OpenDota', "https://www.opendota.com/players/#{user.get_short_steamid}/", target: :_blank %>
+          <% if user.profileurl != "" %>
+              / <%= link_to 'Steam', user.profileurl, target: :_blank %>
+          <% end %>
+        </td>
+        <td class="text-center <%= user.opendota_solo_mmr.nil? || user.opendota_solo_mmr > @settings.solo_mmr_ceiling ? 'danger' : 'success' %>"><%= user.opendota_solo_mmr %></td>
+        <td class="text-center <%= user.opendota_party_mmr.nil? || user.opendota_party_mmr > @settings.party_mmr_ceiling ? 'danger' : 'success' %>"><%= user.opendota_party_mmr %></td>
+        <td><%= user.in_house_elo %></td>
+        <td class="text-center">
+          <% if !user.is_banned %>
+            <span class="glyphicon glyphicon-ok text-success"></span>
+          <% else %>
+            <span class="glyphicon glyphicon-remove text-danger"></span>
+          <% end %>
+        </td>
+        <td class="text-center">
+          <% smurf_icon = 'glyphicon-question-sign' %>
+          <% smurf_icon = 'glyphicon-ok text-success' if user.smurf_check == 1 %>
+          <% smurf_icon = 'glyphicon-remove text-danger' if user.smurf_check == 2 %>
+          <span class="glyphicon <%= smurf_icon %>"></span>
+        </td>
+      </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

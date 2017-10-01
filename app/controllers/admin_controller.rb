@@ -158,10 +158,48 @@ class AdminController < ApplicationController
     redirect_to groups_admin_path and return
   end
 
+  def players
+    authorize! :leagueadmin, Group
+
+    add_breadcrumb 'Players'
+
+    @users = User.order('personaname').all
+    @settings = LeagueSetting.all.first
+  end
+
+  def settings
+    authorize! :leagueadmin, Group
+
+    add_breadcrumb 'League Settings'
+    @settings = LeagueSetting.all.first
+    if @settings.nil?
+      @settings = LeagueSetting.create
+    end
+  end
+
+  def update_settings
+    authorize! :leagueadmin, Group
+
+    if LeagueSetting.all.count == 0
+      @settings = LeagueSetting.create(league_settings_params)
+    else
+      @settings = LeagueSetting.all.first
+      @settings.update(league_settings_params)
+      @settings.save!
+    end
+
+    flash[:success] = 'League settings successfully updated.'
+    redirect_to league_settings_path and return
+  end
+
   private
 
   def create_group_params
     params.permit(:name)
+  end
+
+  def league_settings_params
+    params.require(:league_setting).permit(:team_cost_usd, :solo_mmr_ceiling, :party_mmr_ceiling, :max_teams, :max_players_per_team, :allow_team_creation, :allow_player_registration)
   end
 
 end

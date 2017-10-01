@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  team_cost_usd: 1
+  party_mmr_ceiling: 1
+  solo_mmr_ceiling: 1
+  max_teams: 1
+  max_players: 1
+  max_players_per_team: 1
+  allow_team_creation: false
+  allow_player_registration: false
+
+two:
+  team_cost_usd: 1
+  party_mmr_ceiling: 1
+  solo_mmr_ceiling: 1
+  max_teams: 1
+  max_players: 1
+  max_players_per_team: 1
+  allow_team_creation: false
+  allow_player_registration: false

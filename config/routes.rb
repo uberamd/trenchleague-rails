@@ -28,6 +28,9 @@ Rails.application.routes.draw do
   post '/admin/groups/update_assignments', to: 'admin#groups_update_assignments', as: 'groups_update_assignments_admin'
   get '/admin/groups/seed', to: 'admin#seed_series', as: 'groups_seed_admin'
   post '/admin/groups/seed', to: 'admin#seed_series_update', as: 'groups_update_seeds_admin'
+  get '/admin/players', to: 'admin#players', as: 'players_admin'
+  get '/admin/settings', to: 'admin#settings', as: 'league_setting'
+  patch '/admin/settings', to: 'admin#update_settings', as: 'league_settings'
 
   # series routes
   get '/series', to: 'series#index', as: 'series'
