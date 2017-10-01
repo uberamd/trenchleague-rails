@@ -31,9 +31,9 @@ class TeamsController < ApplicationController
     @team = Team.friendly.find(params[:id])
     add_breadcrumb @team.name
 
-    #if current_user.id != nil
-    #  OpendotaMmrRefreshJob.perform_later current_user
-    #end
+    if current_user.id != nil
+      OpendotaMmrRefreshJob.perform_later current_user
+    end
 
     @avg_mmr = @team.get_average_mmr
     @wins = SeriesMatch.where(:winning_team_id => @team.id).all.count
