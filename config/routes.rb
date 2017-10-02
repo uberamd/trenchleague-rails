@@ -36,6 +36,7 @@ Rails.application.routes.draw do
 
   # series routes
   get '/series', to: 'series#index', as: 'series'
+  get '/series/feed', to: 'series#calendar_feed', as: 'calendar_feed_series'
   get '/series/:id', to: 'series#show', as: 'show_series'
   post '/series/:id', to: 'series#update', as: 'update_series'
   post '/series/:id/caster', to: 'series#caster_update', as: 'caster_update_series'

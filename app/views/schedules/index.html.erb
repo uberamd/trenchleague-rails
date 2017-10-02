@@ -1,81 +1,89 @@
 <div class="row">
-
-  <div class="col-md-6">
+  <div class="col-md-9">
+    <div id="calendar"></div>
+    <br />
+    <p><strong>Note:</strong> Events highlighted in Red on the calendar are missing an Admin and/or Caster.</p>
+  </div>
+  <div class="col-md-3">
     <div class="row">
       <div class="col-md-12">
-        <h3>UPCOMING SERIES</h3>
+        <h3>UPCOMING</h3>
         <% if @upcoming_series.count == 0 %>
-          <p>There are currently no scheduled series.</p>
+            <p>There are currently no scheduled series.</p>
+        <% else %>
+            <table class="table table-hover" id="teams_upcoming_matches_table">
+              <thead>
+              <tr>
+                <th>Team 1</th>
+                <th>Team 2</th>
+                <th>Scheduled Date</th>
+                <th class="text-center">Admin</th>
+                <th class="text-center">Caster</th>
+                <th></th>
+              </tr>
+              </thead>
+              <tbody>
+              <% @upcoming_series.each do |series| %>
+                  <tr>
+                    <td><%= link_to series.teams[0].name, series.teams[0] %></td>
+                    <td><%= link_to series.teams[1].name, series.teams[1] %></td>
+                    <td><%= timeago_tag series.scheduled_date, force: true %></td>
+                    <td class="text-center">
+                      <% if series.has_admin? %>
+                          <span class="glyphicon glyphicon-ok text-success"></span>
+                      <% else %>
+                          <span class="glyphicon glyphicon-remove text-danger"></span>
+                      <% end %>
+                    </td>
+                    <td class="text-center">
+                      <% if series.has_caster? %>
+                          <span class="glyphicon glyphicon-ok text-success"></span>
+                      <% else %>
+                          <span class="glyphicon glyphicon-remove text-danger"></span>
+                      <% end %>
+                    </td>
+                    <td class="text-right">
+                      <%= link_to 'View', show_series_path(series), class: 'btn btn-sm btn-primary' %>
+                    </td>
+                  </tr>
+              <% end %>
+              </tbody>
+            </table>
         <% end %>
-        <table class="table table-hover" id="teams_upcoming_matches_table">
-          <thead>
-          <tr>
-            <th>Team 1</th>
-            <th>Team 2</th>
-            <th>Scheduled Date</th>
-            <th class="text-center">Admin</th>
-            <th class="text-center">Caster</th>
-            <th></th>
-          </tr>
-          </thead>
-          <tbody>
-          <% @upcoming_series.each do |series| %>
-            <tr>
-              <td><%= link_to series.teams[0].name, series.teams[0] %></td>
-              <td><%= link_to series.teams[1].name, series.teams[1] %></td>
-              <td><%= timeago_tag series.scheduled_date, force: true %></td>
-              <td class="text-center">
-                <% if series.has_admin? %>
-                    <span class="glyphicon glyphicon-ok text-success"></span>
-                <% else %>
-                    <span class="glyphicon glyphicon-remove text-danger"></span>
-                <% end %>
-              </td>
-              <td class="text-center">
-                <% if series.has_caster? %>
-                    <span class="glyphicon glyphicon-ok text-success"></span>
-                <% else %>
-                    <span class="glyphicon glyphicon-remove text-danger"></span>
-                <% end %>
-              </td>
-              <td class="text-right">
-                <%= link_to 'View', show_series_path(series), class: 'btn btn-sm btn-primary' %>
-              </td>
-            </tr>
-          <% end %>
-          </tbody>
-        </table>
       </div>
     </div>
-  </div>
-  <div class="col-md-6">
+
     <div class="row">
       <div class="col-md-12">
-        <h3>COMPLETED SERIES</h3>
-        <table class="table table-hover">
-          <thead>
-          <th>Team 1</th>
-          <th>Score</th>
-          <th>Team 2</th>
-          <th>When</th>
-          <th></th>
-          </thead>
-          <tbody>
-          <% @completed_series.each do |series| %>
-            <tr>
-              <td><%= link_to series.teams[0].name, series.teams[0] %></td>
-              <td>
-                <%= series.series_matches.where(:winner => series.teams[0]).all.count %> -
-                <%= series.series_matches.where(:winner => series.teams[1]).all.count %>
+        <h3>COMPLETED</h3>
+        <% if @completed_series.count == 0 %>
+        <p>There are currently no completed series.</p>
+        <% else %>
+            <table class="table table-hover">
+              <thead>
+              <th>Team 1</th>
+              <th>Score</th>
+              <th>Team 2</th>
+              <th>When</th>
+              <th></th>
+              </thead>
+              <tbody>
+              <% @completed_series.each do |series| %>
+                  <tr>
+                    <td><%= link_to series.teams[0].name, series.teams[0] %></td>
+                    <td>
+                      <%= series.series_matches.where(:winner => series.teams[0]).all.count %> -
+                      <%= series.series_matches.where(:winner => series.teams[1]).all.count %>
 
-              </td>
-              <td><%= link_to series.teams[1].name, series.teams[1] %></td>
-              <td><%= timeago_tag series.scheduled_date, force: true %></td>
-              <td class="text-right"><%= link_to 'View', series, class: 'btn btn-sm btn-primary' %></td>
-            </tr>
-          <% end %>
-          </tbody>
-        </table>
+                    </td>
+                    <td><%= link_to series.teams[1].name, series.teams[1] %></td>
+                    <td><%= timeago_tag series.scheduled_date, force: true %></td>
+                    <td class="text-right"><%= link_to 'View', series, class: 'btn btn-sm btn-primary' %></td>
+                  </tr>
+              <% end %>
+              </tbody>
+            </table>
+        <% end %>
       </div>
     </div>
   </div>

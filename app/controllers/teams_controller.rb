@@ -34,7 +34,10 @@ class TeamsController < ApplicationController
     add_breadcrumb @team.name
 
     if current_user.id != nil
-      OpendotaMmrRefreshJob.perform_later(current_user)
+      # we only want to refresh MMR at smallish intervals
+      if current_user.opendota_mmr_updated + 1.hour < Time.now()
+        OpendotaMmrRefreshJob.perform_later(current_user)
+      end
     end
 
     @avg_mmr = @team.get_average_mmr

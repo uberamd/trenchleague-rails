@@ -76,3 +76,6 @@ gem 'elo_rating', '~> 1.0'
 gem 'md_simple_editor'
 gem 'font-awesome-rails'
 gem 'redcarpet'
+
+# these are both for the calendar
+gem 'fullcalendar-rails'

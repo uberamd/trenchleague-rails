@@ -4,6 +4,30 @@ class SeriesController < ApplicationController
 
   add_breadcrumb :index, :series_path
 
+  def calendar_feed
+    response_hash = []
+
+    Series.where.not(:scheduled_date => nil).each do |series|
+      color = 'green'
+
+      if series.admin_user_id.nil? || series.caster_user_id.nil?
+        color = 'red'
+      end
+
+      response_hash << {
+          id: series.id,
+          title: "#{series.teams[0].name} vs. #{series.teams[1].name}",
+          description: '',
+          start: series.scheduled_date,
+          end: series.scheduled_date + 3.hours,
+          url: show_series_path(series),
+          color: color
+      }
+    end
+
+    render json: response_hash
+  end
+
   def show
     @series = Series.find(params[:id])
     @team_series = TeamSeries.where(:team_id => current_user.team_id, :series_id => @series.id).first

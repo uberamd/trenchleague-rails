@@ -20,8 +20,22 @@
 //= require moment
 //= require bootstrap-datetimepicker
 //= require md_simple_editor
+//= require moment
+//= require fullcalendar
 //= require_tree .
 
 $(document).on('ready page:change', function() {
     $('input[type="checkbox"].toggle').bootstrapToggle(); // assumes the checkboxes have the class "toggle"
 });
+
+function eventCalendar() {
+    return $('#calendar').fullCalendar({
+        events: '/series/feed.json'
+    });
+};
+function clearCalendar() {
+    $('#calendar').fullCalendar('delete'); // In case delete doesn't work.
+    $('#calendar').html('');
+};
+$(document).on('turbolinks:load', eventCalendar);
+$(document).on('turbolinks:before-cache', clearCalendar)
