@@ -34,7 +34,7 @@ class TeamsController < ApplicationController
     add_breadcrumb @team.name
 
     if current_user.id != nil
-      OpendotaMmrRefreshJob.perform_later current_user
+      OpendotaMmrRefreshJob.perform_later(current_user)
     end
 
     @avg_mmr = @team.get_average_mmr
