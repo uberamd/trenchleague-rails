@@ -12,4 +12,8 @@ class StaticPageController < ApplicationController
       @rules = Page.new
     end
   end
+
+  def changelog
+    # nothing here
+  end
 end

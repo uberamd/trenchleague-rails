@@ -51,4 +51,5 @@ Rails.application.routes.draw do
   root to: 'static_page#index'
 
   get '/rules', to: 'static_page#rules', as: 'rules'
+  get '/changelog', to: 'static_page#changelog', as: 'changelog'
 end
