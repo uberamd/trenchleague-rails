@@ -9,6 +9,8 @@ class TeamsController < ApplicationController
   end
 
   def create
+    authorize! :create, Team
+
     # first we're going to create and save the team
     @team = Team.create(team_params)
     @team.save!
