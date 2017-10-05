@@ -237,6 +237,18 @@ class AdminController < ApplicationController
     redirect_to "/admin/#{params[:shortname]}" and return
   end
 
+  def staff
+    authorize! :leagueadmin, Group
+
+    add_breadcrumb 'Edit Staff'
+
+    if Page.where(:shortname => 'staff').all.count == 0
+      Page.create(:shortname => 'staff')
+    end
+
+    @staff = Page.where(:shortname => 'staff').all.first
+  end
+
   private
 
   def create_group_params

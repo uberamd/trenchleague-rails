@@ -16,4 +16,12 @@ class StaticPageController < ApplicationController
   def changelog
     # nothing here
   end
+
+  def staff
+    @staff = Page.where(:shortname => 'staff').all.first
+
+    if @staff.nil?
+      @staff = Page.new
+    end
+  end
 end

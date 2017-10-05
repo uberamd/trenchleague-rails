@@ -32,6 +32,7 @@ Rails.application.routes.draw do
   get '/admin/settings', to: 'admin#settings', as: 'league_setting'
   patch '/admin/settings', to: 'admin#update_settings', as: 'league_settings'
   get '/admin/rules', to: 'admin#rules', as: 'rules_admin'
+  get '/admin/staff', to: 'admin#staff', as: 'staff_admin'
   post '/admin/update_page', to: 'admin#update_page', as: 'update_page_admin'
   get '/admin/images', to: 'admin#images', as: 'images_admin'
   post '/admin/images', to: 'admin#upload_images', as: 'upload_images_admin'
@@ -54,4 +55,5 @@ Rails.application.routes.draw do
 
   get '/rules', to: 'static_page#rules', as: 'rules'
   get '/changelog', to: 'static_page#changelog', as: 'changelog'
+  get '/staff', to: 'static_page#staff', as: 'staff'
 end
