@@ -3,6 +3,8 @@ class User < ApplicationRecord
   has_many :admin_series, foreign_key: 'admin_user_id', class_name: 'Series'
   has_many :cast_series, foreign_key: 'caster_user_id', class_name: 'Series'
 
+  has_many :generic_uploads
+
   has_many :series_messages
   has_many :notifications
 

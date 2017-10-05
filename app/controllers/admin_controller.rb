@@ -6,6 +6,26 @@ class AdminController < ApplicationController
     # do something here idk what yet
   end
 
+  def images
+    authorize! :leagueadmin, Group
+
+    add_breadcrumb 'Images'
+
+    @images = GenericUpload.where(:is_deleted => false).all
+  end
+
+  def upload_images
+    authorize! :leagueadmin, Group
+
+    @image = GenericUpload.create(image_upload_params)
+
+    @image.user_id = current_user.id
+    @image.save!
+
+    flash[:success] = 'File successfully uploaded.'
+    redirect_to images_admin_path and return
+  end
+
   def seed_series
     authorize! :leagueadmin, Group
     add_breadcrumb :groups, :groups_admin_path
@@ -225,6 +245,10 @@ class AdminController < ApplicationController
 
   def league_settings_params
     params.require(:league_setting).permit(:team_cost_usd, :solo_mmr_ceiling, :party_mmr_ceiling, :max_teams, :max_players_per_team, :allow_team_creation, :allow_player_registration)
+  end
+
+  def image_upload_params
+    params.require(:generic_upload).permit(:image)
   end
 
 end

@@ -33,6 +33,8 @@ Rails.application.routes.draw do
   patch '/admin/settings', to: 'admin#update_settings', as: 'league_settings'
   get '/admin/rules', to: 'admin#rules', as: 'rules_admin'
   post '/admin/update_page', to: 'admin#update_page', as: 'update_page_admin'
+  get '/admin/images', to: 'admin#images', as: 'images_admin'
+  post '/admin/images', to: 'admin#upload_images', as: 'upload_images_admin'
 
   # series routes
   get '/series', to: 'series#index', as: 'series'

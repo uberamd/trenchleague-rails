@@ -37,5 +37,9 @@ function clearCalendar() {
     $('#calendar').fullCalendar('delete'); // In case delete doesn't work.
     $('#calendar').html('');
 };
-$(document).on('turbolinks:load', eventCalendar);
-$(document).on('turbolinks:before-cache', clearCalendar)
+$(document).on('turbolinks:load', function() {
+    eventCalendar;
+});
+$(document).on('turbolinks:before-cache', function() {
+    clearCalendar;
+});

@@ -1,0 +1,44 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="well well-sm">
+      Here you can upload images to be used throughout the various page editors on the site. Images uploaded here will
+      be resized to a variety of different predefined ratios.
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-9">
+    <div class="row">
+      <% @images.each do |image| %>
+      <div class="col-md-4">
+        <div class="thumbnail">
+          <%= image_tag image.image.url(:square), class: 'image-responsive' %>
+          <div class="caption">
+            <h5>IMAGE VERSIONS</h5>
+            <p>
+              <%= link_to 'Tiny Square (50x50)', image.image.url(:tiny_square) %> /
+              <%= link_to 'Thumb (max 100px)', image.image.url(:thumb) %> /
+              <%= link_to 'Thumb Square (100x100)', image.image.url(:thumb) %> /
+              <%= link_to 'Square (200x200)', image.image.url(:square) %> /
+              <%= link_to 'Medium (max 300px)', image.image.url(:medium) %> /
+              <%= link_to 'Medium Square (300x300)', image.image.url(:medium_square) %> /
+              <%= link_to 'Medium Stretched (300x300 stretched)', image.image.url(:medium_stretched) %> /
+              <%= link_to 'Large (max 600px)', image.image.url(:large) %> /
+              <%= link_to 'Large Square (600x600)', image.image.url(:large_square) %> /
+              <%= link_to 'Large Stretched (600x600 stretched)', image.image.url(:large_stretched) %>
+            </p>
+            <p>Uploaded by <%= image.user.personaname %></p>
+          </div>
+        </div>
+      </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <%= bootstrap_form_tag url: upload_images_admin_path do |f| %>
+        <h4>UPLOAD IMAGE</h4>
+        <%= f.file_field 'generic_upload[image]', hide_label: true %>
+        <%= f.submit 'Upload Image' %>
+    <% end %>
+  </div>
+</div>
