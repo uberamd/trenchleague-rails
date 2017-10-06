@@ -12,7 +12,24 @@ class ApplicationController < ActionController::Base
 
   def current_user
     if session[:user_id]
-      @current_user ||= User.find(session[:user_id])
+      if @current_user
+        if @current_user.is_banned
+          flash[:danger] = 'You have been banned from this site.'
+          session[:user_id] = nil
+          User.new
+        else
+          @current_user
+        end
+      else
+        tmp_user = User.find(session[:user_id])
+        if tmp_user.is_banned
+          flash[:danger] = 'You have been banned from this site. You can only view public portions of this site.'
+          session[:user_id] = nil
+          User.new
+        else
+          @current_user = tmp_user
+        end
+      end
     else
       User.new
     end

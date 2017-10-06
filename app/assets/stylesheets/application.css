@@ -17,6 +17,7 @@
  *= require md_simple_editor
  *= require fullcalendar
  *= require jquery-ui
+ *= require editable/bootstrap-editable
  *= require_tree .
  *= require_self
  */
@@ -32,6 +33,10 @@
 
 .pad-15px-bottom {
     padding-bottom: 15px;
+}
+
+.margin-5px-bottom {
+    margin-bottom: 5px;
 }
 
 @media (min-width: 768px) {
@@ -64,6 +69,10 @@
 }
 
 #admin_groups_table td {
+    vertical-align: middle !important;
+}
+
+#admin_player_table td {
     vertical-align: middle !important;
 }
 

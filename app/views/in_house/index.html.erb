@@ -1,0 +1,27 @@
+<div class="row">
+  <div class="col-md-12">
+    <h3>LEADERBOARD</h3>
+    <table class="table table-hover">
+      <thead>
+      <tr>
+        <th>Player</th>
+        <th>Wins</th>
+        <th>Losses</th>
+        <th>Total Played</th>
+        <th>ELO</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% @users.each do |user| %>
+      <tr>
+        <td><%= user.personaname %></td>
+        <td><%= user.in_house_wins %></td>
+        <td><%= user.in_house_losses %></td>
+        <td><%= user.in_house_wins + user.in_house_losses %></td>
+        <td><%= user.in_house_elo %></td>
+      </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

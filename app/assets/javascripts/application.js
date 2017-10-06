@@ -24,6 +24,8 @@
 //= require md_simple_editor
 //= require moment
 //= require fullcalendar
+//= require editable/bootstrap-editable
+//= require editable/rails
 //= require_tree .
 
 $(document).on('ready page:change', function() {

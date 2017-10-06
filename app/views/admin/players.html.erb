@@ -1,16 +1,15 @@
 <div class="row">
   <div class="col-md-12">
-    <table class="table table-hover">
+    <table class="table table-hover" id="admin_player_table">
       <thead>
       <tr>
         <th>Display Name</th>
         <th>Team</th>
-        <th>Roles</th>
-        <th>Profiles</th>
-        <th class="text-center">Solo MMR</th>
-        <th class="text-center">Party MMR</th>
+        <th>Team Roles</th>
+        <th>League Roles</th>
+        <th class="text-center">MMR</th>
         <th class="text-center">In-Hosue ELO</th>
-        <th class="text-center">Ban Status</th>
+        <th class="text-center">Banned</th>
         <th class="text-center">Smurf Status</th>
         <th></th>
       </tr>
@@ -21,27 +20,25 @@
         <td><%= user.personaname %></td>
         <td class="<%= user.team.nil? ? 'warning' : '' %>"><%= user.team.nil? ? 'No Team' : link_to(user.team.name, user.team) %></td>
         <td>
-          <% if user.is_global_admin %><span class="label label-danger">Global Admin</span>&nbsp;&nbsp;&nbsp;<% end %>
-          <% if user.is_league_admin %><span class="label label-danger">League Admin</span>&nbsp;&nbsp;&nbsp;<% end %>
-          <% if user.team_captain %><span class="label label-info">Captain</span>&nbsp;&nbsp;&nbsp;<% end %>
-          <% if user.is_league_caster %><span class="label label-success">Caster</span><% end %>
+          <div class="margin-5px-bottom">
+            Team Captain: <%= editable user, :team_captain, url: update_player_admin_path(user) %>
+          </div>
         </td>
         <td>
-          <%= link_to 'Dotabuff', "https://www.dotabuff.com/players/#{user.get_short_steamid}/", target: :_blank %> /
-          <%= link_to 'OpenDota', "https://www.opendota.com/players/#{user.get_short_steamid}/", target: :_blank %>
-          <% if user.profileurl != "" %>
-              / <%= link_to 'Steam', user.profileurl, target: :_blank %>
-          <% end %>
+          <div class="margin-5px-bottom">
+            League Admin: <%= editable user, :is_league_admin, url: update_player_admin_path(user)  %>
+          </div>
+          <div class="margin-5px-bottom">
+            Caster: <%= editable user, :is_league_caster, url: update_player_admin_path(user)  %>
+          </div>
         </td>
-        <td class="text-center <%= user.opendota_solo_mmr.nil? || user.opendota_solo_mmr > @settings.solo_mmr_ceiling ? 'danger' : 'success' %>"><%= user.opendota_solo_mmr %></td>
-        <td class="text-center <%= user.opendota_party_mmr.nil? || user.opendota_party_mmr > @settings.party_mmr_ceiling ? 'danger' : 'success' %>"><%= user.opendota_party_mmr %></td>
+        <td class="text-center">
+            <div class="<%= user.opendota_solo_mmr.nil? || user.opendota_solo_mmr > @settings.solo_mmr_ceiling ? 'bg-primary' : 'bg-success' %>">Solo: <%= user.opendota_solo_mmr %></div>
+            <div class="<%= user.opendota_party_mmr.nil? || user.opendota_party_mmr > @settings.party_mmr_ceiling ? 'bg-primary' : 'bg-success' %>">Party: <%= user.opendota_party_mmr %></div>
+        </td>
         <td><%= user.in_house_elo %></td>
         <td class="text-center">
-          <% if !user.is_banned %>
-            <span class="glyphicon glyphicon-ok text-success"></span>
-          <% else %>
-            <span class="glyphicon glyphicon-remove text-danger"></span>
-          <% end %>
+          <%= editable user, :is_banned, url: update_player_admin_path(user)  %>
         </td>
         <td class="text-center">
           <% smurf_icon = 'glyphicon-question-sign' %>
@@ -52,6 +49,9 @@
       </tr>
       <% end %>
       </tbody>
+      <script type="text/javascript">
+          $('.editable').editable();
+      </script>
     </table>
   </div>
 </div>

@@ -29,6 +29,7 @@ Rails.application.routes.draw do
   get '/admin/groups/seed', to: 'admin#seed_series', as: 'groups_seed_admin'
   post '/admin/groups/seed', to: 'admin#seed_series_update', as: 'groups_update_seeds_admin'
   get '/admin/players', to: 'admin#players', as: 'players_admin'
+  put '/admin/players/update_player/:id', to: 'admin#update_player_admin', as: 'update_player_admin'
   get '/admin/settings', to: 'admin#settings', as: 'league_setting'
   patch '/admin/settings', to: 'admin#update_settings', as: 'league_settings'
   get '/admin/rules', to: 'admin#rules', as: 'rules_admin'
@@ -41,10 +42,12 @@ Rails.application.routes.draw do
 
   ## in-house admin
   get '/admin/inhouse', to: 'admin#inhouse', as: 'inhouse_admin'
+  put '/admin/inhouse/update_player/:id', to: 'admin#update_player_inhouse', as: 'update_player_inhouse_admin'
   post '/admin/inhouse/match', to: 'admin#create_inhouse_match', as: 'create_inhouse_match_admin'
 
   # inhouse
-  get '/inhouse/match/:id', to: 'inhouse#show_match', as: 'show_match_inhouse'
+  get '/inhouse/match/:id', to: 'in_house#show_match', as: 'show_match_inhouse'
+  get '/inhouse', to: 'in_house#index', as: 'index_inhouse'
 
   # series routes
   get '/series', to: 'series#index', as: 'series'

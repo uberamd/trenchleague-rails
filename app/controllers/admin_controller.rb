@@ -6,25 +6,10 @@ class AdminController < ApplicationController
 
   def index
     # do something here idk what yet
+  end
 
-    # elo test
-    @test_arr = []
-    User.all.limit(10).each.with_index do |user,index|
-      won = false
-      if index >= 5
-        won = true
-      end
-
-      tmp_hash = {
-          :won => won,
-          :elo => 900 + rand(250),
-          :user_id => user.id
-      }
-
-      @test_arr << tmp_hash
-    end
-
-    @updated_arr = calculate_elo(@test_arr)
+  def inhouse
+    @users = User.where.not(:is_banned => true, :is_deleted => true).order('personaname ASC').all
   end
 
   def create_inhouse_match
@@ -34,7 +19,7 @@ class AdminController < ApplicationController
 
     user_arr = []
     params.each do |param,v|
-      next if v == ''
+      next if v == '' # we want to
 
       tmp_user = { :elo => 1000, :user_id => 0, :won => false }
       if param =~ /^winner_/
@@ -57,6 +42,11 @@ class AdminController < ApplicationController
 
       original_elo = user_obj.in_house_elo
       user_obj.in_house_elo = user[:updated_elo]
+      if user[:won]
+        user_obj.in_house_wins += 1
+      else
+        user_obj.in_house_losses += 1
+      end
 
       user_obj.save!
 
@@ -70,6 +60,20 @@ class AdminController < ApplicationController
 
     flash[:success] = 'Successfully recorded results for Inhouse Match'
     redirect_to root_path and return
+  end
+
+  def update_player_inhouse
+    authorize! :leagueadmin, Group
+
+    @user = User.find(params[:id])
+    @user.update!(update_player_inhouse_params)
+  end
+
+  def update_player_admin
+    authorize! :leagueadmin, User
+
+    @user = User.find(params[:id])
+    @user.update!(update_player_params)
   end
 
   def images
@@ -331,6 +335,14 @@ class AdminController < ApplicationController
 
   def inhouse_match_params
     params.require(:inhouse_match).permit(:screenshot, :match_id)
+  end
+
+  def update_player_inhouse_params
+    params.require(:user).permit(:in_house_wins, :in_house_losses, :in_house_elo)
+  end
+
+  def update_player_params
+    params.require(:user).permit(:team_captain, :is_league_admin, :is_league_caster, :is_banned)
   end
 
 end
