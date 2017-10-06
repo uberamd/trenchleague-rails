@@ -5,10 +5,12 @@ class AdminController < ApplicationController
   add_breadcrumb :index, :admin_path
 
   def index
+    authorize! :leagueadmin, Group
     # do something here idk what yet
   end
 
   def inhouse
+    authorize! :leagueadmin, Group
     @users = User.where.not(:is_banned => true, :is_deleted => true).order('personaname ASC').all
   end
 
