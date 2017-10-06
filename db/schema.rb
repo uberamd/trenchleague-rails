@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171004124822) do
+ActiveRecord::Schema.define(version: 20171005184839) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,6 +42,26 @@ ActiveRecord::Schema.define(version: 20171004124822) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "inhouse_match_players", force: :cascade do |t|
+    t.integer "inhouse_match_id"
+    t.integer "user_id"
+    t.integer "starting_elo"
+    t.integer "elo_change"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "inhouse_matches", force: :cascade do |t|
+    t.integer "match_id"
+    t.integer "recorded_user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "screenshot_file_name"
+    t.string "screenshot_content_type"
+    t.integer "screenshot_file_size"
+    t.datetime "screenshot_updated_at"
   end
 
   create_table "league_settings", force: :cascade do |t|

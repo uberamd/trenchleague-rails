@@ -79,3 +79,6 @@ gem 'redcarpet'
 
 # these are both for the calendar
 gem 'fullcalendar-rails'
+
+gem 'jquery-ui-rails'
+gem 'rails-jquery-autocomplete'

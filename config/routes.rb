@@ -37,6 +37,15 @@ Rails.application.routes.draw do
   get '/admin/images', to: 'admin#images', as: 'images_admin'
   post '/admin/images', to: 'admin#upload_images', as: 'upload_images_admin'
 
+  get '/admin/autocomplete_user_personaname', to: 'admin#autocomplete_user_personaname', as: 'autocomplete_user_personaname_admin_index'
+
+  ## in-house admin
+  get '/admin/inhouse', to: 'admin#inhouse', as: 'inhouse_admin'
+  post '/admin/inhouse/match', to: 'admin#create_inhouse_match', as: 'create_inhouse_match_admin'
+
+  # inhouse
+  get '/inhouse/match/:id', to: 'inhouse#show_match', as: 'show_match_inhouse'
+
   # series routes
   get '/series', to: 'series#index', as: 'series'
   get '/series/feed', to: 'series#calendar_feed', as: 'calendar_feed_series'

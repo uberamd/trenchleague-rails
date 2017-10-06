@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 1
+  starting_elo: 1
+  elo_change: 1
+
+two:
+  user_id: 1
+  starting_elo: 1
+  elo_change: 1

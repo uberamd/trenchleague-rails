@@ -16,6 +16,7 @@
  *= require font-awesome
  *= require md_simple_editor
  *= require fullcalendar
+ *= require jquery-ui
  *= require_tree .
  *= require_self
  */

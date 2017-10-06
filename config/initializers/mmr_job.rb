@@ -1,2 +1,2 @@
 
-RefreshAllMmrJob.perform_later # enqueue the refresh job
+#RefreshAllMmrJob.perform_later # enqueue the refresh job

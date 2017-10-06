@@ -1,9 +1,75 @@
 class AdminController < ApplicationController
+  include AdminHelper
 
+  autocomplete :user, :personaname, :full => true
   add_breadcrumb :index, :admin_path
 
   def index
     # do something here idk what yet
+
+    # elo test
+    @test_arr = []
+    User.all.limit(10).each.with_index do |user,index|
+      won = false
+      if index >= 5
+        won = true
+      end
+
+      tmp_hash = {
+          :won => won,
+          :elo => 900 + rand(250),
+          :user_id => user.id
+      }
+
+      @test_arr << tmp_hash
+    end
+
+    @updated_arr = calculate_elo(@test_arr)
+  end
+
+  def create_inhouse_match
+    authorize! :leagueadmin, Group
+
+    @ihm = InhouseMatch.create(inhouse_match_params)
+
+    user_arr = []
+    params.each do |param,v|
+      next if v == ''
+
+      tmp_user = { :elo => 1000, :user_id => 0, :won => false }
+      if param =~ /^winner_/
+        tmp_user[:won] = true
+      end
+
+      if param =~ /^(winner_|loser_)/
+        user = User.find(v)
+        tmp_user[:user_id] = user.id
+        if !user.in_house_elo.nil?
+          tmp_user[:elo]     = user.in_house_elo
+        end
+        user_arr << tmp_user
+      end
+    end
+
+    updated_user_arr = calculate_elo(user_arr)
+    updated_user_arr.each do |user|
+      user_obj = User.find(user[:user_id])
+
+      original_elo = user_obj.in_house_elo
+      user_obj.in_house_elo = user[:updated_elo]
+
+      user_obj.save!
+
+      @ihm.inhouse_match_players.create({
+          user_id: user_obj.id,
+          starting_elo: original_elo,
+          elo_change: user[:elo_change]
+                                        })
+
+    end
+
+    flash[:success] = 'Successfully recorded results for Inhouse Match'
+    redirect_to root_path and return
   end
 
   def images
@@ -261,6 +327,10 @@ class AdminController < ApplicationController
 
   def image_upload_params
     params.require(:generic_upload).permit(:image)
+  end
+
+  def inhouse_match_params
+    params.require(:inhouse_match).permit(:screenshot, :match_id)
   end
 
 end
