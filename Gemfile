@@ -84,4 +84,3 @@ gem 'jquery-ui-rails'
 gem 'rails-jquery-autocomplete'
 gem 'x-editable-rails'
 
-gem 'audited', '~> 4.5'

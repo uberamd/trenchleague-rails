@@ -14,8 +14,6 @@ en:
       index: "Series"
     schedules:
       index: "Schedules"
-    in_house:
-      index: "Inhouse"
   helpers:
     actions: "Actions"
     links:
