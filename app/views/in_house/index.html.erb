@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-md-12">
+  <div class="col-md-9">
     <h3>LEADERBOARD</h3>
     <table class="table table-hover">
       <thead>
@@ -23,5 +23,26 @@
       <% end %>
       </tbody>
     </table>
+  </div>
+  <div class="col-md-3">
+    <h4>LOBBIES</h4>
+    <div class="row">
+      <div class="col-md-12">
+        <ul class="list-group">
+          <% @chat_rooms.order('created_at DESC').each do |room| %>
+              <li class="list-group-item"><%= link_to room.title, show_lobby_inhouse_path(room) %><span class="badge"><%= room.users.count %></span></li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+    <hr />
+    <div class="row">
+      <div class="col-md-12">
+        <%= bootstrap_form_for @new_chat_room, url: create_lobby_inhouse_path do |f| %>
+            <%= f.text_field :title, placeholder: 'Lobby Name', hide_label: true %>
+            <%= f.submit 'Create Lobby' %>
+        <% end %>
+      </div>
+    </div>
   </div>
 </div>

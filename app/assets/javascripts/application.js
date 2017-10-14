@@ -16,7 +16,7 @@
 //= require autocomplete-rails
 //= require rails-timeago
 // require rails-ujs
-//= require turbolinks
+// require turbolinks
 //= require twitter/bootstrap
 //= require bootstrap-toggle
 //= require moment
@@ -26,6 +26,7 @@
 //= require fullcalendar
 //= require editable/bootstrap-editable
 //= require editable/rails
+//= require cable
 //= require_tree .
 
 $(document).on('ready page:change', function() {

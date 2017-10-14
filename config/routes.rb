@@ -48,6 +48,8 @@ Rails.application.routes.draw do
   # inhouse
   get '/inhouse/match/:id', to: 'in_house#show_match', as: 'show_match_inhouse'
   get '/inhouse', to: 'in_house#index', as: 'index_inhouse'
+  post '/inhouse/lobby', to: 'in_house#create_lobby', as: 'create_lobby_inhouse'
+  get '/inhouse/lobby/:id', to: 'in_house#show_lobby', as: 'show_lobby_inhouse'
 
   # series routes
   get '/series', to: 'series#index', as: 'series'

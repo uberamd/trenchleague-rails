@@ -103,3 +103,8 @@
 #league_footer {
     margin-top: 15px;
 }
+
+#messages {
+    max-height: 450px;
+    overflow-y: auto;
+}

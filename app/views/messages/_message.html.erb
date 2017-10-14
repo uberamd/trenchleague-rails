@@ -1,0 +1,26 @@
+<div class="col-md-12">
+  <div class="row pad-15px-bottom">
+    <div class="col-md-12">
+      <div class="media">
+        <div class="media-left"><%= link_to image_tag(message.user.avatar), show_player_path(message.user.steamid) %></div>
+        <div class="media-body">
+          <div class="row">
+            <div class="col-md-12">
+              <h4 class="media-heading">
+                <%= message.user.loccountrycode.nil? ? '' : flag_icon(message.user.loccountrycode.parameterize.underscore.to_sym) %>
+                <%= message.user.personaname %>
+                <small>posted <%= timeago_tag message.created_at, force: true %></small>
+              </h4>
+              <div class="pad-15px-bottom">
+                <% if message.user.is_global_admin %><span class="label label-danger">Global Admin</span>&nbsp;&nbsp;&nbsp;<% end %>
+                <% if message.user.is_league_admin %><span class="label label-danger">League Admin</span>&nbsp;&nbsp;&nbsp;<% end %>
+                <% if message.user.team_captain %><span class="label label-info">Captain</span><% end %>
+              </div>
+              <%= simple_format(message.body, {}, sanitize: true) %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

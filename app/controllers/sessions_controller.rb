@@ -11,11 +11,14 @@ class SessionsController < ApplicationController
     @user.save!
 
     session[:user_id] = @user.id
+    cookies.signed[:user_id] = @user.id
+
     redirect_to '/'
   end
 
   def logout
 
+    cookies.signed[:user_id] = nil
     reset_session
     @current_user = nil
 

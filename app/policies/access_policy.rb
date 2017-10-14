@@ -35,6 +35,11 @@ class AccessPolicy
       can :create, Team do |team,user|
         !user.id.nil? && user.team_id.nil?
       end
+
+      can [:playinhouse], User do |user|
+        !user.id.nil?
+      end
     end
+
   end
 end

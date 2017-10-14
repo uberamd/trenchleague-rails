@@ -12,6 +12,11 @@ class User < ApplicationRecord
   has_many :inhouse_match_players
   has_many :inhouse_matches, through: :inhouse_match_players
 
+  has_many :chat_rooms, dependent: :destroy
+  has_many :messages, dependent: :destroy
+
+  belongs_to :inhouse_lobby, class_name: 'ChatRoom', foreign_key: 'chat_room_id', optional: true
+
   def get_short_steamid
     return self.steamid.to_i - 76561197960265728
   end
