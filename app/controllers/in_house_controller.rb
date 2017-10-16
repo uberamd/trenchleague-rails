@@ -12,6 +12,8 @@ class InHouseController < ApplicationController
   end
 
   def create_lobby
+    authorize! :playinhouse, current_user
+
     @chat_room = current_user.chat_rooms.build(chat_room_params)
     if @chat_room.save
       flash[:success] = 'InHouse Channel Created'
@@ -22,6 +24,8 @@ class InHouseController < ApplicationController
   end
 
   def show_lobby
+    authorize! :playinhouse, current_user
+
     @chat_room = ChatRoom.includes(:messages).find_by(id: params[:id])
 
     add_breadcrumb "Lobby: #{@chat_room.title}"

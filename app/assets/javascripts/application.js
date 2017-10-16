@@ -31,20 +31,8 @@
 
 $(document).on('ready page:change', function() {
     $('input[type="checkbox"].toggle').bootstrapToggle(); // assumes the checkboxes have the class "toggle"
-});
-
-function eventCalendar() {
-    return $('#calendar').fullCalendar({
+    $('#calendar').fullCalendar({
         events: '/series/feed.json'
     });
-};
-function clearCalendar() {
-    $('#calendar').fullCalendar('delete'); // In case delete doesn't work.
-    $('#calendar').html('');
-};
-$(document).on('turbolinks:load', function() {
-    eventCalendar;
 });
-$(document).on('turbolinks:before-cache', function() {
-    clearCalendar;
-});
+
