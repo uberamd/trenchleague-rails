@@ -15,6 +15,7 @@
             <%= f.text_field :team_cost_usd, hide_label: true, control_class: 'form-control' %>
           </div>
         </div>
+        <%= f.text_field :payment_description, label: 'Payment Description (ex: Season 3 League Fee)' %>
         <%= f.text_field :solo_mmr_ceiling, label: 'Solo MMR Ceiling' %>
         <%= f.text_field :party_mmr_ceiling, label: 'Party MMR Ceiling' %>
         <%= f.text_field :max_teams, label: 'Max Teams (empty is no max)' %>

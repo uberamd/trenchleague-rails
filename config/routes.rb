@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   get '/teams/:id/join/:user/approve', to: 'teams#join_approve', as: 'approve_join_team'
   get '/teams/:id/join/:user/reject', to: 'teams#join_reject', as: 'reject_join_team'
   get '/teams/:id/user/:user/smurf/:smurfaction', to: 'teams#smurf_check', as: 'smurf_update_team'
+  post '/teams/:id/pay', to: 'teams#pay', as: 'pay_team'
 
   # admin routes
   get '/admin', to: 'admin#index', as: 'admin'

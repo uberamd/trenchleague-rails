@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171013150509) do
+ActiveRecord::Schema.define(version: 20171016174917) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -106,6 +106,7 @@ ActiveRecord::Schema.define(version: 20171013150509) do
     t.boolean "allow_player_registration", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "payment_description"
   end
 
   create_table "messages", force: :cascade do |t|
@@ -191,6 +192,13 @@ ActiveRecord::Schema.define(version: 20171013150509) do
     t.datetime "logo_updated_at"
     t.string "slug"
     t.integer "group_id"
+    t.boolean "is_paid", default: false
+    t.string "paid_amount"
+    t.integer "paid_by"
+    t.datetime "paid_on", default: "2017-10-16 17:41:16"
+    t.string "paid_stripe_token"
+    t.string "paid_stripe_token_type"
+    t.string "paid_stripe_email"
   end
 
   create_table "users", force: :cascade do |t|

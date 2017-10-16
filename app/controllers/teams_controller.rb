@@ -30,6 +30,7 @@ class TeamsController < ApplicationController
   end
 
   def show
+    @league = LeagueSetting.all.first
     @team = Team.friendly.find(params[:id])
     add_breadcrumb @team.name
 
@@ -43,6 +44,26 @@ class TeamsController < ApplicationController
     @avg_mmr = @team.get_average_mmr
     @wins = SeriesMatch.where(:winning_team_id => @team.id).all.count
     @losses = SeriesMatch.where(:losing_team_id => @team.id).all.count
+  end
+
+  def pay
+    @team = Team.friendly.find(params[:id])
+
+    authorize! :admin, @team
+    @team.is_paid = true
+    @team.paid_by = current_user.id
+    @team.paid_stripe_token = params['stripeToken']
+    @team.paid_stripe_token_type = params['stripeTokenType']
+    @team.paid_stripe_email = params['stripeEmail']
+    @team.paid_on = DateTime.now
+
+    if @team.save!
+      flash[:success] = 'Payment successfully recorded.'
+      redirect_to @team
+    else
+      flash[:danger] = 'Error saving payment information.'
+      redirect_to @team
+    end
   end
 
   def join_request
@@ -156,5 +177,9 @@ class TeamsController < ApplicationController
 
   def team_params
     params.require(:team).permit(:name, :logo)
+  end
+
+  def payment_params
+    params.permit(:stripeToken, :stripeTokenType, :stripeEmail)
   end
 end

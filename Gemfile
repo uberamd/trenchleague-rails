@@ -85,3 +85,5 @@ gem 'rails-jquery-autocomplete'
 gem 'x-editable-rails'
 
 gem 'redis'
+
+gem 'stripe'

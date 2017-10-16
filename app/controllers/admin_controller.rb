@@ -328,7 +328,7 @@ class AdminController < ApplicationController
   end
 
   def league_settings_params
-    params.require(:league_setting).permit(:team_cost_usd, :solo_mmr_ceiling, :party_mmr_ceiling, :max_teams, :max_players_per_team, :allow_team_creation, :allow_player_registration)
+    params.require(:league_setting).permit(:team_cost_usd, :payment_description, :solo_mmr_ceiling, :party_mmr_ceiling, :max_teams, :max_players_per_team, :allow_team_creation, :allow_player_registration)
   end
 
   def image_upload_params

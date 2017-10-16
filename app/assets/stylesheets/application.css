@@ -108,3 +108,6 @@
     max-height: 450px;
     overflow-y: auto;
 }
+
+/* hide the stripe button */
+.stripe-button-el { display: none !important; }

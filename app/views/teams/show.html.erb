@@ -1,13 +1,32 @@
 <div class="row">
   <div class="col-md-3">
-    <%= image_tag @team.logo.url(:medium), class: 'pad-15px-bottom img-responsive center-block' %>
-    <% if !current_user.id.nil? && current_user.team_id == nil %>
-      <%= link_to 'Request to Join Team', join_team_path, class: 'btn btn-primary btn-block' %>
-    <% elsif !current_user.id.nil? && current_user.team_id == @team.id && current_user.team_join_approved %>
-      <%= link_to 'Leave Team', '#', class: 'btn btn-danger btn-block btn-sm', data: { confirm: 'Are you sure?' } %>
-    <% elsif !current_user.id.nil? && current_user.team_id == @team.id && !current_user.team_join_approved %>
-      <%= button_to 'Join Request Pending, cancel?', {}, data: { confirm: 'Confirm Request' }, class: 'btn btn-warning btn-block' %>
-    <% end %>
+    <div class="pad-15px-bottom">
+      <%= image_tag @team.logo.url(:medium), class: 'pad-15px-bottom img-responsive center-block' %>
+      <% if !current_user.id.nil? && current_user.team_id == nil %>
+          <%= link_to 'Request to Join Team', join_team_path, class: 'btn btn-primary btn-block' %>
+      <% elsif !current_user.id.nil? && current_user.team_id == @team.id && current_user.team_join_approved %>
+          <%= link_to 'Leave Team', '#', class: 'btn btn-danger btn-block', data: { confirm: 'Are you sure?' } %>
+      <% elsif !current_user.id.nil? && current_user.team_id == @team.id && !current_user.team_join_approved %>
+          <%= button_to 'Join Request Pending, cancel?', {}, data: { confirm: 'Confirm Request' }, class: 'btn btn-warning btn-block' %>
+      <% end %>
+    </div>
+    <div>
+      <% if can? :admin, @team && !@team.is_paid %>
+          <form name="payment" action="<%= pay_team_path %>" method="POST">
+          <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                  data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
+                  data-description="<%= @league.payment_description %>"
+                  data-amount="<%= @league.team_cost_usd * 100 %>"
+                  data-locale="auto"></script>
+          <button class="btn btn-info btn-block" id="team-payment-btn">Pay for Team</button>
+          <script type="text/javascript">
+            $('#team-payment-btn').click(function() {
+                $('.stripe-button-el').click();
+            });
+          </script>
+          </form>
+      <% end %>
+    </div>
   </div>
 
   <div class="col-md-9">
