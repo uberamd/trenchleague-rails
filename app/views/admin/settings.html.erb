@@ -16,6 +16,7 @@
           </div>
         </div>
         <%= f.text_field :payment_description, label: 'Payment Description (ex: Season 3 League Fee)' %>
+        <%= f.check_box :allow_payments, label: 'Allow Team Payments to be made' %>
         <%= f.text_field :solo_mmr_ceiling, label: 'Solo MMR Ceiling' %>
         <%= f.text_field :party_mmr_ceiling, label: 'Party MMR Ceiling' %>
         <%= f.text_field :max_teams, label: 'Max Teams (empty is no max)' %>

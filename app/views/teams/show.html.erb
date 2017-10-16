@@ -11,7 +11,7 @@
       <% end %>
     </div>
     <div>
-      <% if can? :admin, @team && !@team.is_paid %>
+      <% if can? :admin, @team && !@team.is_paid && @league.allow_payments %>
           <form name="payment" action="<%= pay_team_path %>" method="POST">
           <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
                   data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
@@ -25,6 +25,9 @@
             });
           </script>
           </form>
+      <% end %>
+      <% if @team.is_paid %>
+      <button class="btn btn-success btn-block" disabled>Team Payment Successful</button>
       <% end %>
     </div>
   </div>
