@@ -6,18 +6,35 @@
 
 <div class="row">
   <div class="col-md-12">
-    <h4>OCTOBER 15, 2017</h4>
-    <p>commit <code>1f636d03f40722a70c9736f5a1212ef7d6016b0c</code> - branch <code>origin/develop</code></p>
+    <h4>OCTOBER 16, 2017</h4>
+    <p>commit <code></code> - branch <code>origin/develop</code></p>
     <ul>
-      <li><span class="text-info">fixed</span> permissions error on inhouse admin page</li>
+      <li><span class="text-info">added</span> Stripe payment for teams</li>
     </ul>
-    <p>commit <code>e1906a1383dbb35d4efdb5ce0eddcecda93685b2</code> - branch <code>origin/develop</code></p>
+  </div>
+  <div class="col-md-12">
+    <h4>OCTOBER 15, 2017</h4>
+    <p>commit <code>42d32d330a2c4de0da7083d5bfddec896e7a9d55</code> - branch <code>origin/develop</code></p>
     <ul>
-      <li><span class="text-success">added</span> player editing functionality to admin area allowing admins to ban
-        users, flag as admin, captain, etc, visible at <%= link_to players_admin_path, players_admin_path %></li>
-      <li><span class="text-success">added</span> inhouse wins/losses/elo editor to admin area (designed to be used to
-        seed initial data) visible at <%= link_to inhouse_admin_path, inhouse_admin_path %></li>
-      <li><span class="text-success">added</span> inhouse leaderboard visible at <%= link_to index_inhouse_path, index_inhouse_path %></li>
+      <li><span class="text-info">fixed</span> calendar not displaying properly on <%= link_to schedules_index_path, schedules_index_path %></li>
+      <li><span class="text-success">added</span> production real-time websocket hooks</li>
+    </ul>
+  </div>
+  <div class="col-md-12">
+    <h4>OCTOBER 14, 2017</h4>
+    <p>commit <code>6d69ea0b6e07a27ef79ca329bbc839e0cd057c21</code> - branch <code>origin/develop</code></p>
+    <ul>
+      <li><span class="text-info">fixed</span> editor for rules page to load properly, visible at <%= link_to rules_admin_path, rules_admin_path %></li>
+      <li><span class="text-success">started</span> framework for InHouse lobby system with real-time chat at <%= link_to index_inhouse_path, index_inhouse_path %></li>
+      <li><span class="text-success">started</span> framework for InHouse lobby bot interaction with Dota2 Game Coordinator</li>
+      <li><span class="text-danger">removed</span> turbolinks javascript which was causing issues with websockets and other javascript components</li>
+    </ul>
+  </div>
+  <div class="col-md-12">
+    <h4>OCTOBER 8, 2017</h4>
+    <p>commit <code>bea426d4048c39ab2400b676e791ca659a61f37c</code> - branch <code>origin/develop</code></p>
+    <ul>
+      <li><span class="text-info">fixed</span> issue with locales not rendering properly for breadcrumbs</li>
     </ul>
   </div>
   <div class="col-md-12">
