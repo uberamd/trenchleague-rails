@@ -5,7 +5,8 @@ pipeline:
     image: plugins/docker
     environment:
       - DOCKER_LAUNCH_DEBUG=false
-    repo: registry.stevem.io/trenchleague/webapp
+    repo: trenchleague/webapp
+    registry: registry.stevem.io
     tags:
       - beta
       - latest
