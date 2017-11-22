@@ -1,3 +1,5 @@
+[![Build Status](https://drone.stevem.io/api/badges/uberamd/trenchleague-rails/status.svg)](https://drone.stevem.io/uberamd/trenchleague-rails)
+
 # Development Environment Setup
 
 ## Ubuntu
