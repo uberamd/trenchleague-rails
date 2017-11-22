@@ -36,7 +36,7 @@ class TeamsController < ApplicationController
 
     if current_user.id != nil
       # we only want to refresh MMR at smallish intervals
-      if current_user.opendota_mmr_updated + 1.hour < Time.now()
+      if current_user.opendota_mmr_updated.nil? || current_user.opendota_mmr_updated + 1.hour < Time.now()
         OpendotaMmrRefreshJob.perform_later(current_user)
       end
     end
