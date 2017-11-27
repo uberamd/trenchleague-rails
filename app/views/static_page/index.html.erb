@@ -13,13 +13,8 @@
           <h5>TOTAL PLAYERS</h5>
           <h2><%= User.all.count %></h2>
         </li>
-        <li>
-          <h5>AVG. SOLO MMR</h5>
-          <h2><%= @mmr_hash[:solo] %></h2>
-        </li>
-        <li>
-          <h5>AVG. PARTY MMR</h5>
-          <h2><%= @mmr_hash[:party] %></h2>
+          <h5>AVG. MEDAL TIER</h5>
+          <h2><%= @tier_hash['medal']['name'] || nil %> <%= @tier_hash['stars'] || nil %></h2>
         </li>
         <li>
           <h5>CASTERS</h5>

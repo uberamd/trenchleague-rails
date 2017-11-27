@@ -1,23 +1,30 @@
 module StaticPageHelper
+  include RankTierHelper
+
   def league_averages
-    mmr_hash = {
-        :solo => 0,
-        :party => 0,
-        :solo_players => 0,
-        :party_players => 0,
+    rank_hash = {
+        :players => 0,
+        :rank_tier => { :medal => '', :stars => 0 },
+        :rank_tier_rolling => 0
     }
 
-    User.where.not(:opendota_solo_mmr => nil, :opendota_party_mmr => nil).all.each do |user|
-      mmr_hash[:solo] += user.opendota_solo_mmr
-      mmr_hash[:solo_players] += 1
-
-      mmr_hash[:party] += user.opendota_party_mmr
-      mmr_hash[:party_players] += 1
+    User.where.not(:rank_tier => nil).all.each do |user|
+      rank_hash[:rank_tier_rolling] += convert_proper_tier_to_normalized_rank(user.rank_tier)
+      rank_hash[:players] += 1
     end
 
-    mmr_hash[:solo] = (mmr_hash[:solo] / mmr_hash[:solo_players]).round unless mmr_hash[:solo_players] == 0
-    mmr_hash[:party] = (mmr_hash[:party] / mmr_hash[:party_players]).round unless mmr_hash[:party_players] == 0
+    tmp_rank_tier = 0
 
-    return mmr_hash
+    if rank_hash[:players] > 0
+      tmp_rank_tier = (rank_hash[:rank_tier_rolling] / rank_hash[:players]).round
+    end
+
+    # now that we have the normalized rank we need to convert it into something useful
+    proper_tier = convert_normalized_rank_to_proper_tier(tmp_rank_tier)
+    tier_hash = get_rank_tier_hash(proper_tier)
+
+    #logger.debug("tmp_rank_tier: #{tmp_rank_tier}, proper_tier: #{proper_tier}, rank_tier_rolling: #{tier_hash[:rank_tier_rolling]}, players: #{tier_hash[:players]}, tier_hash: #{tier_hash}")
+
+    return tier_hash
   end
 end

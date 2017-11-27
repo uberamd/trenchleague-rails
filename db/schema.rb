@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171016181050) do
+ActiveRecord::Schema.define(version: 20171127195031) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -108,6 +108,7 @@ ActiveRecord::Schema.define(version: 20171016181050) do
     t.datetime "updated_at", null: false
     t.text "payment_description"
     t.boolean "allow_payments", default: false
+    t.integer "rank_tier_ceiling"
   end
 
   create_table "messages", force: :cascade do |t|
@@ -234,6 +235,7 @@ ActiveRecord::Schema.define(version: 20171016181050) do
     t.integer "in_house_losses", default: 0
     t.integer "chat_room_id"
     t.boolean "lobby_ready_state", default: false
+    t.integer "rank_tier"
   end
 
   add_foreign_key "chat_rooms", "users"

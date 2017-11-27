@@ -1,8 +1,9 @@
 class StaticPageController < ApplicationController
   include StaticPageHelper
+  include RankTierHelper
 
   def index
-    @mmr_hash = league_averages
+    @tier_hash = league_averages
   end
 
   def rules

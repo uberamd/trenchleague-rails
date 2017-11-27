@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  include RankTierHelper
+
   belongs_to :team, optional: true
   has_many :admin_series, foreign_key: 'admin_user_id', class_name: 'Series'
   has_many :cast_series, foreign_key: 'caster_user_id', class_name: 'Series'
@@ -19,5 +21,31 @@ class User < ApplicationRecord
 
   def get_short_steamid
     return self.steamid.to_i - 76561197960265728
+  end
+
+  def rank_tier_hash
+    if self.rank_tier.nil?
+      return false
+    end
+
+    return get_rank_tier_hash(self.rank_tier)
+  end
+
+  def rank_tier_name
+    if self.rank_tier.nil?
+      return nil
+    end
+
+    tmp_hash = self.rank_tier_hash
+
+    return tmp_hash['medal']['name']
+  end
+
+  def rank_tier_stars
+    if self.rank_tier.nil?
+      return nil
+    end
+
+    return self.rank_tier_hash['stars']
   end
 end

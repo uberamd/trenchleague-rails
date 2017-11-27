@@ -17,8 +17,7 @@
         </div>
         <%= f.text_field :payment_description, label: 'Payment Description (ex: Season 3 League Fee)' %>
         <%= f.check_box :allow_payments, label: 'Allow Team Payments to be made' %>
-        <%= f.text_field :solo_mmr_ceiling, label: 'Solo MMR Ceiling' %>
-        <%= f.text_field :party_mmr_ceiling, label: 'Party MMR Ceiling' %>
+        <%= f.text_field :rank_tier_ceiling, label: 'Rank Tier Ceiling (ex: 42 means Archon (4th Medal) 2 Stars)' %>
         <%= f.text_field :max_teams, label: 'Max Teams (empty is no max)' %>
         <%= f.text_field :max_players_per_team, label: 'Max Players Per Team (empty is no max)' %>
         <%= f.text_field :max_players, label: 'Max Players Overall (empty is no max)' %>

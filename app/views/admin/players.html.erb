@@ -7,7 +7,7 @@
         <th>Team</th>
         <th>Team Roles</th>
         <th>League Roles</th>
-        <th class="text-center">MMR</th>
+        <th class="text-center">Rank Tier</th>
         <th class="text-center">In-Hosue ELO</th>
         <th class="text-center">Banned</th>
         <th class="text-center">Smurf Status</th>
@@ -32,9 +32,8 @@
             Caster: <%= editable user, :is_league_caster, url: update_player_admin_path(user)  %>
           </div>
         </td>
-        <td class="text-center">
-            <div class="<%= user.opendota_solo_mmr.nil? || user.opendota_solo_mmr > @settings.solo_mmr_ceiling ? 'bg-primary' : 'bg-success' %>">Solo: <%= user.opendota_solo_mmr %></div>
-            <div class="<%= user.opendota_party_mmr.nil? || user.opendota_party_mmr > @settings.party_mmr_ceiling ? 'bg-primary' : 'bg-success' %>">Party: <%= user.opendota_party_mmr %></div>
+        <td class="text-center <%= user.rank_tier.nil? || user.rank_tier > @settings.rank_tier_ceiling ? 'bg-primary' : 'bg-success' %>">
+            <%= "#{user.rank_tier_name} #{user.rank_tier_stars}" %>
         </td>
         <td><%= user.in_house_elo %></td>
         <td class="text-center">

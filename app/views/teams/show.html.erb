@@ -78,16 +78,8 @@
       <div class="col-md-5 text-right">
         <ul class="list-inline">
           <li>
-            <h5>SOLO MMR</h5>
-            <h2><%= @avg_mmr[:solo] %></h2>
-          </li>
-          <li>
-            <h5>PARTY MMR</h5>
-            <h2><%= @avg_mmr[:party] %></h2>
-          </li>
-          <li>
-            <h5>EST. MMR</h5>
-            <h2><%= @avg_mmr[:est] %></h2>
+            <h5>AVERAGE RANK</h5>
+            <h2><%= @rank_tier[:rank_tier][:medal] %> <%= @rank_tier[:rank_tier][:stars] %></h2>
           </li>
         </ul>
       </div>
@@ -96,9 +88,12 @@
       <div class="col-lg-12">
         <div class="well well-sm">
           <div class="row">
-            <% @team.users.order('personaname ASC').where(:team_join_approved => true).all.each do |user| %>
+            <% team_members = @team.users.order('personaname ASC').where(:team_join_approved => true).all %>
+            <% team_members.each do |user| %>
                 <div class="col-md-12">
-                  <div class="media pad-15px-bottom">
+                  <% additional_class = 'pad-15px-bottom' %>
+                  <% additional_class = '' if user == team_members.last %>
+                  <div class="media <%= additional_class %>">
                     <div class="media-left"><%= link_to image_tag(user.avatar), show_player_path(user.steamid) %></div>
                     <div class="media-body">
 
@@ -125,10 +120,12 @@
                             <% smurf_icon = 'glyphicon-remove text-danger' if user.smurf_check == 2 %>
                             <%= user.personaname %> <span class="glyphicon <%= smurf_icon %>"></span>
                           </h4>
-                          <% if user.is_global_admin %><span class="label label-danger">Global Admin</span>&nbsp;&nbsp;&nbsp;<% end %>
-                          <% if user.is_league_admin %><span class="label label-danger">League Admin</span>&nbsp;&nbsp;&nbsp;<% end %>
-                          <% if user.team_admin %><span class="label label-primary">Team Admin</span>&nbsp;&nbsp;&nbsp;<% end %>
-                          <% if user.team_captain %><span class="label label-info">Captain</span>&nbsp;&nbsp;&nbsp;<% end %>
+                          <p>
+                            <% if user.is_global_admin %><span class="label label-danger">Global Admin</span>&nbsp;&nbsp;&nbsp;<% end %>
+                            <% if user.is_league_admin %><span class="label label-danger">League Admin</span>&nbsp;&nbsp;&nbsp;<% end %>
+                            <% if user.team_admin %><span class="label label-primary">Team Admin</span>&nbsp;&nbsp;&nbsp;<% end %>
+                            <% if user.team_captain %><span class="label label-info">Captain</span>&nbsp;&nbsp;&nbsp;<% end %>
+                          </p>
                           <p><strong>Profiles: </strong>
                             <%= link_to 'Dotabuff', "https://www.dotabuff.com/players/#{user.get_short_steamid}/", target: :_blank %> /
                             <%= link_to 'OpenDota', "https://www.opendota.com/players/#{user.get_short_steamid}/", target: :_blank %> /
@@ -138,21 +135,9 @@
                         <div class="col-md-6 text-right">
                           <ul class="list-inline">
                             <li>
-                              <h6>SOLO MMR</h6>
+                              <h6>RANK TIER</h6>
                               <h4>
-                                <%= user.opendota_solo_mmr || '-' %>
-                              </h4>
-                            </li>
-                            <li>
-                              <h6>PARTY MMR</h6>
-                              <h4>
-                                <%= user.opendota_party_mmr || '-' %>
-                              </h4>
-                            </li>
-                            <li>
-                              <h6>EST. MMR</h6>
-                              <h4>
-                                <%= user.opendota_estimated_mmr || '-' %>
+                                <%= user.rank_tier_name %> <%= user.rank_tier_stars %>
                               </h4>
                             </li>
                           </ul>
@@ -258,7 +243,7 @@
       <tr>
         <th>Steam Name</th>
         <th>Profiles</th>
-        <th>MMR (Solo/Party/Estimated)</th>
+        <th>Rank Tier</th>
         <th></th>
       </tr>
       </thead>
@@ -273,7 +258,7 @@
                   / <%= link_to 'Steam', user.profileurl, target: :_blank %>
               <% end %>
             </td>
-            <td><%= user.opendota_solo_mmr || '-' %> / <%= user.opendota_party_mmr || '-' %> / <%= user.opendota_estimated_mmr || '-' %></td>
+            <td><%= user.rank_tier_name %> <%= user.rank_tier_stars %></td>
             <td class="text-right">
               <%= link_to 'Approve', approve_join_team_path(@team, user), class: 'btn btn-xs btn-default' %>&nbsp;
               <%= link_to 'Reject', reject_join_team_path(@team, user), data: { confirm: "Are you sure you want to reject this user?" }, class: 'btn btn-xs btn-danger' %>

@@ -41,7 +41,7 @@ class TeamsController < ApplicationController
       end
     end
 
-    @avg_mmr = @team.get_average_mmr
+    @rank_tier = @team.get_average_rank_tier
     @wins = SeriesMatch.where(:winning_team_id => @team.id).all.count
     @losses = SeriesMatch.where(:losing_team_id => @team.id).all.count
   end

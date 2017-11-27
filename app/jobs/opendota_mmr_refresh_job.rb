@@ -25,6 +25,11 @@ class OpendotaMmrRefreshJob < ApplicationJob
       user.opendota_estimated_mmr = api_hash['mmr_estimate']['estimate']
     end
 
+    # if rank_tier exists, update it
+    if api_hash['rank_tier'] != nil
+      user.rank_tier = api_hash['rank_tier']
+    end
+
     user.opendota_mmr_updated = Time.now()
 
     # at least for now, update other fields as well

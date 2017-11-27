@@ -1,4 +1,5 @@
 class Team < ApplicationRecord
+  include RankTierHelper
   extend FriendlyId
   friendly_id :name, use: :slugged
 
@@ -24,37 +25,63 @@ class Team < ApplicationRecord
   validates :logo, attachment_presence: true
   validates_attachment_content_type :logo, :content_type => /\Aimage\/.*\Z/
 
-  def get_average_mmr
-    mmr_hash = {
-        :solo => 0,
-        :party => 0,
-        :est => 0,
-        :solo_players => 0,
-        :party_players => 0,
-        :est_players => 0
+  def get_average_rank_tier
+    rank_hash = {
+        :rank_tier_rolling => 0,
+        :players => 0,
+        :proper => 0,
+        :average_normalized => 0,
+        :rank_tier => { :medal => '', :stars => 0 }
     }
+
     self.users.where(:team_join_approved => true).all.each do |user|
-      # iterate over all of the MMR categories
-      if !user.opendota_solo_mmr.nil?
-        mmr_hash[:solo] += user.opendota_solo_mmr
-        mmr_hash[:solo_players] += 1
-      end
-      if !user.opendota_party_mmr.nil?
-        mmr_hash[:party] += user.opendota_party_mmr
-        mmr_hash[:party_players] += 1
-      end
-      if !user.opendota_estimated_mmr.nil?
-        mmr_hash[:est] += user.opendota_estimated_mmr
-        mmr_hash[:est_players] += 1
+      if !user.rank_tier.nil?
+        rank_hash[:rank_tier_rolling] += convert_proper_tier_to_normalized_rank(user.rank_tier)
+        rank_hash[:players] += 1
       end
     end
 
-    mmr_hash[:solo] = (mmr_hash[:solo] / mmr_hash[:solo_players]).round unless mmr_hash[:solo_players] == 0
-    mmr_hash[:party] = (mmr_hash[:party] / mmr_hash[:party_players]).round unless mmr_hash[:party_players] == 0
-    mmr_hash[:est] = (mmr_hash[:est] / mmr_hash[:est_players]).round unless mmr_hash[:est_players] == 0
+    rank_hash[:average_normalized] = (rank_hash[:rank_tier_rolling] / rank_hash[:players]).round unless rank_hash[:players] == 0
+    rank_hash[:proper] = convert_normalized_rank_to_proper_tier(rank_hash[:average_normalized])
 
-    return mmr_hash
+    tmp_hash = get_rank_tier_hash(rank_hash[:proper])
+    rank_hash[:rank_tier][:medal] = tmp_hash['medal']['name']
+    rank_hash[:rank_tier][:stars] = tmp_hash['stars']
+
+    return rank_hash
   end
+
+  #def get_average_mmr
+  #  mmr_hash = {
+  #      :solo => 0,
+  #      :party => 0,
+  #      :est => 0,
+  #      :solo_players => 0,
+  #      :party_players => 0,
+  #      :est_players => 0
+  #  }
+  #  self.users.where(:team_join_approved => true).all.each do |user|
+  #    # iterate over all of the MMR categories
+  #    if !user.opendota_solo_mmr.nil?
+  #      mmr_hash[:solo] += user.opendota_solo_mmr
+  #      mmr_hash[:solo_players] += 1
+  #    end
+  #    if !user.opendota_party_mmr.nil?
+  #      mmr_hash[:party] += user.opendota_party_mmr
+  #      mmr_hash[:party_players] += 1
+  #    end
+  #    if !user.opendota_estimated_mmr.nil?
+  #      mmr_hash[:est] += user.opendota_estimated_mmr
+  #      mmr_hash[:est_players] += 1
+  #    end
+  #  end
+
+  #  mmr_hash[:solo] = (mmr_hash[:solo] / mmr_hash[:solo_players]).round unless mmr_hash[:solo_players] == 0
+  #  mmr_hash[:party] = (mmr_hash[:party] / mmr_hash[:party_players]).round unless mmr_hash[:party_players] == 0
+  #  mmr_hash[:est] = (mmr_hash[:est] / mmr_hash[:est_players]).round unless mmr_hash[:est_players] == 0
+
+  #  return mmr_hash
+  #end
 
   def team_eligible?
     interesting_users = self.users.where(:team_join_approved => true).all
