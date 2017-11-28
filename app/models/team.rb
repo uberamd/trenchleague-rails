@@ -34,11 +34,15 @@ class Team < ApplicationRecord
         :rank_tier => { :medal => '', :stars => 0 }
     }
 
-    self.users.where(:team_join_approved => true).all.each do |user|
-      if !user.rank_tier.nil?
-        rank_hash[:rank_tier_rolling] += convert_proper_tier_to_normalized_rank(user.rank_tier)
-        rank_hash[:players] += 1
-      end
+    team_approved_users = self.users.where(:team_join_approved => true).where.not(:rank_tier => nil).all
+
+    if team_approved_users.count == 0
+      return rank_hash
+    end
+
+    team_approved_users.each do |user|
+      rank_hash[:rank_tier_rolling] += convert_proper_tier_to_normalized_rank(user.rank_tier)
+      rank_hash[:players] += 1
     end
 
     rank_hash[:average_normalized] = (rank_hash[:rank_tier_rolling] / rank_hash[:players]).round unless rank_hash[:players] == 0

@@ -32,7 +32,7 @@
             Caster: <%= editable user, :is_league_caster, url: update_player_admin_path(user)  %>
           </div>
         </td>
-        <td class="text-center <%= user.rank_tier.nil? || user.rank_tier > @settings.rank_tier_ceiling ? 'bg-primary' : 'bg-success' %>">
+        <td class="text-center <%= (user.rank_tier.nil?) || (user.rank_tier > @settings.rank_tier_ceiling) ? 'bg-primary' : 'bg-success' %>">
             <%= "#{user.rank_tier_name} #{user.rank_tier_stars}" %>
         </td>
         <td><%= user.in_house_elo %></td>
