@@ -1,56 +1,82 @@
-<div class="row">
-  <div class="col-md-12">
-    <table class="table table-hover" id="admin_player_table">
-      <thead>
-      <tr>
-        <th>Display Name</th>
-        <th>Team</th>
-        <th>Team Roles</th>
-        <th>League Roles</th>
-        <th class="text-center">Rank Tier</th>
-        <th class="text-center">In-Hosue ELO</th>
-        <th class="text-center">Banned</th>
-        <th class="text-center">Smurf Status</th>
-        <th></th>
-      </tr>
-      </thead>
-      <tbody>
-      <% @users.each do |user| %>
-      <tr>
-        <td><%= user.personaname %></td>
-        <td class="<%= user.team.nil? ? 'warning' : '' %>"><%= user.team.nil? ? 'No Team' : link_to(user.team.name, user.team) %></td>
-        <td>
-          <div class="margin-5px-bottom">
-            Team Captain: <%= editable user, :team_captain, url: update_player_admin_path(user) %>
-          </div>
-        </td>
-        <td>
-          <div class="margin-5px-bottom">
-            League Admin: <%= editable user, :is_league_admin, url: update_player_admin_path(user)  %>
-          </div>
-          <div class="margin-5px-bottom">
-            Caster: <%= editable user, :is_league_caster, url: update_player_admin_path(user)  %>
-          </div>
-        </td>
-        <td class="text-center <%= (user.rank_tier.nil?) || (user.rank_tier > @settings.rank_tier_ceiling) ? 'bg-primary' : 'bg-success' %>">
-            <%= "#{user.rank_tier_name} #{user.rank_tier_stars}" %>
-        </td>
-        <td><%= user.in_house_elo %></td>
-        <td class="text-center">
-          <%= editable user, :is_banned, url: update_player_admin_path(user)  %>
-        </td>
-        <td class="text-center">
-          <% smurf_icon = 'glyphicon-question-sign' %>
-          <% smurf_icon = 'glyphicon-ok text-success' if user.smurf_check == 1 %>
-          <% smurf_icon = 'glyphicon-remove text-danger' if user.smurf_check == 2 %>
-          <span class="glyphicon <%= smurf_icon %>"></span>
-        </td>
-      </tr>
-      <% end %>
-      </tbody>
-      <script type="text/javascript">
-          $('.editable').editable();
-      </script>
-    </table>
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>Player Administration</h2>
+    <ol class="breadcrumb">
+      <li>
+        <%= link_to 'Home', root_path %>
+      </li>
+      <li>
+        <%= link_to 'Administration', admin_path %>
+      </li>
+      <li class="active">
+        <strong>Players</strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-2"></div>
+</div>
+
+<div class="wrapper wrapper-content">
+  <div class="row animated fadeInRight">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h5>Registered Players</h5>
+      </div>
+      <div class="ibox-content">
+
+        <table class="table table-hover" id="admin_player_table">
+          <thead>
+          <tr>
+            <th>Display Name</th>
+            <th>Team</th>
+            <th>Team Roles</th>
+            <th>League Roles</th>
+            <th class="text-center">Rank Tier</th>
+            <th class="text-center">In-Hosue ELO</th>
+            <th class="text-center">Banned</th>
+            <th class="text-center">Smurf Status</th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody>
+          <% @users.each do |user| %>
+              <tr>
+                <td><%= user.personaname %></td>
+                <td class="<%= user.team.nil? ? 'warning' : '' %>"><%= user.team.nil? ? 'No Team' : link_to(user.team.name, user.team) %></td>
+                <td>
+                  <div class="margin-5px-bottom">
+                    Team Captain: <%= editable user, :team_captain, url: update_player_admin_path(user) %>
+                  </div>
+                </td>
+                <td>
+                  <div class="margin-5px-bottom">
+                    League Admin: <%= editable user, :is_league_admin, url: update_player_admin_path(user)  %>
+                  </div>
+                  <div class="margin-5px-bottom">
+                    Caster: <%= editable user, :is_league_caster, url: update_player_admin_path(user)  %>
+                  </div>
+                </td>
+                <td class="text-center <%= (user.rank_tier.nil?) || (user.rank_tier > @settings.rank_tier_ceiling) ? 'bg-danger' : 'bg-success' %>">
+                  <%= "#{user.rank_tier_name} #{user.rank_tier_stars}" %>
+                </td>
+                <td><%= user.in_house_elo %></td>
+                <td class="text-center">
+                  <%= editable user, :is_banned, url: update_player_admin_path(user)  %>
+                </td>
+                <td class="text-center">
+                  <% smurf_icon = 'glyphicon-question-sign' %>
+                  <% smurf_icon = 'glyphicon-ok text-success' if user.smurf_check == 1 %>
+                  <% smurf_icon = 'glyphicon-remove text-danger' if user.smurf_check == 2 %>
+                  <span class="glyphicon <%= smurf_icon %>"></span>
+                </td>
+              </tr>
+          <% end %>
+          </tbody>
+          <script type="text/javascript">
+              $('.editable').editable();
+          </script>
+        </table>
+      </div>
+    </div>
   </div>
 </div>

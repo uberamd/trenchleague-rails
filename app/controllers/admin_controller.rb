@@ -2,7 +2,6 @@ class AdminController < ApplicationController
   include AdminHelper
 
   autocomplete :user, :personaname, :full => true
-  add_breadcrumb :index, :admin_path
 
   def index
     authorize! :leagueadmin, Group
@@ -81,8 +80,6 @@ class AdminController < ApplicationController
   def images
     authorize! :leagueadmin, Group
 
-    add_breadcrumb 'Images'
-
     @images = GenericUpload.where(:is_deleted => false).all
   end
 
@@ -100,8 +97,6 @@ class AdminController < ApplicationController
 
   def seed_series
     authorize! :leagueadmin, Group
-    add_breadcrumb :groups, :groups_admin_path
-    add_breadcrumb 'Seed Series'
 
     @groups = Group.all
 
@@ -204,8 +199,6 @@ class AdminController < ApplicationController
   def groups
     authorize! :leagueadmin, Group
 
-    add_breadcrumb 'Groups'
-
     @groups = Group.all
   end
 
@@ -253,8 +246,6 @@ class AdminController < ApplicationController
   def players
     authorize! :leagueadmin, Group
 
-    add_breadcrumb 'Players'
-
     @users = User.order('personaname').all
     @settings = LeagueSetting.all.first
   end
@@ -262,7 +253,6 @@ class AdminController < ApplicationController
   def settings
     authorize! :leagueadmin, Group
 
-    add_breadcrumb 'League Settings'
     @settings = LeagueSetting.all.first
     if @settings.nil?
       @settings = LeagueSetting.create
@@ -287,8 +277,6 @@ class AdminController < ApplicationController
   def rules
     authorize! :leagueadmin, Group
 
-    add_breadcrumb 'Edit Rules'
-
     if Page.where(:shortname => 'rules').all.count == 0
       Page.create(:shortname => 'rules')
     end
@@ -311,8 +299,6 @@ class AdminController < ApplicationController
 
   def staff
     authorize! :leagueadmin, Group
-
-    add_breadcrumb 'Edit Staff'
 
     if Page.where(:shortname => 'staff').all.count == 0
       Page.create(:shortname => 'staff')

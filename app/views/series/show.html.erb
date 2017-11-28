@@ -143,7 +143,7 @@
                     </div>
                   </div>
                   <div class="col-md-2">
-                    <%= f.hidden_field_tag :seriesaction, 'propose' %>
+                    <%= f.hidden_field :seriesaction, :value => 'propose' %>
                     <%= f.submit 'Propose Series Time', class: 'btn btn-default' %>
                   </div>
                 </div>
@@ -177,13 +177,13 @@
 
                 <div class="col-md-6">
                   <%= bootstrap_form_tag url: update_series_path do |f| %>
-                      <%= f.hidden_field_tag :seriesaction, 'proposereject' %>
+                      <%= f.hidden_field :seriesaction, :value => 'proposereject' %>
                       <%= f.submit 'REJECT Proposed Time', class: 'btn btn-danger' %>
                   <% end %>
                 </div>
                 <div class="col-md-6 text-right">
                   <%= bootstrap_form_tag url: update_series_path do |f| %>
-                      <%= f.hidden_field_tag :seriesaction, 'acceptseries' %>
+                      <%= f.hidden_field :seriesaction, :value => 'acceptseries' %>
                       <%= f.submit 'Accept Proposed Time', class: 'btn btn-info' %>
                   <% end %>
                 </div>
@@ -206,7 +206,7 @@
             </div>
             <div class="panel-footer text-right">
               <%= bootstrap_form_tag url: update_series_path do |f| %>
-                <%= f.hidden_field_tag :seriesaction, 'selfreject' %>
+                <%= f.hidden_field :seriesaction, :value => 'selfreject' %>
                 <%= f.submit 'Remove Proposed Time', class: 'btn btn-danger' %>
               <% end %>
             </div>
@@ -314,7 +314,7 @@
                   <%= f.check_box :series_complete, label: 'Check if series is complete and all matches are referenced above.' %>
                 </fieldset>
                 <div class="text-right">
-                  <%= f.hidden_field_tag :seriesaction, 'recordresults' %>
+                  <%= f.hidden_field :seriesaction, :value => 'recordresults' %>
                   <%= f.submit 'Record Results' %>
                 </div>
               <% end %>
@@ -325,21 +325,21 @@
                 <div class="well well-sm">
                   <p>Assigns you as the admin for this series. You will create the lobby for each game and record results.</p>
                   <%= bootstrap_form_tag url: update_series_path do |f| %>
-                      <%= f.hidden_field_tag :seriesaction, 'assignadmin' %>
+                      <%= f.hidden_field :seriesaction, :value => 'assignadmin' %>
                       <%= f.submit 'Admin This Series', class: 'btn btn-primary' %>
                   <% end %>
                 </div>
                 <div class="well well-sm">
                   <p>Removes the current Admin assigned to this series. Without an assigned admin the series cannot be played.</p>
                   <%= bootstrap_form_tag url: update_series_path do |f| %>
-                      <%= f.hidden_field_tag :seriesaction, 'resetadmin' %>
+                      <%= f.hidden_field :seriesaction, :value => 'resetadmin' %>
                       <%= f.submit 'Remove Assigned Admin', class: 'btn btn-danger' %>
                   <% end %>
                 </div>
                 <div class="well well-sm">
                   <p>Removes the current Caster assigned to this series, allowing for other casters to claim the series.</p>
                   <%= bootstrap_form_tag url: update_series_path do |f| %>
-                      <%= f.hidden_field_tag :seriesaction, 'resetcaster' %>
+                      <%= f.hidden_field :seriesaction, :value => 'resetcaster' %>
                       <%= f.submit 'Remove Assigned Caster', class: 'btn btn-danger' %>
                   <% end %>
                 </div>
@@ -348,7 +348,7 @@
                   This is useful when teams accidentally schedule the wrong time, or teams schedule outside of the
                   allowed window of play.</p>
                   <%= bootstrap_form_tag url: update_series_path do |f| %>
-                      <%= f.hidden_field_tag :seriesaction, 'resetseriestime' %>
+                      <%= f.hidden_field :seriesaction, :value => 'resetseriestime' %>
                       <%= f.submit 'Unschedule Series', class: 'btn btn-danger' %>
                   <% end %>
                 </div>
@@ -369,7 +369,7 @@
           <div class="panel-body">
             <div class="col-md-2">
               <%= bootstrap_form_tag url: caster_update_series_path do |f| %>
-                  <%= f.hidden_field_tag :seriesaction, 'assigncaster' %>
+                  <%= f.hidden_field :seriesaction, :value => 'assigncaster' %>
                   <%= f.submit 'Cast This Series', class: 'btn btn-success' %>
               <% end %>
             </div>

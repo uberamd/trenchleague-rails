@@ -66,7 +66,6 @@ gem 'access-granted', git: 'https://github.com/chaps-io/access-granted.git'
 gem 'jquery-rails'
 gem 'friendly_id'
 gem 'flag-icons-rails', git: 'https://github.com/evgenygarl/flag-icons-rails.git'
-gem 'bootstrap-toggle-rails'
 gem 'httparty'
 
 # these are both required for datetimepicker

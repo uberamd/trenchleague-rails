@@ -2,8 +2,6 @@ class SeriesController < ApplicationController
 
   include SeriesHelper
 
-  add_breadcrumb :index, :series_path
-
   def calendar_feed
     response_hash = []
 
@@ -36,7 +34,7 @@ class SeriesController < ApplicationController
 
     @new_series_message = SeriesMessage.new
 
-    add_breadcrumb "#{@series.teams[0].name} vs. #{@series.teams[1].name}"
+    #add_breadcrumb "#{@series.teams[0].name} vs. #{@series.teams[1].name}"
   end
 
   def update

@@ -13,4 +13,12 @@
 //= require slimscroll/jquery.slimscroll.min.js
 //= require inspinia.js
 //= require rails-timeago
-
+//= require moment
+//= require bootstrap-datetimepicker
+//= require editable/bootstrap-editable
+//= require editable/rails
+//= require md_simple_editor
+//= require fullcalendar
+//= require jquery-ui
+//= require autocomplete-rails
+//= require cable
