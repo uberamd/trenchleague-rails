@@ -1,7 +1,5 @@
 class TeamsController < ApplicationController
 
-  add_breadcrumb :index, :teams_path
-
   def new
     authorize! :create, Team
 
@@ -32,7 +30,6 @@ class TeamsController < ApplicationController
   def show
     @league = LeagueSetting.all.first
     @team = Team.friendly.find(params[:id])
-    add_breadcrumb @team.name
 
     if current_user.id != nil
       # we only want to refresh MMR at smallish intervals

@@ -1,272 +1,358 @@
-<div class="row">
-  <div class="col-md-3">
-    <div class="pad-15px-bottom">
-      <%= image_tag @team.logo.url(:medium), class: 'pad-15px-bottom img-responsive center-block' %>
-      <% if !current_user.id.nil? && current_user.team_id == nil %>
-          <%= link_to 'Request to Join Team', join_team_path, class: 'btn btn-primary btn-block' %>
-      <% elsif !current_user.id.nil? && current_user.team_id == @team.id && current_user.team_join_approved %>
-          <%= link_to 'Leave Team', '#', class: 'btn btn-danger btn-block', data: { confirm: 'Are you sure?' } %>
-      <% elsif !current_user.id.nil? && current_user.team_id == @team.id && !current_user.team_join_approved %>
-          <%= button_to 'Join Request Pending, cancel?', {}, data: { confirm: 'Confirm Request' }, class: 'btn btn-warning btn-block' %>
-      <% end %>
-    </div>
-    <div>
-      <% if can? :admin, @team && !@team.is_paid && @league.allow_payments %>
-          <form name="payment" action="<%= pay_team_path %>" method="POST">
-          <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                  data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
-                  data-description="<%= @league.payment_description %>"
-                  data-amount="<%= @league.team_cost_usd * 100 %>"
-                  data-locale="auto"></script>
-          <button class="btn btn-info btn-block" id="team-payment-btn">Pay for Team</button>
-          <script type="text/javascript">
-            $('#team-payment-btn').click(function() {
-                $('.stripe-button-el').click();
-            });
-          </script>
-          </form>
-      <% end %>
-      <% if @team.is_paid %>
-      <button class="btn btn-success btn-block" disabled>Team Payment Successful</button>
-      <% end %>
-    </div>
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2><%= @team.name %></h2>
+    <ol class="breadcrumb">
+      <li>
+        <%= link_to 'Home', root_path %>
+      </li>
+      <li>
+        <%= link_to 'Teams', teams_path %>
+      </li>
+      <li class="active">
+        <strong><%= @team.name %></strong>
+      </li>
+    </ol>
   </div>
+  <div class="col-lg-2"></div>
+</div>
 
-  <div class="col-md-9">
+<div class="wrapper wrapper-content">
+  <div class="row animated fadeInRight">
 
-    <div class="row">
-      <div class="col-md-3 text-center">
-        <ul class="list-inline">
-          <li>
-            <h5>WINS</h5>
-            <h2 class="text-success"><%= @wins %></h2>
-          </li>
-          <li>
-            <h5></h5>
-            <h2>-</h2>
-          </li>
-          <li>
-            <h5>LOSSES</h5>
-            <h2 class="text-danger"><%= @losses %></h2>
-          </li>
-        </ul>
+
+    <div class="col-md-3">
+      <div class="ibox float-e-margins">
+
+        <div>
+          <div class="ibox-content no-padding border-left-right">
+            <%= image_tag @team.logo.url(:medium), class: 'img-responsive center-block' %>
+          </div>
+
+          <div class="ibox-content profile-content">
+            <% if !current_user.id.nil? && current_user.team_id == nil %>
+                <%= link_to 'Request to Join Team', join_team_path, class: 'btn btn-primary btn-block' %>
+            <% elsif !current_user.id.nil? && current_user.team_id == @team.id && current_user.team_join_approved %>
+                <%= link_to 'Leave Team', '#', class: 'btn btn-danger btn-block', data: { confirm: 'Are you sure?' } %>
+            <% elsif !current_user.id.nil? && current_user.team_id == @team.id && !current_user.team_join_approved %>
+                <%= button_to 'Join Request Pending, cancel?', {}, data: { confirm: 'Confirm Request' }, class: 'btn btn-warning btn-block' %>
+            <% end %>
+            <div>
+              <% if can? :admin, @team && !@team.is_paid && @league.allow_payments %>
+                  <form name="payment" action="<%= pay_team_path %>" method="POST">
+                    <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                            data-key="<%= Rails.configuration.stripe[:publishable_key] %>"
+                            data-description="<%= @league.payment_description %>"
+                            data-amount="<%= @league.team_cost_usd * 100 %>"
+                            data-locale="auto"></script>
+                    <button class="btn btn-info btn-block" id="team-payment-btn">Pay for Team</button>
+                    <script type="text/javascript">
+                        $('#team-payment-btn').click(function() {
+                            $('.stripe-button-el').click();
+                        });
+                    </script>
+                  </form>
+              <% end %>
+              <% if @team.is_paid %>
+                  <button class="btn btn-success btn-block" disabled>Team Payment Successful</button>
+              <% end %>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="col-md-2 text-center">
-        <ul class="list-inline">
-          <li>
-            <h5>POINTS</h5>
-            <h2 class="text-success"><%= @wins %></h2>
-          </li>
-        </ul>
+    </div>
+
+    <div class="col-md-9">
+
+      <div class="row">
+
+
       </div>
-      <div class="col-md-1 text-center">
-        <ul class="list-inline">
-          <li>
-            <h5>GROUP</h5>
-            <h2><%= @team.group.nil? ? '-' : @team.group.name %></h2>
-          </li>
-        </ul>
+    </div>
+    <div class="col-md-6">
+
+      <div class="row">
+        <div class="col-md-12">
+
+
+        </div>
       </div>
-      <div class="col-md-1 text-center">
-        <ul class="list-inline">
-          <li>
-            <h5>POSITION</h5>
-            <h2>1</h2>
-          </li>
-        </ul>
-      </div>
-      <div class="col-md-5 text-right">
-        <ul class="list-inline">
-          <li>
-            <h5>AVERAGE RANK</h5>
-            <h2><%= @rank_tier[:rank_tier][:medal] %> <%= @rank_tier[:rank_tier][:stars] %></h2>
-          </li>
-        </ul>
-      </div>
-    </div> <!-- end win/loss/points/mmr team row -->
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="well well-sm">
+
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Team Statistics</h5>
+        </div>
+        <div class="ibox-content">
           <div class="row">
-            <% team_members = @team.users.order('personaname ASC').where(:team_join_approved => true).all %>
-            <% team_members.each do |user| %>
-                <div class="col-md-12">
-                  <% additional_class = 'pad-15px-bottom' %>
-                  <% additional_class = '' if user == team_members.last %>
-                  <div class="media <%= additional_class %>">
-                    <div class="media-left"><%= link_to image_tag(user.avatar), show_player_path(user.steamid) %></div>
-                    <div class="media-body">
 
-                      <div class="row">
-                        <div class="col-md-6">
-                          <h4 class="media-heading">
-                            <%if can? :leagueadmin, Team %>
-                                <div class="btn-group">
-                                  <button type="button" class="btn btn-info btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span class="glyphicon glyphicon-cog"></span>
-                                  </button>
-                                  <ul class="dropdown-menu">
-                                    <li><%= link_to 'Smurf Approve', smurf_update_team_path(@team, user, 'approve') %></a></li>
-                                    <li><%= link_to 'Smurf Deny', smurf_update_team_path(@team, user, 'deny') %></a></li>
-                                    <li><%= link_to 'Smurf Reset', smurf_update_team_path(@team, user, 'reset') %></a></li>
-                                    <li role="separator" class="divider"></li>
-                                    <li><a href="#">Kick from team</a></li>
-                                  </ul>
-                                </div>
-                            <% end %>
-                            <%= user.loccountrycode.nil? ? '' : flag_icon(user.loccountrycode.parameterize.underscore.to_sym) %>
-                            <% smurf_icon = 'glyphicon-question-sign' %>
-                            <% smurf_icon = 'glyphicon-ok text-success' if user.smurf_check == 1 %>
-                            <% smurf_icon = 'glyphicon-remove text-danger' if user.smurf_check == 2 %>
-                            <%= user.personaname %> <span class="glyphicon <%= smurf_icon %>"></span>
-                          </h4>
-                          <p>
-                            <% if user.is_global_admin %><span class="label label-danger">Global Admin</span>&nbsp;&nbsp;&nbsp;<% end %>
-                            <% if user.is_league_admin %><span class="label label-danger">League Admin</span>&nbsp;&nbsp;&nbsp;<% end %>
-                            <% if user.team_admin %><span class="label label-primary">Team Admin</span>&nbsp;&nbsp;&nbsp;<% end %>
-                            <% if user.team_captain %><span class="label label-info">Captain</span>&nbsp;&nbsp;&nbsp;<% end %>
-                          </p>
-                          <p><strong>Profiles: </strong>
-                            <%= link_to 'Dotabuff', "https://www.dotabuff.com/players/#{user.get_short_steamid}/", target: :_blank %> /
-                            <%= link_to 'OpenDota', "https://www.opendota.com/players/#{user.get_short_steamid}/", target: :_blank %> /
-                            <%= link_to 'Steam Community', user.profileurl, target: :_blank %>
-                          </p>
-                        </div>
-                        <div class="col-md-6 text-right">
-                          <ul class="list-inline">
-                            <li>
-                              <h6>RANK TIER</h6>
-                              <h4>
-                                <%= user.rank_tier_name %> <%= user.rank_tier_stars %>
-                              </h4>
-                            </li>
-                          </ul>
-                        </div>
-                      </div> <!-- end top profile row -->
-                    </div>
+            <div class="col-md-4">
+              <div class="widget style1 navy-bg">
+                <div class="row">
+                  <div class="col-xs-4"><i class="fa fa-thumbs-o-up fa-5x"></i></div>
+                  <div class="col-xs-8 text-right">
+                    <span>Wins</span>
+                    <h2 class="font-bold"><%= @wins %></h2>
                   </div>
                 </div>
-            <% end %>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="widget style1 red-bg">
+                <div class="row">
+                  <div class="col-xs-4"><i class="fa fa-thumbs-o-down fa-5x"></i></div>
+                  <div class="col-xs-8 text-right">
+                    <span>Losses</span>
+                    <h2 class="font-bold"><%= @losses %></h2>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="widget style1 lazur-bg">
+                <div class="row">
+                  <div class="col-xs-4"><i class="fa fa-plus fa-5x"></i></div>
+                  <div class="col-xs-8 text-right">
+                    <span>Points</span>
+                    <h2 class="font-bold"><%= @wins %></h2>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <div class="widget p-lg text-center">
+                <div class="m-b-md">
+                  <i class="fa fa-th-large fa-4x"></i>
+                  <h1 class="m-xs"><%= @team.group.nil? ? '-' : @team.group.name %></h1>
+                  <h3 class="font-bold no-margins">Group</h3>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+            </div>
+            <div class="col-md-4">
+              <div class="widget p-lg text-center">
+                <div class="m-b-md">
+                  <i class="fa fa-bar-chart-o fa-4x"></i>
+                  <h1 class="m-xs">1</h1>
+                  <h3 class="font-bold no-margins">Position</h3>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Overall Team Skill</h5>
+        </div>
+        <div class="ibox-content">
+          <div class="widget p-lg text-center">
+            <div class="m-b-md">
+              <i class="fa fa-trophy fa-4x"></i>
+              <h1 class="m-xs"><%= @rank_tier[:rank_tier][:medal] %> <%= @rank_tier[:rank_tier][:stars] %></h1>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-<hr />
-<div class="row">
-  <div class="col-md-12">
-    <h5>GROUP SERIES</h5>
-    <table id="teams_upcoming_matches_table" class="table table-condensed table-hover">
-      <thead>
-      <tr>
-        <th>Opponent</th>
-        <th></th>
-        <th>Round Begins/Ends</th>
-        <th>Scheduled Date</th>
-        <th class="text-center">Confirmed</th>
-        <th class="text-center">Admin</th>
-        <th class="text-center">Caster</th>
-        <th></th>
-      </tr>
-      </thead>
-      <tbody>
-      <% @team.series.order('target_begin_date ASC').all.each do |series| %>
-          <tr>
-            <td width="60px">
-              <% if series.teams[0].id == @team.id %>
-                  <%= image_tag series.teams[1].logo.url(:tiny_square) %>
-              <% else %>
-                  <%= image_tag series.teams[0].logo.url(:tiny_square) %>
-              <% end %>
-            </td>
-            <td>
-              <% if series.teams[0].id == @team.id %>
-                  <%= series.teams[1].name %>
-              <% else %>
-                  <%= series.teams[0].name %>
-              <% end %>
-            </td>
-            <td>
-              <%= series.target_begin_date.strftime('%m/%d/%Y') %> (<%= timeago_tag series.target_begin_date, force: true %>)<br />
-              <%= series.target_end_date.strftime('%m/%d/%Y') %> (<%= timeago_tag series.target_end_date, force: true %>)
-            </td>
-            <td>
-              <% if series.scheduled_date.nil? %>
-                Match not yet scheduled
-              <% else %>
-                <%= series.scheduled_date %><br />
-                <%= timeago_tag series.scheduled_date, force: true %>
-              <% end %>
-            </td>
-            <td class="text-center">
-              <% if series.confirmed? %>
-              <span class="glyphicon glyphicon-ok text-success"></span>
-              <% else %>
-              <span class="glyphicon glyphicon-remove text-danger"></span>
-              <% end %>
-            </td>
-            <td class="text-center">
-              <% if series.has_admin? %>
-                  <span class="glyphicon glyphicon-ok text-success"></span>
-              <% else %>
-                  <span class="glyphicon glyphicon-remove text-danger"></span>
-              <% end %>
-            </td>
-            <td class="text-center">
-              <% if series.has_caster? %>
-                  <span class="glyphicon glyphicon-ok text-success"></span>
-              <% else %>
-                  <span class="glyphicon glyphicon-remove text-danger"></span>
-              <% end %>
-            </td>
-            <td class="text-right">
-              <%= link_to 'View', show_series_path(series), class: 'btn btn-sm btn-primary' %>
-            </td>
-          </tr>
-      <% end %>
-      </tbody>
-    </table>
-  </div>
-</div>
 
+  <div class="row animated fadeInRight">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h5>Roster</h5>
+      </div>
+      <div class="ibox-content">
 
-<% if can? :admin, @team %>
-<hr />
-<div class="row">
-  <div class="col-md-12">
-    <h3>Pending Join Requests</h3>
+        <% team_members = @team.users.order('personaname ASC').where(:team_join_approved => true).all %>
+        <% team_members.each do |user| %>
+            <div class="col-lg-4">
+              <div class="contact-box">
+                <div class="col-sm-2">
+                  <div class="text-center">
+                    <%= image_tag user.avatar, class: 'img-circle m-t-xs img-responsive' %>
+                  </div>
+                </div>
+                <div class="col-sm-8">
+                  <h3>
+                    <% if can? :leagueadmin, Team %>
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="glyphicon glyphicon-cog"></span>
+                          </button>
+                          <ul class="dropdown-menu">
+                            <li><%= link_to 'Smurf Approve', smurf_update_team_path(@team, user, 'approve') %></a></li>
+                            <li><%= link_to 'Smurf Deny', smurf_update_team_path(@team, user, 'deny') %></a></li>
+                            <li><%= link_to 'Smurf Reset', smurf_update_team_path(@team, user, 'reset') %></a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#">Kick from team</a></li>
+                          </ul>
+                        </div>
+                    <% end %>
+                    <strong><%= user.personaname %></strong> <%= user.loccountrycode.nil? ? '' : flag_icon(user.loccountrycode.parameterize.underscore.to_sym) %>
+                  </h3>
+                  <p>
+                    <% if user.is_global_admin %><span class="label label-danger">Global Admin</span>&nbsp;&nbsp;&nbsp;<% end %>
+                    <% if user.is_league_admin %><span class="label label-danger">League Admin</span>&nbsp;&nbsp;&nbsp;<% end %>
+                    <% if user.team_admin %><span class="label label-primary">Team Admin</span>&nbsp;&nbsp;&nbsp;<% end %>
+                    <% if user.team_captain %><span class="label label-info">Captain</span>&nbsp;&nbsp;&nbsp;<% end %>
+                  </p>
+                  <p><strong>Profiles: </strong>
+                    <%= link_to 'Dotabuff', "https://www.dotabuff.com/players/#{user.get_short_steamid}/", target: :_blank %> /
+                    <%= link_to 'OpenDota', "https://www.opendota.com/players/#{user.get_short_steamid}/", target: :_blank %> /
+                    <%= link_to 'Steam Community', user.profileurl, target: :_blank %>
+                  </p>
+                  <p>
+                    <strong>Smurf check: </strong>
+                    <% if user.smurf_check == 1 %>
+                      <span class="text-info">APPROVED</span> for league play.
+                    <% elsif user.smurf_check == 2 %>
+                      <span class="text-danger">NOT APPROVED</span> for league play.
+                    <% else %>
+                      not evaluated yet.
+                    <% end %>
+                  </p>
+                </div>
+                <div class="col-sm-2">
+                  <div class="widget p-sm text-right">
+                    <div class="m-b-md">
+                      <h2 class="m-xs"><%= user.rank_tier_name %> <%= user.rank_tier_stars %></h2>
+                    </div>
+                  </div>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+            </div>
+        <% end %>
+        <div class="clearfix"></div>
+      </div>
+    </div>
   </div>
-  <div class="col-md-12">
-    <table class="table table-hover">
-      <thead>
-      <tr>
-        <th>Steam Name</th>
-        <th>Profiles</th>
-        <th>Rank Tier</th>
-        <th></th>
-      </tr>
-      </thead>
-      <tbody>
-      <% @team.users.where(:team_join_approved => false).all.each do |user| %>
+
+  <div class="row animated fadeInRight">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h5>Team Matches</h5>
+      </div>
+      <div class="ibox-content">
+        <table id="teams_upcoming_matches_table" class="table table-condensed table-hover">
+          <thead>
           <tr>
-            <td><%= user.personaname %> <%= user.loccountrycode.nil? ? '' : flag_icon(user.loccountrycode.parameterize.underscore.to_sym) %></td>
-            <td>
-              <%= link_to 'Dotabuff', "https://www.dotabuff.com/players/#{user.get_short_steamid}/", target: :_blank %> /
-              <%= link_to 'OpenDota', "https://www.opendota.com/players/#{user.get_short_steamid}/", target: :_blank %>
-              <% if user.profileurl != "" %>
-                  / <%= link_to 'Steam', user.profileurl, target: :_blank %>
-              <% end %>
-            </td>
-            <td><%= user.rank_tier_name %> <%= user.rank_tier_stars %></td>
-            <td class="text-right">
-              <%= link_to 'Approve', approve_join_team_path(@team, user), class: 'btn btn-xs btn-default' %>&nbsp;
-              <%= link_to 'Reject', reject_join_team_path(@team, user), data: { confirm: "Are you sure you want to reject this user?" }, class: 'btn btn-xs btn-danger' %>
-            </td>
+            <th>Opponent</th>
+            <th></th>
+            <th>Round Begins/Ends</th>
+            <th>Scheduled Date</th>
+            <th class="text-center">Confirmed</th>
+            <th class="text-center">Admin</th>
+            <th class="text-center">Caster</th>
+            <th></th>
           </tr>
-      <% end %>
-      </tbody>
-    </table>
+          </thead>
+          <tbody>
+          <% @team.series.order('target_begin_date ASC').all.each do |series| %>
+              <tr>
+                <td width="60px">
+                  <% if series.teams[0].id == @team.id %>
+                      <%= image_tag series.teams[1].logo.url(:tiny_square) %>
+                  <% else %>
+                      <%= image_tag series.teams[0].logo.url(:tiny_square) %>
+                  <% end %>
+                </td>
+                <td>
+                  <% if series.teams[0].id == @team.id %>
+                      <%= series.teams[1].name %>
+                  <% else %>
+                      <%= series.teams[0].name %>
+                  <% end %>
+                </td>
+                <td>
+                  <%= series.target_begin_date.strftime('%m/%d/%Y') %> (<%= timeago_tag series.target_begin_date, force: true %>)<br />
+                  <%= series.target_end_date.strftime('%m/%d/%Y') %> (<%= timeago_tag series.target_end_date, force: true %>)
+                </td>
+                <td>
+                  <% if series.scheduled_date.nil? %>
+                      Match not yet scheduled
+                  <% else %>
+                      <%= series.scheduled_date %><br />
+                      <%= timeago_tag series.scheduled_date, force: true %>
+                  <% end %>
+                </td>
+                <td class="text-center">
+                  <% if series.confirmed? %>
+                      <span class="glyphicon glyphicon-ok text-success"></span>
+                  <% else %>
+                      <span class="glyphicon glyphicon-remove text-danger"></span>
+                  <% end %>
+                </td>
+                <td class="text-center">
+                  <% if series.has_admin? %>
+                      <span class="glyphicon glyphicon-ok text-success"></span>
+                  <% else %>
+                      <span class="glyphicon glyphicon-remove text-danger"></span>
+                  <% end %>
+                </td>
+                <td class="text-center">
+                  <% if series.has_caster? %>
+                      <span class="glyphicon glyphicon-ok text-success"></span>
+                  <% else %>
+                      <span class="glyphicon glyphicon-remove text-danger"></span>
+                  <% end %>
+                </td>
+                <td class="text-right">
+                  <%= link_to 'View', show_series_path(series), class: 'btn btn-sm btn-primary' %>
+                </td>
+              </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
+
+  <% if can? :admin, @team %>
+  <div class="row animated fadeInRight">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h5>Pending Join Requests</h5>
+      </div>
+      <div class="ibox-content">
+        <table class="table table-hover">
+          <thead>
+          <tr>
+            <th>Steam Name</th>
+            <th>Profiles</th>
+            <th>Rank Tier</th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody>
+          <% @team.users.where(:team_join_approved => false).all.each do |user| %>
+              <tr>
+                <td><%= user.personaname %> <%= user.loccountrycode.nil? ? '' : flag_icon(user.loccountrycode.parameterize.underscore.to_sym) %></td>
+                <td>
+                  <%= link_to 'Dotabuff', "https://www.dotabuff.com/players/#{user.get_short_steamid}/", target: :_blank %> /
+                  <%= link_to 'OpenDota', "https://www.opendota.com/players/#{user.get_short_steamid}/", target: :_blank %>
+                  <% if user.profileurl != "" %>
+                      / <%= link_to 'Steam', user.profileurl, target: :_blank %>
+                  <% end %>
+                </td>
+                <td><%= user.rank_tier_name %> <%= user.rank_tier_stars %></td>
+                <td class="text-right">
+                  <%= link_to 'Approve', approve_join_team_path(@team, user), class: 'btn btn-xs btn-default' %>&nbsp;
+                  <%= link_to 'Reject', reject_join_team_path(@team, user), data: { confirm: "Are you sure you want to reject this user?" }, class: 'btn btn-xs btn-danger' %>
+                </td>
+              </tr>
+          <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <% end %>
 </div>
-<% end %>

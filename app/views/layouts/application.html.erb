@@ -1,97 +1,51 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>TrenchleagueRails</title>
+    <title>DotA 2 Trench League</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <%= csrf_meta_tags %>
     <%= action_cable_meta_tag %>
 
+    <%= stylesheet_link_tag params[:controller] if ::Rails.application.assets.find_asset("#{params[:controller]}.css") %>
     <%= stylesheet_link_tag    'application', media: 'all' %>
     <%= javascript_include_tag 'application' %>
     <script>jQuery.timeago.settings.allowFuture = true;</script>
   </head>
 
   <body>
-    <nav class="navbar navbar-inverse" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#tlnav">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <%= link_to image_tag('/assets/logo.png'), root_path, class: 'navbar-left' %>
-        </div>
-        <div class="collapse navbar-collapse" id="tlnav">
-          <ul class="nav navbar-nav">
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Teams <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <% if !current_user.team_id.nil? %>
-                  <li><%= link_to 'My Team', team_path(current_user.team) %></li>
-                  <li role="separator" class="divider"></li>
-                <% end %>
-                <% Team.order('name ASC').where(:is_active => true, :is_deleted => false).all.each do |team| %>
-                    <li><%= link_to team.name, team_path(team) %></li>
-                <% end %>
-                <li role="separator" class="divider"></li>
-                <li><%= link_to 'Register New Team', new_team_path %></li>
-              </ul>
-            </li>
-            <li><%= link_to 'Rules', rules_path %></li>
-            <li><%= link_to 'Schedule', schedules_path %></li>
-            <li><%= link_to 'Inhouse', index_inhouse_path %></li>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">About <span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                <li><%= link_to 'Staff', staff_path %></li>
-              </ul>
-            </li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <% if can? :leagueadmin, Group %>
-                <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span class="caret"></span></a>
-                  <ul class="dropdown-menu">
-                    <li><%= link_to 'Players', players_admin_path %></li>
-                    <li><%= link_to 'Groups', groups_admin_path %></li>
-                    <li><%= link_to 'Seed Series', groups_seed_admin_path %></li>
-                    <li><%= link_to 'In-House', inhouse_admin_path %></li>
-                    <li role="separator" class="divider"></li>
-                    <li><%= link_to 'Edit Rules', rules_admin_path %></li>
-                    <li><%= link_to 'Edit Staff Page', staff_admin_path %></li>
-                    <li><%= link_to 'Manage/Upload Images', images_admin_path %></li>
-                    <li role="separator" class="divider"></li>
-                    <li><%= link_to 'League Settings', league_setting_path %></li>
-                  </ul>
-                </li>
-            <% end %>
-            <% if current_user.id != nil %>
-                <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><%= current_user.personaname %><% if current_user.notifications.count > 0 %> <span class="badge"><%= current_user.notifications.count %></span><% end %> <span class="caret"></span></a>
-                  <ul class="dropdown-menu">
-                    <li><%= link_to 'Logout', '/logout' %></li>
-                  </ul>
-                </li>
-            <% else %>
-                <li><%= link_to 'Login with Steam', '/auth/steam' %></li>
-            <% end %>
-          </ul>
-        </div>
+    <div id="wrapper" class="<%= params[:controller] %>.<%= params[:action] %>">
+
+      <!-- Navigation -->
+      <%= render 'layouts/navigation' %>
+
+      <!-- Page wraper -->
+      <div id="page-wrapper" class="gray-bg <%= @extra_class %>">
+
+        <!-- Page wrapper -->
+        <%= render 'layouts/topnavbar' %>
+
+        <!-- Main view  -->
+        <%= yield %>
+
+        <!-- Footer -->
+        <%= render 'layouts/footer' %>
+
       </div>
-    </nav>
-    <div class="container">
-      <%= bootstrap_flash %>
-      <%= render_breadcrumbs(nil) %>
-      <%= yield %>
+      <!-- End page wrapper-->
+
+      <!-- Right sidebar -->
+      <%= render 'layouts/rightsidebar' %>
+
     </div>
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <p class="text-center" id="league_footer">
-            <small>Powered by OpenLeague - <%= link_to 'Changelog', changelog_path %></small>
-          </p>
-        </div>
-      </div>
-    </div>
+    <!-- End wrapper-->
+
+    <!-- Include javascript per-controller - vendor plugins -->
+    <%= javascript_include_tag params[:controller] if ::Rails.application.assets.find_asset("#{params[:controller]}.js") %>
+
+    <!-- Include javascript per-view -->
+    <!-- For demo purpose we include javascript in view but you can easily start SeedProject and organize it with Rails asset pipeline as you want -->
+    <%= yield :javascript %>
   </body>
 </html>

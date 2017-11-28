@@ -53,7 +53,10 @@ end
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-gem 'twitter-bootstrap-rails', git: 'https://github.com/seyhunak/twitter-bootstrap-rails.git'
+gem 'bootstrap-sass', '~> 3.3.7'
+gem 'font-awesome-rails'
+gem 'json', '~> 2'
+
 gem 'omniauth-steam'
 gem 'bootstrap_form'
 gem 'redis' # for actioncable
@@ -74,7 +77,6 @@ gem 'rails-timeago', '~> 2.0'
 gem 'elo_rating', '~> 1.0'
 
 gem 'md_simple_editor'
-gem 'font-awesome-rails'
 gem 'redcarpet'
 
 # these are both for the calendar

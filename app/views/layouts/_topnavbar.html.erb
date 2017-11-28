@@ -1,0 +1,27 @@
+<div class="row border-bottom">
+    <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div class="navbar-header">
+            <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
+        </div>
+        <ul class="nav navbar-top-links navbar-right">
+            <li>
+                <span class="m-r-sm text-muted welcome-message" data-i18n="topnav.welcometext">The Trench League</span>
+            </li>
+
+
+          <% if current_user.id != nil %>
+              <li>
+                <%= link_to '/logout' do %>
+                  <i class="fa fa-sign-out"></i> Logout
+                <% end %>
+              </li>
+          <% else %>
+              <li>
+              <%= link_to '/auth/steam' do %>
+                <i class="fa fa-steam-square"></i> Login with Steam
+              <% end %>
+              </li>
+          <% end %>
+    </ul>
+</nav>
+</div>
