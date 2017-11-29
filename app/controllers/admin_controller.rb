@@ -179,8 +179,10 @@ class AdminController < ApplicationController
       series_value.each do |group,group_value|
         group_value.each do |matchup|
           new_series = Series.new
-          new_series.target_begin_date = params["start_#{series}".parameterize.underscore.to_sym]
-          new_series.target_end_date = params["end_#{series}".parameterize.underscore.to_sym]
+          tmp_target_begin_date = Date.strptime(params["start_#{series}".parameterize.underscore.to_sym], "%m/%d/%Y")
+          tmp_target_end_date = Date.strptime(params["end_#{series}".parameterize.underscore.to_sym], "%m/%d/%Y")
+          new_series.target_begin_date = tmp_target_begin_date
+          new_series.target_end_date = tmp_target_end_date
           new_series.save!
 
           new_series.team_series.create([{

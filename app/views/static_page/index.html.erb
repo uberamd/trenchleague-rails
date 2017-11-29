@@ -1,20 +1,31 @@
 <div class="row border-bottom white-bg dashboard-header">
-  <%= bootstrap_form_tag url: '/' do |f| %>
-  <div class="input-group date text-right" id="scheduled-series-date">
-    <span class="input-group-addon">Start Time (Eastern Time Zone)</span>
-    <%= f.text_field 'scheduled_date', hide_label: true, control_class: 'form-control datepicker' %>
-    <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                      </span>
+  <div class="form-group" id="data_1">
+    <label class="font-normal">Simple data input format</label>
+    <div class="input-group date">
+      <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="03/04/2014">
+    </div>
   </div>
-  <% end %>
-<script type="text/javascript">
-    $(function () {
-        $('.datepicker').datepicker({
-            format: 'DD/MM/YYYY HH:mm'
+  <div class="input-group clockpicker" data-autoclose="true">
+    <input type="text" class="form-control" value="09:30" >
+    <span class="input-group-addon">
+                                    <span class="fa fa-clock-o"></span>
+                                </span>
+  </div>
+
+  <script type="text/javascript">
+    $(function() {
+        $('#data_1 .input-group.date').datepicker({
+            todayBtn: "linked",
+            keyboardNavigation: false,
+            forceParse: false,
+            calendarWeeks: true,
+            autoclose: true
         });
+
+        $('.clockpicker').clockpicker();
     });
-</script>
+  </script>
+
   <div class="col-lg-12">
     <div class="text-center">
       <img src="/assets/trenchwhite.png">

@@ -68,10 +68,6 @@ gem 'friendly_id'
 gem 'flag-icons-rails', git: 'https://github.com/evgenygarl/flag-icons-rails.git'
 gem 'httparty'
 
-# these are both required for datetimepicker
-gem 'momentjs-rails', '>= 2.9.0'
-gem 'bootstrap3-datetimepicker-rails', '~> 4.17.47'
-
 gem 'rails-timeago', '~> 2.0'
 gem 'elo_rating', '~> 1.0'
 

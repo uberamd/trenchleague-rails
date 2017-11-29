@@ -43,11 +43,13 @@
         </tr>
         <script type="text/javascript">
           $(function () {
-            $('#start-date-<%= series %>').datetimepicker({
-                format: 'DD/MM/YYYY'
+            $('#start_<%= series %>').datepicker({
+                format: 'mm/dd/yyyy',
+                autoclose: true
             });
-            $('#end-date-<%= series %>').datetimepicker({
-                format: 'DD/MM/YYYY'
+            $('#end_<%= series %>').datepicker({
+                format: 'mm/dd/yyyy',
+                autoclose: true
             });
           });
         </script>
