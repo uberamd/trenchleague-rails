@@ -61,11 +61,9 @@
                     <span class="glyphicon <%= eligibility_icon %>"></span>
                   </h4>
                   <ul class="list-inline">
-                    <% avg_mmr = team.get_average_mmr %>
+                    <% avg_rank_tier = team.get_average_rank_tier %>
                     <li class="text-center"><h5>Players</h5><%= team.users.where(:team_join_approved => true).count %></li>
-                    <li class="text-center"><h5>Solo MMR</h5><%= avg_mmr[:solo] %></li>
-                    <li class="text-center"><h5>Party MMR</h5><%= avg_mmr[:party] %></li>
-                    <li class="text-center"><h5>Est MMR</h5><%= avg_mmr[:est] %></li>
+                    <li class="text-center"><h5>Average Rank Tier</h5><%= avg_rank_tier %></li>
                   </ul>
                 </div>
               </div>
@@ -87,21 +85,17 @@
         <th>Verified Players</th>
         <th>Unverified Players</th>
         <th>Avg. Solo</th>
-        <th>Avg. Party</th>
-        <th>Avg. Est</th>
         <th>Group</th>
       </tr>
       </thead>
       <tbody>
       <% Team.order('name ASC').all.each do |team| %>
-      <% mmr_hash = team.get_average_mmr %>
+      <% rank_hash = team.get_average_rank_tier %>
       <tr>
         <td><%= team.name %></td>
         <td><%= team.users.where(:team_join_approved => true, :smurf_check => 1).all.count %></td>
         <td><%= team.users.where(:team_join_approved => true).where.not(:smurf_check => 1).all.count %></td>
-        <td><%= mmr_hash[:solo] %></td>
-        <td><%= mmr_hash[:party] %></td>
-        <td><%= mmr_hash[:est] %></td>
+        <td><%= rank_hash %></td>
         <td>
           <%= f.select("team_#{team.id}", options_from_collection_for_select(Group.all, 'id', 'name', team.group_id), { include_blank: 'None', hide_label: true }, { class: 'input-sm' }) %>
         </td>
