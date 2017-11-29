@@ -179,7 +179,7 @@
                     <%= image_tag user.avatar, class: 'img-circle m-t-xs img-responsive' %>
                   </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-10">
                   <h3>
                     <% if can? :leagueadmin, Team %>
                         <div class="btn-group">
@@ -218,13 +218,10 @@
                       not evaluated yet.
                     <% end %>
                   </p>
-                </div>
-                <div class="col-sm-4">
-                  <div class="widget p-sm text-right">
-                    <div class="m-b-md">
-                      <h2 class="m-xs"><%= user.rank_tier_name %> <%= user.rank_tier_stars %></h2>
-                    </div>
-                  </div>
+                  <p>
+                    <strong>Medal Tier: </strong>
+                    <%= user.rank_tier_name %> <%= user.rank_tier_stars %>
+                  </p>
                 </div>
                 <div class="clearfix"></div>
               </div>
