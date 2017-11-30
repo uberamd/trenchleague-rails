@@ -18,8 +18,11 @@
 //= require datapicker/bootstrap-datepicker.js
 //= require clockpicker/clockpicker.js
 //= require editable/bootstrap-editable
+//= require d3/d3.min.js
+//= require c3/c3.min.js
 //= require editable/rails
 //= require md_simple_editor
 // require jquery-ui
 // require autocomplete-rails
 //= require cable
+

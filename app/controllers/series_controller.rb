@@ -55,15 +55,23 @@ class SeriesController < ApplicationController
             redirect_to show_series_path(@series) and return
           end
 
+          # check for empty time
+          if params[:scheduled_time] == ''
+            flash[:danger] = 'Invalid time submitted, please try again.'
+            redirect_to show_series_path(@series) and return
+          end
+
           # check for invalid date
+          proposed_tmp = nil
+
           begin
-            DateTime.parse(params[:scheduled_date])
+            proposed_tmp = Time.zone.strptime("#{params[:scheduled_date]} #{params[:scheduled_time]}", '%m/%d/%Y %H:%M')
           rescue
             flash[:danger] = 'Invalid date submitted, please try again.'
             redirect_to show_series_path(@series) and return
           end
 
-          @series.scheduled_date = params[:scheduled_date]
+          @series.scheduled_date = proposed_tmp
           @team_series = TeamSeries.where(:team_id => current_user.team_id, :series_id => @series.id).first
 
           @team_series.team_approved_user_id = current_user.id
@@ -331,13 +339,14 @@ class SeriesController < ApplicationController
   end
 
   def predict_winner
+    # check to see if the current_user is a player (or if they are even logged in)
     authorize! :isplayer, current_user
 
     # determine if the user already voted
     if current_user.user_series_predictions.where(:series_id => params['id']).all.count > 0
       flash[:danger] = 'You have already casted a prediction for this series'
 
-      redirect_to :back and return
+      redirect_to show_series_path(params['id']) and return
     end
 
     # we should eventually check to see if the series has already started
@@ -345,9 +354,9 @@ class SeriesController < ApplicationController
     series = Series.find(params['id'])
 
     # user is trying to vote for a team that isnt playing... screw this guy...
-    if series.teams[0].id != params['team_id'] || series.teams[1].id != params['team_id']
+    if (series.teams[0].id != params['team_id'].to_i) && (series.teams[1].id != params['team_id'].to_i)
       flash[:danger] = "You cannot vote for a team that isn't playing in this series."
-      redirect_to :back and return
+      redirect_to show_series_path(params['id']) and return
     end
 
     # finally, record the vote
@@ -357,7 +366,7 @@ class SeriesController < ApplicationController
                                                 })
 
     flash[:success] = 'Prediction successfully recorded, good luck!'
-    redirect_to series_path(params['id']) and return
+    redirect_to show_series_path(params['id']) and return
   end
 
   def index

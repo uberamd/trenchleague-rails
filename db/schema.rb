@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171130044428) do
+ActiveRecord::Schema.define(version: 20171130134636) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -197,7 +197,7 @@ ActiveRecord::Schema.define(version: 20171130044428) do
     t.boolean "is_paid", default: false
     t.string "paid_amount"
     t.integer "paid_by"
-    t.datetime "paid_on"
+    t.datetime "paid_on", default: "2017-10-16 17:41:16"
     t.string "paid_stripe_token"
     t.string "paid_stripe_token_type"
     t.string "paid_stripe_email"
@@ -210,6 +210,7 @@ ActiveRecord::Schema.define(version: 20171130044428) do
     t.boolean "is_correct"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "points"
   end
 
   create_table "users", force: :cascade do |t|

@@ -22,6 +22,17 @@
         <div class="m-b-sm">
           <%= link_to image_tag(@series.teams[0].logo.url(:medium_square)), @series.teams[0] %>
         </div>
+        <hr />
+        <strong>Predictions</strong>
+        <div class="m-b-sm">
+          <% tmp_predictions = UserSeriesPrediction.where(series_id: @series.id, team_id: @series.teams[0].id).all %>
+          <% if tmp_predictions.count == 0 %>
+            <p>Nobody has predicted <%= @series.teams[0].name %> to win this series.</p>
+          <% end %>
+          <% tmp_predictions.each do |user| %>
+              <%= link_to image_tag(user.user.avatar, class: 'img-circle m-t-xs', data: { toggle: 'tooltip', placement: 'top'}, title: user.user.personaname ), show_player_path(user.user) %>
+          <% end %>
+        </div>
         <% if !current_user.id.nil? && current_user.user_series_predictions.where(:series_id => @series.id).all.count == 0 %>
           <%= bootstrap_form_tag url: predict_winner_series_path do |f| %>
             <%= f.hidden_field :team_id, :value => @series.teams[0].id %>
@@ -33,6 +44,8 @@
 
 
     <div class="col-md-4">
+
+      <!-- Series result box -->
       <div class="ibox float-e-margins">
         <div class="ibox-title">
           <h5>Series Results</h5>
@@ -78,9 +91,6 @@
                 </tbody>
               </table>
           <% else %>
-              <p>
-                This series has not been played yet.
-              </p>
               <% if !@series.scheduled_date.nil? && !@series.completed %>
                   <div class="widget style1 lazur-bg">
                     <div class="row">
@@ -89,15 +99,48 @@
                       </div>
                       <div class="col-xs-8 text-right">
                         <span>Match scheduled</span>
+                        <% if @series.team_series[0].team_approved_user_id != nil && @series.team_series[1].team_approved_user_id != nil %>
+                            <span> - Confirmed by both teams.</span>
+                        <% else %>
+                            <span> - Not yet confirmed</span>
+                        <% end %>
                         <h2 class="font-bold">
-                          <%= timeago_tag @series.scheduled_date, force: true %><br />
-                          <%= @series.scheduled_date %>
+                          <%= timeago_tag @series.scheduled_date, force: true %>
                         </h2>
+                        <small><%= @series.scheduled_date %></small>
                       </div>
                     </div>
                   </div>
               <% end %>
           <% end %>
+        </div>
+      </div>
+
+      <!-- Prediction graph box -->
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Series Predictions</h5>
+        </div>
+        <div class="ibox-content text-center h-150">
+          <div id="predictionpie"></div>
+          <script type="text/javascript">
+            $(function() {
+                c3.generate({
+                    bindto: '#predictionpie',
+                    data: {
+                        columns: [
+                            ['<%= @series.teams[0].name %>', <%= @series.teams[0].user_series_predictions.count %>],
+                            ['<%= @series.teams[1].name %>', <%= @series.teams[1].user_series_predictions.count %>]
+                        ],
+                        colors: {
+                            '<%= @series.teams[0].name %>': '#1ab394',
+                            '<%= @series.teams[1].name %>': '#bababa'
+                        },
+                        type: 'pie'
+                    }
+                });
+            });
+          </script>
         </div>
       </div>
 
@@ -108,8 +151,8 @@
         </div>
         <div class="ibox-content">
 
-          <% if @series.scheduled_date.nil? %>
           <!-- if NO teams have suggested a series start time this will show -->
+          <% if @series.scheduled_date.nil? %>
           <p><span class="glyphicon glyphicon-info-sign"></span> No date and time has been proposed for this series. As the captain of a team in a series, you're able
           to propose a time below. The opposing captain will need to approve the proposed time.</p>
           <%= bootstrap_form_tag url: update_series_path do |f| %>
@@ -143,8 +186,8 @@
           <% end %>
           <% end %>
 
+          <!-- if YOUR team hasn't approved the proposed series start time you see this -->
           <% if @team_series.team_approved_date.nil? && !@series.scheduled_date.nil? %>
-            <!-- if YOUR team hasn't approved the proposed series start time you see this -->
             <p>Your opponent has proposed a time for this series. Please either approve the time, or reject their proposal and propose a new time.</p>
             <p>The series cannot be played until both teams agree upon a time to play the game.</p>
             <p>Please confirm with your team before accepting this time slot, as accepting will allow an admin and caster to join this series.</p>
@@ -166,8 +209,8 @@
             </div>
           <% end %>
 
+          <!-- if YOUR team HAS suggested a start time and the other team hasn't approved you will see this -->
           <% if !@series.scheduled_date.nil? && !@team_series.team_approved_date.nil? && @opponent_series.team_approved_date.nil? %>
-            <!-- if YOUR team HAS suggested a start time and the other team hasn't approved you will see this -->
             <p>Your opponent has yet to confirm or reject the proposed time for this match of <%= @series.scheduled_date %>.</p>
             <p>If this time no longer works for your team you may remove your time proposal, otherwise you may message the other team
             captain using the messaging area below.</p>
@@ -175,6 +218,19 @@
                 <%= f.hidden_field :seriesaction, :value => 'selfreject' %>
                 <%= f.submit 'Remove Proposed Time', class: 'btn btn-danger' %>
             <% end %>
+          <% end %>
+
+          <!-- if both teams have agreed to a time -->
+          <% if @series.team_series[0].team_approved_user_id != nil && @series.team_series[1].team_approved_user_id != nil %>
+          <p>
+            This series has been scheduled and agreed to by both teams. If for some reason you need to changed the
+            scheduled match time please contact an admin.
+          </p>
+          <p>
+            <strong>Why can't you cancel your own scheduled matches?</strong> Once a match time is agreed upon by
+            both teams it would be unfair to allow one team to last-minute cancel and expect the other team captain to
+            react in time. The admin team will determine if the cancellation is legitimate on a case by case basis.
+          </p>
           <% end %>
         </div>
       </div>
@@ -187,6 +243,17 @@
         <h1><%= @series.teams[1].name %></h1>
         <div class="m-b-sm">
           <%= link_to image_tag(@series.teams[1].logo.url(:medium_square)), @series.teams[1] %>
+        </div>
+        <hr />
+        <strong>Predictions</strong>
+        <div class="m-b-sm">
+          <% tmp_predictions = UserSeriesPrediction.where(series_id: @series.id, team_id: @series.teams[1].id).all %>
+          <% if tmp_predictions.count == 0 %>
+              <p>Nobody has predicted <%= @series.teams[1].name %> to win this series.</p>
+          <% end %>
+          <% tmp_predictions.each do |user| %>
+              <%= link_to image_tag(user.user.avatar, class: 'img-circle m-t-xs', data: { toggle: 'tooltip', placement: 'top'}, title: user.user.personaname ), show_player_path(user.user) %>
+          <% end %>
         </div>
         <% if !current_user.id.nil? && current_user.user_series_predictions.where(:series_id => @series.id).all.count == 0 %>
             <%= bootstrap_form_tag url: predict_winner_series_path do |f| %>
@@ -362,3 +429,9 @@
       </div>
     </div>
 <% end %>
+
+<script type="text/javascript">
+  $(function() {
+      $('[data-toggle="tooltip"]').tooltip();
+  });
+</script>
