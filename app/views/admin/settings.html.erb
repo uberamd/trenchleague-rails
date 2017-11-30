@@ -1,31 +1,58 @@
-<div class="row">
-  <div class="col-md-12">
-    <h2>LEAGUE SETTINGS</h2>
-    <div class="well well-sm">
-      <p>Here you can adjust global settings for the League. Please take care in adjusting these settings as they can
-      have a global impact on the operation of the league.</p>
-      <p>Adjusting the cost of the league will NOT prompt already paid teams to pay more money. It will only increase
-      the required cost of teams that haven't yet paid.</p>
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>League Settings</h2>
+    <ol class="breadcrumb">
+      <li>
+        <%= link_to 'Home', root_path %>
+      </li>
+      <li>
+        <%= link_to 'Administration', admin_path %>
+      </li>
+      <li class="active">
+        <strong>Settings</strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-2"></div>
+</div>
+
+<div class="wrapper wrapper-content">
+  <div class="row animated fadeInRight">
+
+    <div class="col-md-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Modify Global League Settings</h5>
+        </div>
+        <div class="ibox-content">
+          <p>Here you can adjust global settings for the League. Please take care in adjusting these settings as they can
+            have a global impact on the operation of the league.</p>
+          <p><strong>Note:</strong> Adjusting the cost of the league will NOT prompt already paid teams to pay more money. It will only increase
+            the required cost of teams that haven't yet paid.</p>
+          <hr />
+          <%= bootstrap_form_for(@settings, url: league_settings_path) do |f| %>
+              <div class="form-group">
+                <label>League Cost (in USD)</label>
+                <div class="input-group date text-right">
+                  <span class="input-group-addon">$</span>
+                  <%= f.text_field :team_cost_usd, hide_label: true, control_class: 'form-control' %>
+                </div>
+              </div>
+              <%= f.text_field :payment_description, label: 'Payment Description (ex: Season 3 League Fee)' %>
+              <%= f.check_box :allow_payments, label: 'Allow Team Payments to be made' %>
+              <%= f.text_field :rank_tier_ceiling, label: 'Rank Tier Ceiling (ex: 42 means Archon (4th Medal) 2 Stars)' %>
+              <%= f.text_field :max_teams, label: 'Max Teams (empty is no max)' %>
+              <%= f.text_field :max_players_per_team, label: 'Max Players Per Team (empty is no max)' %>
+              <%= f.text_field :max_players, label: 'Max Players Overall (empty is no max)' %>
+              <%= f.check_box :allow_team_creation, label: 'Allow Team Registration' %>
+              <%= f.check_box :allow_player_registration, label: 'Allow Player Registration (unchecked blocks teamless players from joining teams)' %>
+              <div class="text-right">
+                <%= f.submit 'Save Settings', class: 'btn btn-primary' %>
+              </div>
+          <% end %>
+        </div>
+      </div>
     </div>
-    <%= bootstrap_form_for(@settings, url: league_settings_path) do |f| %>
-        <div class="form-group">
-          <label>League Cost (in USD)</label>
-          <div class="input-group date text-right">
-            <span class="input-group-addon">$</span>
-            <%= f.text_field :team_cost_usd, hide_label: true, control_class: 'form-control' %>
-          </div>
-        </div>
-        <%= f.text_field :payment_description, label: 'Payment Description (ex: Season 3 League Fee)' %>
-        <%= f.check_box :allow_payments, label: 'Allow Team Payments to be made' %>
-        <%= f.text_field :rank_tier_ceiling, label: 'Rank Tier Ceiling (ex: 42 means Archon (4th Medal) 2 Stars)' %>
-        <%= f.text_field :max_teams, label: 'Max Teams (empty is no max)' %>
-        <%= f.text_field :max_players_per_team, label: 'Max Players Per Team (empty is no max)' %>
-        <%= f.text_field :max_players, label: 'Max Players Overall (empty is no max)' %>
-        <%= f.check_box :allow_team_creation, label: 'Allow Team Registration' %>
-        <%= f.check_box :allow_player_registration, label: 'Allow Player Registration (unchecked blocks teamless players from joining teams)' %>
-        <div class="text-right">
-          <%= f.submit 'Save Settings' %>
-        </div>
-    <% end %>
   </div>
 </div>
+

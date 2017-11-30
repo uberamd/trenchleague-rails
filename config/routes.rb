@@ -59,6 +59,7 @@ Rails.application.routes.draw do
   post '/series/:id', to: 'series#update', as: 'update_series'
   post '/series/:id/caster', to: 'series#caster_update', as: 'caster_update_series'
   post '/series/:id/message', to: 'series#post_message', as: 'post_message_series'
+  post '/series/:id/predict', to: 'series#predict_winner', as: 'predict_winner_series'
 
   # players routes
   get '/players/:id', to: 'players#show', as: 'show_player'

@@ -1,220 +1,204 @@
-<div class="row equal">
-  <div class="col-md-4 text-center">
-    <h2><%= @series.teams[0].name %></h2>
-    <%= link_to image_tag(@series.teams[0].logo.url(:medium_square)), @series.teams[0] %>
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2><%= @series.teams[0].name %> vs <%= @series.teams[1].name %></h2>
+    <ol class="breadcrumb">
+      <li>
+        <%= link_to 'Home', root_path %>
+      </li>
+      <li class="active">
+        <strong>Series</strong>
+      </li>
+    </ol>
   </div>
-  <div class="col-md-4 text-center">
-    <% if @series.series_matches.count > 0 %>
-      <h1>
-        <%= @series.teams[0].won_matches.where(:series_id => @series.id).all.count %>
-        -
-        <%= @series.teams[1].won_matches.where(:series_id => @series.id).all.count %>
-      </h1>
-    <% else %>
-      <h2>vs</h2>
-    <% end %>
-  </div>
-  <div class="col-md-4 text-center">
-    <h2><%= @series.teams[1].name %></h2>
-    <%= link_to image_tag(@series.teams[1].logo.url(:medium_square)), @series.teams[1] %>
-  </div>
-</div>
-<% if @series.completed %>
-<hr />
-<div class="row">
-  <div class="col-md-12">
-    <h2>SERIES RESULTS</h2>
-    <table class="table table-hover">
-      <thead>
-      <tr>
-        <th>Winner</th>
-        <th>Match ID</th>
-        <th>Links</th>
-        <th>VOD</th>
-      </tr>
-      </thead>
-      <tbody>
-      <% @series.series_matches.each do |match| %>
-          <tr>
-            <td>
-              <%= link_to image_tag(match.winner.logo.url(:tiny_square)), team_path(match.winner) %>
-              <%= match.winner.name %>
-            </td>
-            <td>
-              <%= match.match_id.nil? ? 'Not recorded' : match.match_id %>
-            </td>
-            <td>
-              <% if !match.match_id.nil? %>
-                  <%= link_to 'Dotabuff', "https://www.dotabuff.com/matches/#{match.match_id}", target: :_blank %> /
-                  <%= link_to 'OpenDota', "https://www.opendota.com/matches/#{match.match_id}", target: :_blank %>
-              <% else %>
-                  Match ID not provided.
-              <% end %>
-            </td>
-            <td>
-              <% if !match.vod_url.nil? %>
-                  <%= link_to 'View VOD', match.vod_url, target: :_blank %>
-              <% else %>
-                  VOD URL not provided.
-              <% end %>
-            </td>
-          </tr>
-      <% end %>
-      </tbody>
-    </table>
-  </div>
+  <div class="col-lg-2"></div>
 </div>
 
-<% end %>
-<hr />
-<% if !@series.scheduled_date.nil? && !@series.completed %>
-    <!-- series has been scheduled by both teams but not yet completed/recorded -->
-    <div class="row">
-      <div class="col-md-6 text-left">
-        <h4>BEGINS</h4>
-        <h2><%= timeago_tag @series.scheduled_date, force: true %> <small><%= @series.scheduled_date %></small></h2>
-        <% if @series.team_series[0].team_approved_date && @series.team_series[1].team_approved_date %>
-        This time has been confirmed by both teams.
-        <% end %>
-      </div>
-      <div class="col-md-6 text-left">
-        <h4>ADMIN</h4>
-        <% if !@series.admin_user_id.nil? %>
-          <div class="media">
-            <div class="media-left"><%= link_to image_tag(@series.admin.avatar), show_player_path(@series.admin.steamid) %></div>
-            <div class="media-body">
-              <div class="row">
-                <div class="col-md-12">
-                  <h4 class="media-heading">
-                    <%= @series.admin.loccountrycode.nil? ? '' : flag_icon(@series.admin.loccountrycode.parameterize.underscore.to_sym) %>
-                    <%= @series.admin.personaname %>
-                  </h4>
-                  <% if @series.admin.is_global_admin %><span class="label label-danger">Global Admin</span>&nbsp;&nbsp;&nbsp;<% end %>
-                  <% if @series.admin.is_league_admin %><span class="label label-danger">League Admin</span>&nbsp;&nbsp;&nbsp;<% end %>
-                </div>
-              </div>
-            </div>
-          </div>
-        <% else %>
-          <p>No admin has been assigned to this series.</p>
-        <% end %>
-        <hr />
-        <h4>CASTER</h4>
-        <% if !@series.caster_user_id.nil? %>
-            <div class="media">
-              <div class="media-left"><%= link_to image_tag(@series.caster.avatar), show_player_path(@series.caster.steamid) %></div>
-              <div class="media-body">
-                <div class="row">
-                  <div class="col-md-12">
-                    <h4 class="media-heading">
-                      <%= @series.caster.loccountrycode.nil? ? '' : flag_icon(@series.caster.loccountrycode.parameterize.underscore.to_sym) %>
-                      <%= @series.caster.personaname %>
-                    </h4>
-                    <% if @series.caster.is_global_admin %><span class="label label-danger">Global Admin</span>&nbsp;&nbsp;&nbsp;<% end %>
-                    <% if @series.caster.is_league_admin %><span class="label label-danger">League Admin</span>&nbsp;&nbsp;&nbsp;<% end %>
-                    <% if @series.caster.is_league_caster %><span class="label label-success">Caster</span>&nbsp;&nbsp;&nbsp;<% end %>
-                  </div>
-                </div>
-              </div>
-            </div>
-        <% else %>
-          <p>No caster has been assigned to this series.</p>
+<div class="wrapper wrapper-content">
+  <div class="row animated fadeInRight">
+
+    <div class="col-md-4">
+      <div class="ibox-content text-center">
+        <h1><%= @series.teams[0].name %></h1>
+        <div class="m-b-sm">
+          <%= link_to image_tag(@series.teams[0].logo.url(:medium_square)), @series.teams[0] %>
+        </div>
+        <% if !current_user.id.nil? && current_user.user_series_predictions.where(:series_id => @series.id).all.count == 0 %>
+          <%= bootstrap_form_tag url: predict_winner_series_path do |f| %>
+            <%= f.hidden_field :team_id, :value => @series.teams[0].id %>
+            <%= f.submit 'Predict Winner', class: 'btn btn-success' %>
+          <% end %>
         <% end %>
       </div>
     </div>
-<% end %>
-<% if can? :scheduleseries, @series %>
-    <% if @series.scheduled_date.nil? %>
-      <!-- if NO teams have suggested a series start time this will show -->
-      <div class="row">
-        <div class="col-md-12">
-          <div class="well well-sm">
-            <p><span class="glyphicon glyphicon-info-sign"></span> No date and time has been proposed for this series. As the captain of a team in a series, you're able
-            to propose a time below. The opposing captain will need to approve the proposed time.</p>
-            <%= bootstrap_form_tag url: update_series_path do |f| %>
-                <div class="row">
-                  <div class="col-md-10">
-                    <div class="input-group date text-right" id="scheduled-series-date">
-                      <span class="input-group-addon">Start Time (Eastern Time Zone)</span>
-                      <%= f.text_field 'scheduled_date', hide_label: true, control_class: 'form-control' %>
-                      <span class="input-group-addon">
-                        <span class="glyphicon glyphicon-calendar"></span>
-                      </span>
+
+
+    <div class="col-md-4">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Series Results</h5>
+        </div>
+        <div class="ibox-content">
+          <% if @series.completed %>
+              <table class="table table-hover">
+                <thead>
+                <tr>
+                  <th>Winner</th>
+                  <th>Match ID</th>
+                  <th>Links</th>
+                  <th>VOD</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% @series.series_matches.each do |match| %>
+                    <tr>
+                      <td>
+                        <%= link_to image_tag(match.winner.logo.url(:tiny_square)), team_path(match.winner) %>
+                        <%= match.winner.name %>
+                      </td>
+                      <td>
+                        <%= match.match_id.nil? ? 'Not recorded' : match.match_id %>
+                      </td>
+                      <td>
+                        <% if !match.match_id.nil? %>
+                            <%= link_to 'Dotabuff', "https://www.dotabuff.com/matches/#{match.match_id}", target: :_blank %> /
+                            <%= link_to 'OpenDota', "https://www.opendota.com/matches/#{match.match_id}", target: :_blank %>
+                        <% else %>
+                            Match ID not provided.
+                        <% end %>
+                      </td>
+                      <td>
+                        <% if !match.vod_url.nil? %>
+                            <%= link_to 'View VOD', match.vod_url, target: :_blank %>
+                        <% else %>
+                            VOD URL not provided.
+                        <% end %>
+                      </td>
+                    </tr>
+                <% end %>
+                </tbody>
+              </table>
+          <% else %>
+              <p>
+                This series has not been played yet.
+              </p>
+              <% if !@series.scheduled_date.nil? && !@series.completed %>
+                  <div class="widget style1 lazur-bg">
+                    <div class="row">
+                      <div class="col-xs-4">
+                        <i class="fa fa-calendar-check-o fa-5x"></i>
+                      </div>
+                      <div class="col-xs-8 text-right">
+                        <span>Match scheduled</span>
+                        <h2 class="font-bold">
+                          <%= timeago_tag @series.scheduled_date, force: true %><br />
+                          <%= @series.scheduled_date %>
+                        </h2>
+                      </div>
                     </div>
                   </div>
-                  <div class="col-md-2">
-                    <%= f.hidden_field :seriesaction, :value => 'propose' %>
-                    <%= f.submit 'Propose Series Time', class: 'btn btn-default' %>
-                  </div>
-                </div>
-                <script type="text/javascript">
-                    $(function () {
-                        $('#scheduled-series-date').datetimepicker({
-                            format: 'DD/MM/YYYY HH:mm'
-                        });
-                    });
-                </script>
-            <% end %>
-          </div>
+              <% end %>
+          <% end %>
         </div>
       </div>
-    <% end %>
-    <% if @team_series.team_approved_date.nil? && !@series.scheduled_date.nil? %>
-      <!-- if YOUR team hasn't approved the proposed series start time you see this -->
-      <div class="row">
-        <div class="col-md-12">
-          <div class="panel panel-warning">
-            <div class="panel-heading"><h3 class="panel-title">Response Required</h3></div>
-            <div class="panel-body">
-              <p>Your opponent has proposed a time for this series. Please either approve the time, or reject their proposal and propose a new time.</p>
-              <p>The series cannot be played until both teams agree upon a time to play the game.</p>
-              <p>Please confirm with your team before accepting this time slot, as accepting will allow an admin and caster to join this series.</p>
-              <hr />
-              <p><strong>Proposed time: </strong><%= @series.scheduled_date %>, which is <%= timeago_tag @series.scheduled_date, force: true %></p>
-            </div>
-            <div class="panel-footer">
-              <div class="row">
 
-                <div class="col-md-6">
-                  <%= bootstrap_form_tag url: update_series_path do |f| %>
-                      <%= f.hidden_field :seriesaction, :value => 'proposereject' %>
-                      <%= f.submit 'REJECT Proposed Time', class: 'btn btn-danger' %>
-                  <% end %>
-                </div>
-                <div class="col-md-6 text-right">
-                  <%= bootstrap_form_tag url: update_series_path do |f| %>
-                      <%= f.hidden_field :seriesaction, :value => 'acceptseries' %>
-                      <%= f.submit 'Accept Proposed Time', class: 'btn btn-info' %>
-                  <% end %>
-                </div>
+      <% if can? :scheduleseries, @series %>
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Schedule Series</h5>
+        </div>
+        <div class="ibox-content">
+
+          <% if @series.scheduled_date.nil? %>
+          <!-- if NO teams have suggested a series start time this will show -->
+          <p><span class="glyphicon glyphicon-info-sign"></span> No date and time has been proposed for this series. As the captain of a team in a series, you're able
+          to propose a time below. The opposing captain will need to approve the proposed time.</p>
+          <%= bootstrap_form_tag url: update_series_path do |f| %>
+            <div class="form-group">
+              <label class="font-normal">Start Date</label>
+              <div class="input-group date">
+                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                <%= f.text_field 'scheduled_date', hide_label: true, control_class: 'form-control' %>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-    <% end %>
-    <% if !@series.scheduled_date.nil? && !@team_series.team_approved_date.nil? && @opponent_series.team_approved_date.nil? %>
-      <!-- if YOUR team HAS suggested a start time and the other team hasn't approved you will see this -->
-      <div class="row">
-        <div class="col-md-12">
-          <div class="panel panel-info">
-            <div class="panel-heading"><h3 class="panel-title">Awaiting Opponent Response</h3></div>
-            <div class="panel-body">
-              <p>Your opponent has yet to confirm or reject the proposed time for this match of <%= @series.scheduled_date %>.</p>
-              <p>If this time no longer works for your team you may remove your time proposal, otherwise you may message the other team
-              captain using the messaging area below.</p>
+            <div class="form-group">
+              <label class="font-normal">Start Time (Eastern Time Zone)</label>
+              <div class="input-group clockpicker" id="scheduled-series-time" data-autoclose="true">
+                <span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+                <%= f.text_field 'scheduled_time', hide_label: true, control_class: 'form-control' %>
+              </div>
             </div>
-            <div class="panel-footer text-right">
-              <%= bootstrap_form_tag url: update_series_path do |f| %>
+            <%= f.hidden_field :seriesaction, :value => 'propose' %>
+            <div class="text-right">
+              <%= f.submit 'Propose Series Time', class: 'btn btn-primary' %>
+            </div>
+              <script type="text/javascript">
+                  $(function () {
+                      $('#scheduled_date').datepicker({
+                          format: 'mm/dd/yyyy',
+                          autoclose: true
+                      });
+                      $('.clockpicker').clockpicker();
+                  });
+              </script>
+          <% end %>
+          <% end %>
+
+          <% if @team_series.team_approved_date.nil? && !@series.scheduled_date.nil? %>
+            <!-- if YOUR team hasn't approved the proposed series start time you see this -->
+            <p>Your opponent has proposed a time for this series. Please either approve the time, or reject their proposal and propose a new time.</p>
+            <p>The series cannot be played until both teams agree upon a time to play the game.</p>
+            <p>Please confirm with your team before accepting this time slot, as accepting will allow an admin and caster to join this series.</p>
+            <hr />
+            <p><strong>Proposed time: </strong><%= @series.scheduled_date %>, which is <%= timeago_tag @series.scheduled_date, force: true %></p>
+            <div class="row">
+              <div class="col-md-6">
+                <%= bootstrap_form_tag url: update_series_path do |f| %>
+                    <%= f.hidden_field :seriesaction, :value => 'proposereject' %>
+                    <%= f.submit 'REJECT Proposed Time', class: 'btn btn-danger' %>
+                <% end %>
+              </div>
+              <div class="col-md-6 text-right">
+                <%= bootstrap_form_tag url: update_series_path do |f| %>
+                    <%= f.hidden_field :seriesaction, :value => 'acceptseries' %>
+                    <%= f.submit 'Accept Proposed Time', class: 'btn btn-info' %>
+                <% end %>
+              </div>
+            </div>
+          <% end %>
+
+          <% if !@series.scheduled_date.nil? && !@team_series.team_approved_date.nil? && @opponent_series.team_approved_date.nil? %>
+            <!-- if YOUR team HAS suggested a start time and the other team hasn't approved you will see this -->
+            <p>Your opponent has yet to confirm or reject the proposed time for this match of <%= @series.scheduled_date %>.</p>
+            <p>If this time no longer works for your team you may remove your time proposal, otherwise you may message the other team
+            captain using the messaging area below.</p>
+            <%= bootstrap_form_tag url: update_series_path do |f| %>
                 <%= f.hidden_field :seriesaction, :value => 'selfreject' %>
                 <%= f.submit 'Remove Proposed Time', class: 'btn btn-danger' %>
-              <% end %>
-            </div>
-          </div>
+            <% end %>
+          <% end %>
         </div>
       </div>
-    <% end %>
-<% end %>
+      <% end %>
+
+    </div>
+
+    <div class="col-md-4">
+      <div class="ibox-content text-center">
+        <h1><%= @series.teams[1].name %></h1>
+        <div class="m-b-sm">
+          <%= link_to image_tag(@series.teams[1].logo.url(:medium_square)), @series.teams[1] %>
+        </div>
+        <% if !current_user.id.nil? && current_user.user_series_predictions.where(:series_id => @series.id).all.count == 0 %>
+            <%= bootstrap_form_tag url: predict_winner_series_path do |f| %>
+                <%= f.hidden_field :team_id, :value => @series.teams[1].id %>
+                <%= f.submit 'Predict Winner', class: 'btn btn-success' %>
+            <% end %>
+        <% end %>
+      </div>
+    </div>
+
+  </div>
+</div>
 
 <% if can? :scheduleseries, @series %>
   <hr />

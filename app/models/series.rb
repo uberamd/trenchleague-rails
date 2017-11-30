@@ -7,6 +7,8 @@ class Series < ApplicationRecord
   belongs_to :admin, class_name: 'User', foreign_key: 'admin_user_id', optional: true
   belongs_to :caster, class_name: 'User', foreign_key: 'caster_user_id', optional: true
 
+  has_many :user_series_predictions
+
   # lets us know if the series has been confirmed
   def confirmed?
     if self.team_series[0].team_approved_date && self.team_series[1].team_approved_date

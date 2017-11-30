@@ -1,73 +1,109 @@
-<div class="row">
-  <div class="col-md-12">
-    <div class="well">
-      <p>This page allows you to set target Start and End dates for each series in the league.</p>
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>Seed Group Series</h2>
+    <ol class="breadcrumb">
+      <li>
+        <%= link_to 'Home', root_path %>
+      </li>
+      <li>
+        <%= link_to 'Administration', admin_path %>
+      </li>
+      <li>
+        <%= link_to 'Groups', groups_admin_path %>
+      </li>
+      <li class="active">
+        <strong>Seed</strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-2"></div>
+</div>
+
+<div class="wrapper wrapper-content">
+  <div class="row animated fadeInRight">
+    <div class="col-md-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-content">
+          <p>
+            This page allows you to set target Start and End dates for each series that takes place during the season.
+            The Groups and Team assignments are made at the <%= link_to 'groups', groups_admin_path %> admin area.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row animated fadeInRight">
+    <div class="col-md-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Series Matchup Table</h5>
+        </div>
+        <div class="ibox-content">
+          <%= bootstrap_form_tag url: groups_update_seeds_admin_path do |f| %>
+              <table class="table">
+                <thead>
+                <tr>
+                  <th>Group</th>
+                  <th>Team 1</th>
+                  <th>Team 2</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% @seeds_sorted.each do |series,series_value| %>
+                    <tr>
+                      <td colspan="1">
+                        <h4>Series <%= series %></h4>
+                      </td>
+                      <td colspan="1">
+                        <div class="input-group date text-right" id="start-date-<%= series %>">
+                          <span class="input-group-addon">Starting</span>
+                          <%= f.text_field "start_#{series}", hide_label: true, control_class: 'form-control' %>
+                          <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+              </span>
+                        </div>
+                      </td>
+                      <td colspan="1">
+                        <div class="input-group date text-right" id="end-date-<%= series %>">
+                          <span class="input-group-addon">Ending</span>
+                          <%= f.text_field "end_#{series}", hide_label: true, control_class: 'form-control' %>
+                          <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+              </span>
+                        </div>
+                      </td>
+                    </tr>
+                    <script type="text/javascript">
+                        $(function () {
+                            $('#start_<%= series %>').datepicker({
+                                format: 'mm/dd/yyyy',
+                                autoclose: true
+                            });
+                            $('#end_<%= series %>').datepicker({
+                                format: 'mm/dd/yyyy',
+                                autoclose: true
+                            });
+                        });
+                    </script>
+                    <% series_value.each do |group,group_value| %>
+                        <% group_value.each do |matchup| %>
+                            <tr>
+                              <td><%= group %></td>
+                              <td><%= matchup[0] %></td>
+                              <td><%= matchup[1] %></td>
+                            </tr>
+                        <% end %>
+                    <% end %>
+                <% end %>
+                <tr>
+                  <td colspan="3" class="text-right"><%= f.submit "Save Series Dates", class: 'btn btn-primary' %></td>
+                </tr>
+                </tbody>
+              </table>
+          <% end %>
+        </div>
+      </div>
     </div>
   </div>
 </div>
-<div class="row">
-  <div class="col-md-12">
-    <%= bootstrap_form_tag url: groups_update_seeds_admin_path do |f| %>
-    <table class="table">
-      <thead>
-      <tr>
-        <th>Group</th>
-        <th>Team 1</th>
-        <th>Team 2</th>
-      </tr>
-      </thead>
-      <tbody>
-      <% @seeds_sorted.each do |series,series_value| %>
-        <tr>
-          <td colspan="1">
-            <h4>Series <%= series %></h4>
-          </td>
-          <td colspan="1">
-            <div class="input-group date text-right" id="start-date-<%= series %>">
-              <span class="input-group-addon">Starting</span>
-              <%= f.text_field "start_#{series}", hide_label: true, control_class: 'form-control' %>
-              <span class="input-group-addon">
-                <span class="glyphicon glyphicon-calendar"></span>
-              </span>
-            </div>
-          </td>
-          <td colspan="1">
-            <div class="input-group date text-right" id="end-date-<%= series %>">
-              <span class="input-group-addon">Ending</span>
-              <%= f.text_field "end_#{series}", hide_label: true, control_class: 'form-control' %>
-              <span class="input-group-addon">
-                <span class="glyphicon glyphicon-calendar"></span>
-              </span>
-            </div>
-          </td>
-        </tr>
-        <script type="text/javascript">
-          $(function () {
-            $('#start_<%= series %>').datepicker({
-                format: 'mm/dd/yyyy',
-                autoclose: true
-            });
-            $('#end_<%= series %>').datepicker({
-                format: 'mm/dd/yyyy',
-                autoclose: true
-            });
-          });
-        </script>
-        <% series_value.each do |group,group_value| %>
-          <% group_value.each do |matchup| %>
-              <tr>
-                <td><%= group %></td>
-                <td><%= matchup[0] %></td>
-                <td><%= matchup[1] %></td>
-              </tr>
-          <% end %>
-        <% end %>
-      <% end %>
-      <tr>
-        <td colspan="3" class="text-right"><%= f.submit "Save Series Dates" %></td>
-      </tr>
-      </tbody>
-    </table>
-    <% end %>
-  </div>
-</div>
+

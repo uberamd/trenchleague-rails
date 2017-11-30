@@ -330,6 +330,36 @@ class SeriesController < ApplicationController
     redirect_to show_series_path(@series, :anchor => "message-#{@message.id}") and return
   end
 
+  def predict_winner
+    authorize! :isplayer, current_user
+
+    # determine if the user already voted
+    if current_user.user_series_predictions.where(:series_id => params['id']).all.count > 0
+      flash[:danger] = 'You have already casted a prediction for this series'
+
+      redirect_to :back and return
+    end
+
+    # we should eventually check to see if the series has already started
+
+    series = Series.find(params['id'])
+
+    # user is trying to vote for a team that isnt playing... screw this guy...
+    if series.teams[0].id != params['team_id'] || series.teams[1].id != params['team_id']
+      flash[:danger] = "You cannot vote for a team that isn't playing in this series."
+      redirect_to :back and return
+    end
+
+    # finally, record the vote
+    current_user.user_series_predictions.create({
+        series_id: params['id'],
+        team_id: params['team_id']
+                                                })
+
+    flash[:success] = 'Prediction successfully recorded, good luck!'
+    redirect_to series_path(params['id']) and return
+  end
+
   def index
   end
 

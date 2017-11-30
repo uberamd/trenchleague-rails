@@ -19,6 +19,8 @@ class User < ApplicationRecord
 
   belongs_to :inhouse_lobby, class_name: 'ChatRoom', foreign_key: 'chat_room_id', optional: true
 
+  has_many :user_series_predictions
+
   def get_short_steamid
     return self.steamid.to_i - 76561197960265728
   end

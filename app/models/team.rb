@@ -11,6 +11,8 @@ class Team < ApplicationRecord
   has_many :won_matches, foreign_key: 'winning_team_id', class_name: 'SeriesMatch'
   has_many :lost_matches, foreign_key: 'losing_team_id', class_name: 'SeriesMatch'
 
+  has_many :user_series_predictions
+
   has_attached_file :logo, styles: {
       thumb: '100x100>',
       thumb_square: '100x100#',

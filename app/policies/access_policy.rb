@@ -39,6 +39,10 @@ class AccessPolicy
       can [:playinhouse], User do |user|
         !user.id.nil?
       end
+
+      can [:isplayer], User do |user|
+        !user.id.nil?
+      end
     end
 
   end
