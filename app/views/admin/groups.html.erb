@@ -1,74 +1,102 @@
-<div class="row">
-  <div class="col-md-6">
-    <div class="well well-sm">
-      <h4>Create new group</h4>
-      <%= bootstrap_form_tag url: groups_create_admin_path do |f| %>
-          <%= f.text_field :name %>
-          <%= f.submit 'Create Group' %>
-      <% end %>
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>Group Administration</h2>
+    <ol class="breadcrumb">
+      <li>
+        <%= link_to 'Home', root_path %>
+      </li>
+      <li>
+        <%= link_to 'Administration', admin_path %>
+      </li>
+      <li class="active">
+        <strong>Groups</strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-2"></div>
+</div>
+
+<div class="wrapper wrapper-content">
+  <div class="row animated fadeInRight">
+
+    <div class="col-md-6">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Create new group</h5>
+        </div>
+        <div class="ibox-content">
+          <%= bootstrap_form_tag url: groups_create_admin_path do |f| %>
+            <%= f.text_field :name %>
+            <%= f.submit 'Create Group' %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Manage current groups</h5>
+        </div>
+        <div class="ibox-content">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th>Name</th>
+              <th>Teams</th>
+              <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @groups.each do |group| %>
+                <tr>
+                  <td><%= group.name %></td>
+                  <td><%= group.teams.count %></td>
+                  <td class="text-right">
+                    <%= link_to 'Delete', groups_delete_admin_path(group.id), data: { confirm: "Are you sure you want to delete this group?" }, class: 'btn btn-danger btn-xs' %>
+                  </td>
+                </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
-
-  <div class="col-md-6">
-    <h4>Manage current groups</h4>
-    <table class="table table-hover">
-      <thead>
-      <tr>
-        <th>Name</th>
-        <th>Teams</th>
-        <th></th>
-      </tr>
-      </thead>
-      <tbody>
-      <% @groups.each do |group| %>
-      <tr>
-        <td><%= group.name %></td>
-        <td><%= group.teams.count %></td>
-        <td class="text-right">
-          <%= link_to 'Delete', groups_delete_admin_path(group.id), data: { confirm: "Are you sure you want to delete this group?" }, class: 'btn btn-danger btn-xs' %>
-        </td>
-      </tr>
-      <% end %>
-      </tbody>
-    </table>
-  </div>
 </div>
-<hr />
+
 <div class="row">
   <% @groups.each do |group| %>
   <div class="col-md-6">
-    <div class="well well-sm">
-      <div class="row">
-        <div class="col-md-12">
-          <h4>Group <%= group.name %></h4>
-        </div>
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h5>Group <%= group.name %></h5>
       </div>
-      <div class="row">
-        <div class="col-md-12">
-          <% group.teams.each do |team| %>
-              <% team_eligible = team.team_eligible? %>
-              <div class="media">
-                <div class="media-left">
-                  <%= link_to team do %>
-                      <%= image_tag team.logo.url(:tiny_square) %>
-                  <% end %>
-                </div>
-                <div class="media-body">
-                  <h4 class="media-heading">
-                    <%= team.name %>
-                    <% eligibility_icon = 'glyphicon-ok text-success' if team_eligible %>
-                    <% eligibility_icon = 'glyphicon-remove text-danger' if !team_eligible %>
-                    <span class="glyphicon <%= eligibility_icon %>"></span>
-                  </h4>
-                  <ul class="list-inline">
-                    <% avg_rank_tier = team.get_average_rank_tier %>
-                    <li class="text-center"><h5>Players</h5><%= team.users.where(:team_join_approved => true).count %></li>
-                    <li class="text-center"><h5>Average Rank Tier</h5><%= avg_rank_tier %></li>
-                  </ul>
-                </div>
+      <div class="ibox-content">
+        <% group.teams.each do |team| %>
+            <% team_eligible = team.team_eligible? %>
+            <div class="media">
+              <div class="media-left">
+                <%= link_to team do %>
+                    <%= image_tag team.logo.url(:tiny_square) %>
+                <% end %>
               </div>
-          <% end %>
-        </div>
+              <div class="media-body">
+                <h4 class="media-heading">
+                  <%= team.name %>
+                  <% eligibility_icon = 'glyphicon-ok text-success' if team_eligible %>
+                  <% eligibility_icon = 'glyphicon-remove text-danger' if !team_eligible %>
+                  <span class="glyphicon <%= eligibility_icon %>"></span>
+                </h4>
+                <ul class="list-inline">
+                  <% avg_rank_tier = team.get_average_rank_tier %>
+                  <li class="text-center"><h5>Players</h5><%= team.users.where(:team_join_approved => true).count %></li>
+                  <li class="text-center">
+                    <h5>Average Medal Tier</h5><%= avg_rank_tier[:rank_tier][:medal] %> <%= avg_rank_tier[:rank_tier][:stars] %>
+                   </li>
+                </ul>
+              </div>
+            </div>
+        <% end %>
       </div>
     </div>
   </div>
@@ -77,37 +105,52 @@
 <hr />
 <div class="row">
   <div class="col-md-12">
-    <%= bootstrap_form_tag url: groups_update_assignments_admin_path do |f| %>
-    <table class="table table-hover" id="admin_groups_table">
-      <thead>
-      <tr>
-        <th>Team</th>
-        <th>Verified Players</th>
-        <th>Unverified Players</th>
-        <th>Avg. Solo</th>
-        <th>Group</th>
-      </tr>
-      </thead>
-      <tbody>
-      <% Team.order('name ASC').all.each do |team| %>
-      <% rank_hash = team.get_average_rank_tier %>
-      <tr>
-        <td><%= team.name %></td>
-        <td><%= team.users.where(:team_join_approved => true, :smurf_check => 1).all.count %></td>
-        <td><%= team.users.where(:team_join_approved => true).where.not(:smurf_check => 1).all.count %></td>
-        <td><%= rank_hash %></td>
-        <td>
-          <%= f.select("team_#{team.id}", options_from_collection_for_select(Group.all, 'id', 'name', team.group_id), { include_blank: 'None', hide_label: true }, { class: 'input-sm' }) %>
-        </td>
-      </tr>
-      <% end %>
-      <tr>
-        <td colspan="7" class="text-right">
-          <%= f.submit 'Update Team Assignments', class: 'btn btn-primary' %>
-        </td>
-      </tr>
-      </tbody>
-    </table>
-    <% end %>
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h5>Update team assignments</h5>
+      </div>
+      <div class="ibox-content">
+        <%= bootstrap_form_tag url: groups_update_assignments_admin_path do |f| %>
+            <table class="table table-hover" id="admin_groups_table">
+              <thead>
+              <tr>
+                <th>Team</th>
+                <th>Verified Players</th>
+                <th>Unverified Players</th>
+                <th>Avg. Medal Tier</th>
+                <th>Group</th>
+              </tr>
+              </thead>
+              <tbody>
+              <% Team.order('name ASC').all.each do |team| %>
+                  <% rank_hash = team.get_average_rank_tier %>
+                  <tr>
+                    <td><%= team.name %></td>
+                    <td><%= team.users.where(:team_join_approved => true, :smurf_check => 1).all.count %></td>
+                    <td><%= team.users.where(:team_join_approved => true).where.not(:smurf_check => 1).all.count %></td>
+                    <td>
+                      <% if rank_hash[:rank_tier][:medal] != "" %>
+                      <%= rank_hash[:rank_tier][:medal] %>
+                      <%= rank_hash[:rank_tier][:stars] %>
+                      <% else %>
+                      Team has no calibrated players.
+                      <% end %>
+                    </td>
+                    <td>
+                      <%= f.select("team_#{team.id}", options_from_collection_for_select(Group.all, 'id', 'name', team.group_id), { include_blank: 'None', hide_label: true }, { class: 'input-sm' }) %>
+                    </td>
+                  </tr>
+              <% end %>
+              <tr>
+                <td colspan="7" class="text-right">
+                  <%= f.submit 'Update Team Assignments', class: 'btn btn-primary' %>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+        <% end %>
+      </div>
+    </div>
+
   </div>
 </div>

@@ -1,6 +1,4 @@
 class InHouseController < ApplicationController
-  add_breadcrumb :index, :index_inhouse_path
-
   def show_match
   end
 
@@ -27,8 +25,6 @@ class InHouseController < ApplicationController
     authorize! :playinhouse, current_user
 
     @chat_room = ChatRoom.includes(:messages).find_by(id: params[:id])
-
-    add_breadcrumb "Lobby: #{@chat_room.title}"
 
     @message = Message.new
   end
