@@ -1,7 +1,47 @@
-<h1>Register New Team</h1>
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>Create new team</h2>
+    <ol class="breadcrumb">
+      <li>
+        <%= link_to 'Home', root_path %>
+      </li>
+      <li class="active">
+        <strong>New Team</strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-2"></div>
+</div>
 
-<%= bootstrap_form_for(@team) do |f| %>
-    <%= f.text_field :name %>
-    <%= f.file_field :logo %>
-    <%= f.submit 'Register Team' %>
-<% end %>
+<div class="wrapper wrapper-content">
+  <div class="row animated fadeInRight">
+    <div class="col-md-9">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Register team</h5>
+        </div>
+        <div class="ibox-content">
+          <%= bootstrap_form_for(@team) do |f| %>
+              <%= f.text_field :name, label: 'Team Name' %>
+              <%= f.file_field :logo %>
+              <div class="text-right">
+                <%= f.submit 'Register Team', class: 'btn btn-primary' %>
+              </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <p>
+        <strong>Team creation rules</strong>
+        <ul>
+          <li>Team name must be unique</li>
+          <li>You must upload a logo</li>
+          <li>Minimum team name length is 2 characters</li>
+          <li>Maximum team name length is 25 characters</li>
+          <li>You can only be a member of one team</li>
+        </ul>
+      </p>
+    </div>
+  </div>
+</div>

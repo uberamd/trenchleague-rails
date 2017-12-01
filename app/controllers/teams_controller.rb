@@ -11,20 +11,23 @@ class TeamsController < ApplicationController
 
     # first we're going to create and save the team
     @team = Team.create(team_params)
-    @team.save!
+    begin
+      @team.save!
+      # next we're going to associate the player with the team
+      current_user.team_id = @team.id
+      current_user.team_admin = true
+      current_user.team_captain = true
+      current_user.team_join_approved = true
+      current_user.team_join_approved_by = current_user.id
+      current_user.team_join_date = Time.now()
+      current_user.save!
 
-    # next we're going to associate the player with the team
-    current_user.team_id = @team.id
-    current_user.team_admin = true
-    current_user.team_captain = true
-    current_user.team_join_approved = true
-    current_user.team_join_approved_by = current_user.id
-    current_user.team_join_date = Time.now()
-    current_user.save!
-
-    # success
-    flash[:success] = 'New team registration successful'
-    redirect_to @team and return
+      # success
+      flash[:success] = 'New team registration successful'
+      redirect_to @team and return
+    rescue ActiveRecord::RecordInvalid => invalid
+      render 'new'
+    end
   end
 
   def show

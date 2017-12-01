@@ -1,14 +1,39 @@
-<div class="row">
-  <div class="col-md-12">
-    <% if !@rules.contents.nil? %>
-      <p><strong>Last modified by <%= @rules.user.personaname %> <%= timeago_tag @rules.updated_at, force: true %></strong></p>
-      <%= markdown(@rules.contents) %>
-    <% else %>
-    <div class="alert alert-danger">
-      <p>
-        <strong>Heads up!</strong> No rules have been defined for this league. Contact an admin.
-      </p>
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>League Rules</h2>
+    <ol class="breadcrumb">
+      <li>
+        <%= link_to 'Home', root_path %>
+      </li>
+      <li class="active">
+        <strong>Rules</strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-2"></div>
+</div>
+
+<div class="wrapper wrapper-content">
+  <div class="row animated fadeInRight">
+
+
+    <div class="col-md-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Last modified by <%= @rules.user.personaname %> <%= timeago_tag @rules.updated_at, force: true %></h5>
+        </div>
+        <div class="ibox-content">
+          <% if !@rules.contents.nil? %>
+                <%= markdown(@rules.contents) %>
+          <% else %>
+              <div class="alert alert-danger">
+              <p>
+                <strong>Heads up!</strong> No rules have been defined for this league. Contact an admin.
+              </p>
+              </div>
+          <% end %>
+        </div>
+      </div>
     </div>
-    <% end %>
   </div>
 </div>

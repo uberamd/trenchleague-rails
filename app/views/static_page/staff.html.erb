@@ -1,14 +1,42 @@
-<div class="row">
-  <div class="col-md-12">
-    <% if !@staff.contents.nil? %>
-        <p><strong>Last modified by <%= @staff.user.personaname %> <%= timeago_tag @staff.updated_at, force: true %></strong></p>
-        <%= markdown(@staff.contents) %>
-    <% else %>
-        <div class="alert alert-danger">
-          <p>
-            <strong>Heads up!</strong> No staff information has been recorded. Contact an admin.
-          </p>
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>League Staff</h2>
+    <ol class="breadcrumb">
+      <li>
+        <%= link_to 'Home', root_path %>
+      </li>
+      <li class="active">
+        <strong>Staff</strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-2"></div>
+</div>
+
+<div class="wrapper wrapper-content">
+  <div class="row animated fadeInRight">
+
+
+    <div class="col-md-12">
+      <div class="ibox float-e-margins">
+        <% if !@staff.contents.nil? %>
+        <div class="ibox-title">
+          <h5>Last modified by <%= @staff.user.personaname %> <%= timeago_tag @staff.updated_at, force: true %></h5>
         </div>
-    <% end %>
+        <% end %>
+        <div class="ibox-content">
+          <% if !@staff.contents.nil? %>
+              <%= markdown(@staff.contents) %>
+          <% else %>
+              <div class="alert alert-danger">
+                <p>
+                  <strong>Heads up!</strong> No staff information has been defined for this league. Contact an admin.
+                </p>
+              </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+

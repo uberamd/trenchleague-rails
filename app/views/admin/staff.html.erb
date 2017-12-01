@@ -1,13 +1,38 @@
-<div class="row">
-  <div class="col-md-12">
-    <%= bootstrap_form_tag url: update_page_admin_path do |f| %>
-        <%= md_simple_editor  do %>
-            <%= f.text_area :contents, value: @staff.contents, label: false, rows: 50 %>
-        <% end %>
-        <div class="text-right">
-          <%= f.hidden_field_tag :shortname, 'staff' %>
-          <%= f.submit 'Update Staff Page' %>
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>Edit Staff</h2>
+    <ol class="breadcrumb">
+      <li>
+        <%= link_to 'Home', root_path %>
+      </li>
+      <li>
+        <%= link_to 'Administration', admin_path %>
+      </li>
+      <li class="active">
+        <strong>Staff</strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-2"></div>
+</div>
+
+<div class="wrapper wrapper-content">
+  <div class="row animated fadeInRight">
+
+
+    <div class="col-md-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-content">
+          <%= bootstrap_form_tag url: update_page_admin_path do |f| %>
+              <%= f.text_area :contents, value: @staff.contents, label: false, rows: 50, data: { provide: "markdown" } %>
+              <div class="text-right">
+                <%= f.hidden_field :shortname, :value => 'staff' %>
+                <%= f.submit 'Update Staff Page', class: 'btn btn-primary' %>
+              </div>
+          <% end %>
         </div>
-    <% end %>
+      </div>
+    </div>
   </div>
 </div>
+

@@ -1,47 +1,83 @@
-<div class="row">
-  <div class="col-md-9">
-    <h3>LEADERBOARD</h3>
-    <table class="table table-hover">
-      <thead>
-      <tr>
-        <th>Player</th>
-        <th>Wins</th>
-        <th>Losses</th>
-        <th>Total Played</th>
-        <th>ELO</th>
-      </tr>
-      </thead>
-      <tbody>
-      <% @users.each do |user| %>
-      <tr>
-        <td><%= user.personaname %></td>
-        <td><%= user.in_house_wins %></td>
-        <td><%= user.in_house_losses %></td>
-        <td><%= user.in_house_wins + user.in_house_losses %></td>
-        <td><%= user.in_house_elo %></td>
-      </tr>
-      <% end %>
-      </tbody>
-    </table>
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>In-house League</h2>
+    <ol class="breadcrumb">
+      <li>
+        <%= link_to 'Home', root_path %>
+      </li>
+      <li class="active">
+        <strong>In-house</strong>
+      </li>
+    </ol>
   </div>
-  <div class="col-md-3">
-    <h4>LOBBIES</h4>
-    <div class="row">
-      <div class="col-md-12">
-        <ul class="list-group">
-          <% @chat_rooms.order('created_at DESC').each do |room| %>
-              <li class="list-group-item"><%= link_to room.title, show_lobby_inhouse_path(room) %><span class="badge"><%= room.users.count %></span></li>
-          <% end %>
-        </ul>
+  <div class="col-lg-2"></div>
+</div>
+
+<div class="wrapper wrapper-content">
+  <div class="row animated fadeInRight">
+
+
+    <div class="col-md-9">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Leaderboard</h5>
+        </div>
+        <div class="ibox-content">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th>Player</th>
+              <th>Wins</th>
+              <th>Losses</th>
+              <th>Total Played</th>
+              <th>ELO</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @users.each do |user| %>
+                <tr>
+                  <td><%= user.personaname %></td>
+                  <td><%= user.in_house_wins %></td>
+                  <td><%= user.in_house_losses %></td>
+                  <td><%= user.in_house_wins + user.in_house_losses %></td>
+                  <td><%= user.in_house_elo %></td>
+                </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
-    <hr />
-    <div class="row">
-      <div class="col-md-12">
-        <%= bootstrap_form_for @new_chat_room, url: create_lobby_inhouse_path do |f| %>
-            <%= f.text_field :title, placeholder: 'Lobby Name', hide_label: true %>
-            <%= f.submit 'Create Lobby' %>
-        <% end %>
+
+    <div class="col-md-3">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Lobbies</h5>
+        </div>
+        <div class="ibox-content">
+          <div class="row">
+            <div class="col-md-12">
+              <ul class="list-group">
+                <% if @chat_rooms.count == 0 %>
+                <p>There are no in-house lobbies yet.</p>
+                <% else %>
+                <% @chat_rooms.order('created_at DESC').each do |room| %>
+                    <li class="list-group-item"><%= link_to room.title, show_lobby_inhouse_path(room) %><span class="badge"><%= room.users.count %></span></li>
+                <% end %>
+                <% end %>
+              </ul>
+            </div>
+          </div>
+          <hr />
+          <div class="row">
+            <div class="col-md-12">
+              <%= bootstrap_form_for @new_chat_room, url: create_lobby_inhouse_path do |f| %>
+                  <%= f.text_field :title, placeholder: 'Lobby Name', hide_label: true %>
+                  <%= f.submit 'Create Lobby', class: 'btn btn-primary' %>
+              <% end %>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

@@ -1,126 +1,157 @@
-<div class="row">
-  <div class="col-md-6">
-    <h4>PLAYER IN-HOUSE OVERRIDE</h4>
-    <div class="well well-sm">
-      <p>
-        Using this table you can override player Wins and Losses, and ELO. This should be used with <strong>extreme
-      caution</strong> as you are giving a player ELO adjustments with zero recorded match data to go along with it.
-      </p>
-    </div>
-    <table class="table table-hover">
-      <thead>
-      <tr>
-        <th>Player</th>
-        <th>Wins</th>
-        <th>Losses</th>
-        <th>ELO</th>
-      </tr>
-      </thead>
-      <tbody>
-      <% @users.each do |user| %>
-      <tr>
-        <td><%= user.personaname %></td>
-        <td>
-          <%= editable user, :in_house_wins, url: update_player_inhouse_admin_path(user) %>
-        </td>
-        <td>
-          <%= editable user, :in_house_losses, url: update_player_inhouse_admin_path(user) %>
-        </td>
-        <td>
-          <%= editable user, :in_house_elo, url: update_player_inhouse_admin_path(user) %>
-        </td>
-      </tr>
-      <% end %>
-      </tbody>
-    </table>
-    <script type="text/javascript">
-        $('.editable').editable();
-    </script>
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>In-house Administration</h2>
+    <ol class="breadcrumb">
+      <li>
+        <%= link_to 'Home', root_path %>
+      </li>
+      <li>
+        <%= link_to 'Administration', admin_path %>
+      </li>
+      <li class="active">
+        <strong>In-house</strong>
+      </li>
+    </ol>
   </div>
-  <div class="col-md-6">
-    <h4>RECORD IN-HOUSE MATCH</h4>
-    <div class="well well-sm">
-      <p>
-        This form is used for recording an in-hosue match. For each user referenced here, ELO calculations will be
-        performed to adjust the ELO score for each user. Only users who have logged into this site will appear here.
-      </p>
-      <p>
-        Also note that we perform display name updates once every hour. If a user changes their name before the next
-        refresh you will need to search for them by their OLD display name.
-      </p>
-    </div>
-    <%= bootstrap_form_tag url: create_inhouse_match_admin_path do |f| %>
-      <%= f.hidden_field_tag :winner_1, '' %>
-      <%= f.hidden_field_tag :winner_2, '' %>
-      <%= f.hidden_field_tag :winner_3, '' %>
-      <%= f.hidden_field_tag :winner_4, '' %>
-      <%= f.hidden_field_tag :winner_5, '' %>
-      <%= f.hidden_field_tag :loser_1, '' %>
-      <%= f.hidden_field_tag :loser_2, '' %>
-      <%= f.hidden_field_tag :loser_3, '' %>
-      <%= f.hidden_field_tag :loser_4, '' %>
-      <%= f.hidden_field_tag :loser_5, '' %>
-      <fieldset>
-        <legend>Winners</legend>
-        <div class="form-group">
-          <label>Player Name</label>
-          <input type="text" class="form-control" name="auto_winner_1" data-autocomplete="/admin/autocomplete_user_personaname" data-id-element="#winner_1" />
-        </div>
-        <div class="form-group">
-          <label>Player Name</label>
-          <input type="text" class="form-control" name="auto_winner_2" data-autocomplete="/admin/autocomplete_user_personaname" data-id-element="#winner_2" />
-        </div>
-        <div class="form-group">
-          <label>Player Name</label>
-          <input type="text" class="form-control" name="auto_winner_3" data-autocomplete="/admin/autocomplete_user_personaname" data-id-element="#winner_3" />
-        </div>
-        <div class="form-group">
-          <label>Player Name</label>
-          <input type="text" class="form-control" name="auto_winner_4" data-autocomplete="/admin/autocomplete_user_personaname" data-id-element="#winner_4" />
-        </div>
-        <div class="form-group">
-          <label>Player Name</label>
-          <input type="text" class="form-control" name="auto_winner_5" data-autocomplete="/admin/autocomplete_user_personaname" data-id-element="#winner_5" />
-        </div>
-      </fieldset>
-      <fieldset>
-        <legend>Losers</legend>
-        <div class="form-group">
-          <label>Player Name</label>
-          <input type="text" class="form-control" name="auto_loser_1" data-autocomplete="/admin/autocomplete_user_personaname" data-id-element="#loser_1" />
-        </div>
-        <div class="form-group">
-          <label>Player Name</label>
-          <input type="text" class="form-control" name="auto_loser_2" data-autocomplete="/admin/autocomplete_user_personaname" data-id-element="#loser_2" />
-        </div>
-        <div class="form-group">
-          <label>Player Name</label>
-          <input type="text" class="form-control" name="auto_loser_3" data-autocomplete="/admin/autocomplete_user_personaname" data-id-element="#loser_3" />
-        </div>
-        <div class="form-group">
-          <label>Player Name</label>
-          <input type="text" class="form-control" name="auto_loser_4" data-autocomplete="/admin/autocomplete_user_personaname" data-id-element="#loser_4" />
-        </div>
-        <div class="form-group">
-          <label>Player Name</label>
-          <input type="text" class="form-control" name="auto_loser_5" data-autocomplete="/admin/autocomplete_user_personaname" data-id-element="#loser_5" />
-        </div>
-      </fieldset>
-      <fieldset>
-        <legend>Optional</legend>
-        <div class="form-group">
-          <label>Match Screenshot</label>
-          <%= f.file_field :screenshot, hide_label: true, name: 'inhouse_match[screenshot]' %>
-        </div>
-        <div class="form-group">
-          <label>Match ID</label>
-          <%= f.text_field :match_id, hide_label: true, name: 'inhouse_match[match_id]' %>
-        </div>
-      </fieldset>
-      <div class="text-right">
-        <%= f.submit 'Record Match' %>
-      </div>
-    <% end %>
+  <div class="col-lg-2"></div>
+</div>
 
+<div class="wrapper wrapper-content">
+  <div class="row animated fadeInRight">
+
+
+    <div class="col-md-6">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Player In-house Override</h5>
+        </div>
+        <div class="ibox-content">
+          <div class="alert alert-warning">
+            <p>
+              Using this table you can override player Wins Losses, and ELO. This should be used with <strong>extreme
+              caution</strong> as you are giving a player ELO adjustments with zero recorded match data to go along with it.
+            </p>
+          </div>
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th>Player</th>
+              <th>Wins</th>
+              <th>Losses</th>
+              <th>ELO</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% @users.each do |user| %>
+                <tr>
+                  <td><%= user.personaname %></td>
+                  <td>
+                    <%= editable user, :in_house_wins, url: update_player_inhouse_admin_path(user) %>
+                  </td>
+                  <td>
+                    <%= editable user, :in_house_losses, url: update_player_inhouse_admin_path(user) %>
+                  </td>
+                  <td>
+                    <%= editable user, :in_house_elo, url: update_player_inhouse_admin_path(user) %>
+                  </td>
+                </tr>
+            <% end %>
+            </tbody>
+          </table>
+          <script type="text/javascript">
+              $('.editable').editable();
+          </script>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Record In-house Match</h5>
+        </div>
+        <div class="ibox-content">
+          <p>
+            This form is used for recording an in-hosue match. For each user referenced here, ELO calculations will be
+            performed to adjust the ELO score for each user. Only users who have logged into this site will appear here.
+          </p>
+          <p>
+            Also note that we perform display name updates once every hour. If a user changes their name before the next
+            refresh you will need to search for them by their OLD display name.
+          </p>
+          <%= bootstrap_form_tag url: create_inhouse_match_admin_path do |f| %>
+              <fieldset>
+                <legend>Winners</legend>
+                <div class="form-group">
+                  <label>Player Name</label>
+                  <input type="text" class="form-control typeahead" name="winner_1" autocomplete="off" />
+                </div>
+                <div class="form-group">
+                  <label>Player Name</label>
+                  <input type="text" class="form-control typeahead" name="winner_2" autocomplete="off" />
+                </div>
+                <div class="form-group">
+                  <label>Player Name</label>
+                  <input type="text" class="form-control typeahead" name="winner_3" autocomplete="off" />
+                </div>
+                <div class="form-group">
+                  <label>Player Name</label>
+                  <input type="text" class="form-control typeahead" name="winner_4" autocomplete="off" />
+                </div>
+                <div class="form-group">
+                  <label>Player Name</label>
+                  <input type="text" class="form-control typeahead" name="winner_5" autocomplete="off" />
+                </div>
+              </fieldset>
+              <fieldset>
+                <legend>Losers</legend>
+                <div class="form-group">
+                  <label>Player Name</label>
+                  <input type="text" class="form-control typeahead" name="loser_1" autocomplete="off" />
+                </div>
+                <div class="form-group">
+                  <label>Player Name</label>
+                  <input type="text" class="form-control typeahead" name="loser_2" autocomplete="off" />
+                </div>
+                <div class="form-group">
+                  <label>Player Name</label>
+                  <input type="text" class="form-control typeahead" name="loser_3" autocomplete="off" />
+                </div>
+                <div class="form-group">
+                  <label>Player Name</label>
+                  <input type="text" class="form-control typeahead" name="loser_4" autocomplete="off" />
+                </div>
+                <div class="form-group">
+                  <label>Player Name</label>
+                  <input type="text" class="form-control typeahead" name="loser_5" autocomplete="off" />
+                </div>
+              </fieldset>
+              <fieldset>
+                <legend>Optional</legend>
+                <div class="form-group">
+                  <label>Match Screenshot</label>
+                  <%= f.file_field :screenshot, hide_label: true, name: 'inhouse_match[screenshot]' %>
+                </div>
+                <div class="form-group">
+                  <label>Match ID</label>
+                  <%= f.text_field :match_id, hide_label: true, name: 'inhouse_match[match_id]' %>
+                </div>
+              </fieldset>
+              <div class="text-right">
+                <%= f.submit 'Record Match', class: 'btn btn-primary' %>
+              </div>
+          <% end %>
+          <script type="text/javascript">
+            $(function() {
+                $.get('/admin/autocomplete_user_personaname', function(data) {
+                    $('.typeahead').typeahead({
+                        source: data
+                    });
+                });
+            });
+          </script>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

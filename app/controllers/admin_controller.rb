@@ -1,11 +1,25 @@
 class AdminController < ApplicationController
   include AdminHelper
 
-  autocomplete :user, :personaname, :full => true
-
   def index
     authorize! :leagueadmin, Group
     # do something here idk what yet
+  end
+
+  def autocomplete_user_personaname
+    authorize! :leagueadmin, Group
+
+    response_hash = []
+
+    User.all.each do |user|
+
+      response_hash << {
+          id: user.id,
+          name: user.personaname
+      }
+    end
+
+    render json: response_hash
   end
 
   def inhouse
@@ -17,6 +31,7 @@ class AdminController < ApplicationController
     authorize! :leagueadmin, Group
 
     @ihm = InhouseMatch.create(inhouse_match_params)
+    @ihm.save!
 
     user_arr = []
     params.each do |param,v|
@@ -28,7 +43,7 @@ class AdminController < ApplicationController
       end
 
       if param =~ /^(winner_|loser_)/
-        user = User.find(v)
+        user = User.find_by(personaname: v)
         tmp_user[:user_id] = user.id
         if !user.in_house_elo.nil?
           tmp_user[:elo]     = user.in_house_elo
@@ -60,7 +75,7 @@ class AdminController < ApplicationController
     end
 
     flash[:success] = 'Successfully recorded results for Inhouse Match'
-    redirect_to root_path and return
+    redirect_to inhouse_admin_path and return
   end
 
   def update_player_inhouse

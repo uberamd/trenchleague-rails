@@ -17,8 +17,9 @@
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
                         <li><a href="">Profile</a>
                         </li>
-                        <li><a href="">Team</a>
-                        </li>
+                        <% if !current_user.team_id.nil? %>
+                        <li><%= link_to 'My Team', team_path(current_user.team) %></li>
+                        <% end %>
                         <li class="divider"></li>
                         <li><a href="/logout">Logout</a>
                         </li>
@@ -37,6 +38,9 @@
             <li class="<%= is_active_controller('teams') %>">
                 <a href=""><i class="fa fa-users"></i> <span class="nav-label" data-i18n="nav.teams">Teams</span> <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse <%= is_active_controller('dashboards', 'in') %>">
+                  <% if can? :create, Team %>
+                    <li><%= link_to 'Create new Team', new_team_path %></li>
+                  <% end %>
                   <% Team.order('name ASC').where(:is_active => true, :is_deleted => false).all.each do |team| %>
                     <li><%= link_to team.name, team_path(team) %></li>
                   <% end %>
@@ -46,6 +50,12 @@
               <%= link_to schedules_path do %>
               <i class="fa fa-calendar"></i> <span class="nav-label" data-i18n="nav.schedule">Schedule</span>
               <% end %>
+            </li>
+            <li class="<%= is_active_controller('in_house') %>">
+              <a href=""><i class="fa fa-crosshairs"></i> <span class="nav-label" data-i18n="nav.inhouse">In-house</span> <span class="fa arrow"></span></a>
+              <ul class="nav nav-second-level collapse <%= is_active_controller('inhouse', 'in') %>">
+                <li><%= link_to 'Leaderboard', index_inhouse_path %></li>
+              </ul>
             </li>
             <li class="<%= is_active_controller('static_page') %>">
               <a href=""><i class="fa fa-info-circle"></i> <span class="nav-label" data-i18n="nav.about">About</span> <span class="fa arrow"></span></a>
@@ -61,7 +71,7 @@
                 <li class="<%= is_active_action('players') %>"><%= link_to 'Players', players_admin_path %></li>
                 <li class="<%= is_active_action('groups') %>"><%= link_to 'Groups', groups_admin_path %></li>
                 <li class="<%= is_active_action('seed_series') %>"><%= link_to 'Seed Series', groups_seed_admin_path %></li>
-                <li class="<%= is_active_action('inhouse') %>"><%= link_to 'In-House', inhouse_admin_path %></li>
+                <li class="<%= is_active_action('inhouse') %>"><%= link_to 'In-house', inhouse_admin_path %></li>
                 <li class="<%= is_active_action('rules') %>"><%= link_to 'Edit Rules', rules_admin_path %></li>
                 <li class="<%= is_active_action('staff') %>"><%= link_to 'Edit Staff Page', staff_admin_path %></li>
                 <li class="<%= is_active_action('images') %>"><%= link_to 'Manage/Upload Images', images_admin_path %></li>

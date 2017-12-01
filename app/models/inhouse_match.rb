@@ -13,6 +13,6 @@ class InhouseMatch < ApplicationRecord
       medium_stretched: '300x300!'
   }
 
-  validates :screenshot, attachment_presence: true
+  #validates :screenshot, attachment_presence: true
   validates_attachment_content_type :screenshot, :content_type => /\Aimage\/.*\Z/
 end

@@ -27,7 +27,11 @@
     <div class="widget p-lg text-center">
       <div class="m-b-md">
         <i class="fa fa-trophy fa-4x"></i>
+        <% if !@tier_hash['medal'].nil? %>
         <h1 class="m-xs"><%= @tier_hash['medal']['name'] || nil %> <%= @tier_hash['stars'] || nil  %></h1>
+        <% else %>
+        <h1 class="m-xs">-</h1>
+        <% end %>
         <h3 class="font-bold no-margins">Average Medal Tier</h3>
       </div>
     </div>

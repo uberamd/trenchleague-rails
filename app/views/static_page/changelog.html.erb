@@ -1,98 +1,208 @@
-<div class="row">
-  <div class="col-md-12">
-    <h2>CHANGELOG</h2>
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>Site Changelog</h2>
+    <ol class="breadcrumb">
+      <li>
+        <%= link_to 'Home', root_path %>
+      </li>
+      <li class="active">
+        <strong>Changelog</strong>
+      </li>
+    </ol>
   </div>
+  <div class="col-lg-2"></div>
 </div>
 
-<div class="row">
-  <div class="col-md-12">
-    <h4>OCTOBER 16, 2017</h4>
-    <p>
-      commit <code>f50c7a5574ad71e8fa5612269540ebbec947d6ba</code> - branch <code>origin/6-payment-processing</code>
-    </p>
-    <ul>
-      <li><span class="text-info">added</span> Payment status to team pages - <a href="https://git.stevem.io/uberamd/trenchleague-rails/issues/6" target="_blank">issue tracker</a></li>
-    </ul>
-    <p>commit <code>cd3198800d87a4ddec392af9538c3fd56c834539</code> - branch <code>origin/6-payment-processing</code></p>
-    <ul>
-      <li><span class="text-info">added</span> Stripe payment for teams -- allows for Team Admins AND higher to make payments for a given team - <a href="https://git.stevem.io/uberamd/trenchleague-rails/issues/6" target="_blank">issue tracker</a></li>
-      <li><span class="text-info">added</span> League setting to enable/disable payments - <a href="https://git.stevem.io/uberamd/trenchleague-rails/issues/6" target="_blank">issue tracker</a></li>
-    </ul>
-  </div>
-  <div class="col-md-12">
-    <h4>OCTOBER 15, 2017</h4>
-    <p>commit <code>42d32d330a2c4de0da7083d5bfddec896e7a9d55</code> - branch <code>origin/develop</code></p>
-    <ul>
-      <li><span class="text-info">fixed</span> calendar not displaying properly on <%= link_to schedules_index_path, schedules_index_path %></li>
-      <li><span class="text-success">added</span> production real-time websocket hooks</li>
-    </ul>
-  </div>
-  <div class="col-md-12">
-    <h4>OCTOBER 14, 2017</h4>
-    <p>commit <code>6d69ea0b6e07a27ef79ca329bbc839e0cd057c21</code> - branch <code>origin/develop</code></p>
-    <ul>
-      <li><span class="text-info">fixed</span> editor for rules page to load properly, visible at <%= link_to rules_admin_path, rules_admin_path %></li>
-      <li><span class="text-success">started</span> framework for InHouse lobby system with real-time chat at <%= link_to index_inhouse_path, index_inhouse_path %></li>
-      <li><span class="text-success">started</span> framework for InHouse lobby bot interaction with Dota2 Game Coordinator</li>
-      <li><span class="text-danger">removed</span> turbolinks javascript which was causing issues with websockets and other javascript components</li>
-    </ul>
-  </div>
-  <div class="col-md-12">
-    <h4>OCTOBER 8, 2017</h4>
-    <p>commit <code>bea426d4048c39ab2400b676e791ca659a61f37c</code> - branch <code>origin/develop</code></p>
-    <ul>
-      <li><span class="text-info">fixed</span> issue with locales not rendering properly for breadcrumbs</li>
-    </ul>
-  </div>
-  <div class="col-md-12">
-    <h4>OCTOBER 6, 2017</h4>
-    <p>commit <code>1f636d03f40722a70c9736f5a1212ef7d6016b0c</code> - branch <code>origin/develop</code></p>
-    <ul>
-      <li><span class="text-info">fixed</span> permissions error on inhouse admin page</li>
-    </ul>
-    <p>commit <code>e1906a1383dbb35d4efdb5ce0eddcecda93685b2</code> - branch <code>origin/develop</code></p>
-    <ul>
-      <li><span class="text-success">added</span> player editing functionality to admin area allowing admins to ban
-        users, flag as admin, captain, etc, visible at <%= link_to players_admin_path, players_admin_path %></li>
-      <li><span class="text-success">added</span> inhouse wins/losses/elo editor to admin area (designed to be used to
-      seed initial data) visible at <%= link_to inhouse_admin_path, inhouse_admin_path %></li>
-      <li><span class="text-success">added</span> inhouse leaderboard visible at <%= link_to index_inhouse_path, index_inhouse_path %></li>
-    </ul>
-  </div>
-  <div class="col-md-12">
-    <h4>OCTOBER 5, 2017</h4>
-    <p>commit <code>e00942a22eb3ca3d27dc5d6c6fc499b26217da91</code> - branch <code>origin/develop</code></p>
-    <ul>
-      <li><span class="text-success">added</span> mmr refresh job at interval -- every 1 hour we will refresh player profiles via the opendota api</li>
-    </ul>
-    <p>commit <code>77d6de3d9854ef3f50c6bc93fe3dff2a33791e29</code> - branch <code>origin/develop</code></p>
-    <ul>
-      <li><span class="text-success">added</span> staff page in the admin area with a markdown editor</li>
-      <li><span class="text-success">added</span> staff page to new About section in nav</li>
-    </ul>
-  </div>
-  <div class="col-md-12">
-    <h4>OCTOBER 4, 2017</h4>
-    <p>commit <code>2b70bdb0d310311e12ca69931f53e00357de75b9</code> - branch <code>origin/develop</code></p>
-    <ul>
-      <li><span class="text-success">added</span> upload system for generic image hosting via Admin section -- allows admins to add images to pages</li>
-    </ul>
-  </div>
-  <div class="col-md-12">
-    <h4>OCTOBER 2, 2017</h4>
-    <p>commit <code>aa108f25b91cd041c10e7c4c9186d9adcc4ecaee</code> - branch <code>origin/develop</code></p>
-    <ul>
-      <li><span class="text-success">added</span> changelog to track recent updates</li>
-      <li><span class="text-success">added</span> server hostname to footer for debug purposes</li>
-    </ul>
-    <p>commit <code>dff486020cd927a1f7c1dd2bd76807dc6fb18d0b</code> - branch <code>origin/develop</code></p>
-    <ul>
-      <li><span class="text-success">added</span> calendar view to schedule index, pulls a feed from /series/feed.json</li>
-      <li><span class="text-info">changed</span> refresh job to only refresh player MMR that is more than 1 hour old</li>
-    </ul>
-    <p>commit <code>45e2abda4e9a145cd91e47562c04243ff1f678d9</code> - branch <code>origin/develop</code></p>
-    <ul>
-      <li><span class="text-success">added</span> error handling on rules page to not throw a server error when rules are not defined</li>
-    </ul>
+<div class="wrapper wrapper-content">
+  <div class="row animated fadeInRight">
+
+
+    <div class="col-md-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Commit timeline</h5>
+        </div>
+        <div class="ibox-content inspinia-timeline">
+
+
+          <div class="timeline-item">
+            <div class="row">
+              <div class="col-xs-3 date">
+                <i class="fa fa-code"></i>
+                Dec. 1, 2017
+              </div>
+              <div class="col-xs-7 content no-top-border">
+                <p class="m-b-xs">
+                  <strong>commit <code></code> branch <code>origin/6-payment-processing</code></strong>
+                </p>
+                <ul>
+                  <li><span class="text-info">added</span> Payment status to team pages - <a href="https://git.stevem.io/uberamd/trenchleague-rails/issues/6" target="_blank">issue tracker</a></li>
+                </ul>
+                <p class="m-b-xs"><strong>commit <code>cd3198800d87a4ddec392af9538c3fd56c834539</code> - branch <code>origin/6-payment-processing</code></strong></pm>
+                <ul>
+                  <li><span class="text-info">added</span> Stripe payment for teams -- allows for Team Admins AND higher to make payments for a given team - <a href="https://git.stevem.io/uberamd/trenchleague-rails/issues/6" target="_blank">issue tracker</a></li>
+                  <li><span class="text-info">added</span> League setting to enable/disable payments - <a href="https://git.stevem.io/uberamd/trenchleague-rails/issues/6" target="_blank">issue tracker</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="row">
+              <div class="col-xs-3 date">
+                <i class="fa fa-code"></i>
+                Oct. 16, 2017
+              </div>
+              <div class="col-xs-7 content no-top-border">
+                <p class="m-b-xs">
+                  <strong>commit <code>f50c7a5574ad71e8fa5612269540ebbec947d6ba</code> branch <code>origin/6-payment-processing</code></strong>
+                </p>
+                <ul>
+                  <li><span class="text-info">added</span> Payment status to team pages - <a href="https://git.stevem.io/uberamd/trenchleague-rails/issues/6" target="_blank">issue tracker</a></li>
+                </ul>
+                <p class="m-b-xs"><strong>commit <code>cd3198800d87a4ddec392af9538c3fd56c834539</code> - branch <code>origin/6-payment-processing</code></strong></pm>
+                <ul>
+                  <li><span class="text-info">added</span> Stripe payment for teams -- allows for Team Admins AND higher to make payments for a given team - <a href="https://git.stevem.io/uberamd/trenchleague-rails/issues/6" target="_blank">issue tracker</a></li>
+                  <li><span class="text-info">added</span> League setting to enable/disable payments - <a href="https://git.stevem.io/uberamd/trenchleague-rails/issues/6" target="_blank">issue tracker</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="row">
+              <div class="col-xs-3 date">
+                <i class="fa fa-code"></i>
+                Oct. 15, 2017
+              </div>
+              <div class="col-xs-7 content no-top-border">
+                <p class="m-b-xs"><strong>commit <code>42d32d330a2c4de0da7083d5bfddec896e7a9d55</code> - branch <code>origin/develop</code></strong></p>
+                <ul>
+                  <li><span class="text-info">fixed</span> calendar not displaying properly on <%= link_to schedules_index_path, schedules_index_path %></li>
+                  <li><span class="text-success">added</span> production real-time websocket hooks</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="row">
+              <div class="col-xs-3 date">
+                <i class="fa fa-code"></i>
+                Oct. 14, 2017
+              </div>
+              <div class="col-xs-7 content no-top-border">
+                <p class="m-b-xs"><strong>commit <code>6d69ea0b6e07a27ef79ca329bbc839e0cd057c21</code> - branch <code>origin/develop</code></strong></p>
+                <ul>
+                  <li><span class="text-info">fixed</span> editor for rules page to load properly, visible at <%= link_to rules_admin_path, rules_admin_path %></li>
+                  <li><span class="text-success">started</span> framework for InHouse lobby system with real-time chat at <%= link_to index_inhouse_path, index_inhouse_path %></li>
+                  <li><span class="text-success">started</span> framework for InHouse lobby bot interaction with Dota2 Game Coordinator</li>
+                  <li><span class="text-danger">removed</span> turbolinks javascript which was causing issues with websockets and other javascript components</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="row">
+              <div class="col-xs-3 date">
+                <i class="fa fa-code"></i>
+                Oct. 8, 2017
+              </div>
+              <div class="col-xs-7 content no-top-border">
+                <p class="m-b-xs"><strong>commit <code>bea426d4048c39ab2400b676e791ca659a61f37c</code> - branch <code>origin/develop</code></strong></p>
+                <ul>
+                  <li><span class="text-info">fixed</span> issue with locales not rendering properly for breadcrumbs</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="row">
+              <div class="col-xs-3 date">
+                <i class="fa fa-code"></i>
+                Oct. 6, 2017
+              </div>
+              <div class="col-xs-7 content no-top-border">
+                <p class="m-b-xs"><strong>commit <code>1f636d03f40722a70c9736f5a1212ef7d6016b0c</code> - branch <code>origin/develop</code></strong></p>
+                <ul>
+                  <li><span class="text-info">fixed</span> permissions error on inhouse admin page</li>
+                </ul>
+                <p class="m-b-xs"><strong>commit <code>e1906a1383dbb35d4efdb5ce0eddcecda93685b2</code> - branch <code>origin/develop</code></strong></p>
+                <ul>
+                  <li><span class="text-success">added</span> player editing functionality to admin area allowing admins to ban
+                    users, flag as admin, captain, etc, visible at <%= link_to players_admin_path, players_admin_path %></li>
+                  <li><span class="text-success">added</span> inhouse wins/losses/elo editor to admin area (designed to be used to
+                    seed initial data) visible at <%= link_to inhouse_admin_path, inhouse_admin_path %></li>
+                  <li><span class="text-success">added</span> inhouse leaderboard visible at <%= link_to index_inhouse_path, index_inhouse_path %></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="row">
+              <div class="col-xs-3 date">
+                <i class="fa fa-code"></i>
+                Oct. 5, 2017
+              </div>
+              <div class="col-xs-7 content no-top-border">
+                <p class="m-b-xs"><strong>commit <code>e00942a22eb3ca3d27dc5d6c6fc499b26217da91</code> - branch <code>origin/develop</code></strong></p>
+                <ul>
+                  <li><span class="text-success">added</span> mmr refresh job at interval -- every 1 hour we will refresh player profiles via the opendota api</li>
+                </ul>
+                <p class="m-b-xs"><strong>commit <code>77d6de3d9854ef3f50c6bc93fe3dff2a33791e29</code> - branch <code>origin/develop</code></strong></p>
+                <ul>
+                  <li><span class="text-success">added</span> staff page in the admin area with a markdown editor</li>
+                  <li><span class="text-success">added</span> staff page to new About section in nav</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="row">
+              <div class="col-xs-3 date">
+                <i class="fa fa-code"></i>
+                Oct. 4, 2017
+              </div>
+              <div class="col-xs-7 content no-top-border">
+                <p class="m-b-xs"><strong>commit <code>2b70bdb0d310311e12ca69931f53e00357de75b9</code> - branch <code>origin/develop</code></strong></p>
+                <ul>
+                  <li><span class="text-success">added</span> upload system for generic image hosting via Admin section -- allows admins to add images to pages</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="row">
+              <div class="col-xs-3 date">
+                <i class="fa fa-code"></i>
+                Oct. 2, 2017
+              </div>
+              <div class="col-xs-7 content no-top-border">
+                <p class="m-b-xs"><strong>commit <code>aa108f25b91cd041c10e7c4c9186d9adcc4ecaee</code> - branch <code>origin/develop</code></strong></p>
+                <ul>
+                  <li><span class="text-success">added</span> changelog to track recent updates</li>
+                  <li><span class="text-success">added</span> server hostname to footer for debug purposes</li>
+                </ul>
+                <p class="m-b-xs"><strong>commit <code>dff486020cd927a1f7c1dd2bd76807dc6fb18d0b</code> - branch <code>origin/develop</code></strong></p>
+                <ul>
+                  <li><span class="text-success">added</span> calendar view to schedule index, pulls a feed from /series/feed.json</li>
+                  <li><span class="text-info">changed</span> refresh job to only refresh player MMR that is more than 1 hour old</li>
+                </ul>
+                <p class="m-b-xs"><strong>commit <code>45e2abda4e9a145cd91e47562c04243ff1f678d9</code> - branch <code>origin/develop</code></strong></p>
+                <ul>
+                  <li><span class="text-success">added</span> error handling on rules page to not throw a server error when rules are not defined</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
   </div>
 </div>

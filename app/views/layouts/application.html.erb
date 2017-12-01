@@ -43,5 +43,35 @@
 
     <!-- Include javascript per-view -->
     <%= yield :javascript %>
+    <script type="text/javascript">
+      $(function() {
+          toastr.options = {
+              "closeButton": true,
+              "debug": false,
+              "progressBar": true,
+              "preventDuplicates": false,
+              "positionClass": "toast-top-right",
+              "onclick": null,
+              "showDuration": "400",
+              "hideDuration": "1000",
+              "timeOut": "10000",
+              "extendedTimeOut": "1000",
+              "showEasing": "swing",
+              "hideEasing": "linear",
+              "showMethod": "fadeIn",
+              "hideMethod": "fadeOut"
+          }
+          <% flash.each do |key,msg| %>
+          <% case key %>
+          <% when 'danger' %>
+            toastr.error("<%= msg %>");
+          <% when 'success' %>
+          toastr.success("<%= msg %>");
+          <% when 'warning' %>
+          toastr.warning("<%= msg %>");
+          <% end %>
+          <% end %>
+      });
+    </script>
   </body>
 </html>

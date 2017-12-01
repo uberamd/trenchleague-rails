@@ -71,14 +71,6 @@ gem 'httparty'
 gem 'rails-timeago', '~> 2.0'
 gem 'elo_rating', '~> 1.0'
 
-gem 'md_simple_editor'
-gem 'redcarpet'
-
-# these are both for the calendar
-gem 'fullcalendar-rails'
-
-gem 'jquery-ui-rails'
-gem 'rails-jquery-autocomplete'
 gem 'x-editable-rails'
 
 gem 'redis'
