@@ -42,6 +42,18 @@
                   <% end %>
                 </ul>
             </li>
+            <li class="<%= is_active_controller('schedules') %>">
+              <%= link_to schedules_path do %>
+              <i class="fa fa-calendar"></i> <span class="nav-label" data-i18n="nav.schedule">Schedule</span>
+              <% end %>
+            </li>
+            <li class="<%= is_active_controller('static_page') %>">
+              <a href=""><i class="fa fa-info-circle"></i> <span class="nav-label" data-i18n="nav.about">About</span> <span class="fa arrow"></span></a>
+              <ul class="nav nav-second-level collapse <%= is_active_controller('static_page', 'in') %>">
+                <li class="<%= is_active_action('rules') %>"><%= link_to 'Rules', rules_path %></li>
+                <li class="<%= is_active_action('staff') %>"><%= link_to 'Staff', staff_path %></li>
+              </ul>
+            </li>
             <% if can? :leagueadmin, Group %>
             <li class="<%= is_active_controller('admin') %>">
               <a href=""><i class="fa fa-lock"></i> <span class="nav-label" data-i18n="nav.admin">Administration</span> <span class="fa arrow"></span></a>

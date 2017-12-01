@@ -197,7 +197,7 @@ ActiveRecord::Schema.define(version: 20171130134636) do
     t.boolean "is_paid", default: false
     t.string "paid_amount"
     t.integer "paid_by"
-    t.datetime "paid_on", default: "2017-10-16 17:41:16"
+    t.datetime "paid_on"
     t.string "paid_stripe_token"
     t.string "paid_stripe_token_type"
     t.string "paid_stripe_email"
