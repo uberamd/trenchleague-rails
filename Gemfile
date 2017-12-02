@@ -73,6 +73,8 @@ gem 'elo_rating', '~> 1.0'
 
 gem 'x-editable-rails'
 
+gem 'redcarpet' # used to show markdown
+
 gem 'redis'
 
 gem 'stripe'

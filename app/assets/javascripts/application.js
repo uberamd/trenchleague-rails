@@ -26,7 +26,6 @@
 //= require bootstrap-markdown/bootstrap-markdown.js
 //= require bootstrap-markdown/markdown.js
 //= require editable/rails
-//= require md_simple_editor
 // require jquery-ui
 // require autocomplete-rails
 //= require cable
