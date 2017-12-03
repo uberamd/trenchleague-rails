@@ -10,8 +10,28 @@ module RankTierHelper
       '4' => { 'name' => 'Archon',   'icon' => '', 'normalized_base' => 19, 'normalized_ceiling' => 24 },
       '5' => { 'name' => 'Legend',   'icon' => '', 'normalized_base' => 25, 'normalized_ceiling' => 30 },
       '6' => { 'name' => 'Ancient',  'icon' => '', 'normalized_base' => 31, 'normalized_ceiling' => 36 },
-      '7' => { 'name' => 'Divine',   'icon' => '', 'normalized_base' => 37, 'normalized_ceiling' => 42 }
+      '7' => { 'name' => 'Divine',   'icon' => '', 'normalized_base' => 37, 'normalized_ceiling' => 43 }
   }
+
+  def get_rank_tier_player_distribution
+    medals = RankMedals
+
+    full_hash = {}
+    medals.each do |k,v|
+      for i in v['normalized_base']..v['normalized_ceiling']
+        full_hash[i] = {}
+        full_hash[i]['name'] = "#{v['name']} #{i - v['normalized_base']}"
+        full_hash[i]['count'] = 0
+      end
+    end
+
+    User.where.not(rank_tier: nil).all.each do |user|
+      normalized_tier = convert_proper_tier_to_normalized_rank(user.rank_tier)
+      full_hash[normalized_tier]['count'] += 1
+    end
+
+    return full_hash
+  end
 
   # this will take in a rank_tier (int) and return back a slightly more verbose hash of data
   def get_rank_tier_hash(rank_tier)

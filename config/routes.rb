@@ -63,6 +63,7 @@ Rails.application.routes.draw do
 
   # players routes
   get '/players/:id', to: 'players#show', as: 'show_player'
+  get '/players', to: 'players#index', as: 'index_players'
 
   # schedules
   get '/schedules', to: 'schedules#index', as: 'schedules'
@@ -72,4 +73,5 @@ Rails.application.routes.draw do
   get '/rules', to: 'static_page#rules', as: 'rules'
   get '/changelog', to: 'static_page#changelog', as: 'changelog'
   get '/staff', to: 'static_page#staff', as: 'staff'
+  get '/distributions', to: 'static_page#distributions', as: 'distributions'
 end

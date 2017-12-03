@@ -4,6 +4,7 @@ class StaticPageController < ApplicationController
 
   def index
     @tier_hash = league_averages
+    get_rank_tier_player_distribution
   end
 
   def rules
@@ -24,5 +25,9 @@ class StaticPageController < ApplicationController
     if @staff.nil?
       @staff = Page.new
     end
+  end
+
+  def distributions
+    @rank_hash = get_rank_tier_player_distribution
   end
 end
