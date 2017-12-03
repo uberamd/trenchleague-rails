@@ -25,7 +25,7 @@ module RankTierHelper
       end
     end
 
-    User.where.not(rank_tier: nil).all.each do |user|
+    User.where.not(rank_tier: nil, team_id: nil).all.each do |user|
       normalized_tier = convert_proper_tier_to_normalized_rank(user.rank_tier)
       full_hash[normalized_tier]['count'] += 1
     end
