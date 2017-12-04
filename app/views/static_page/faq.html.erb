@@ -41,6 +41,11 @@
             </div>
           </div>
         </div>
+        <% if @faqs.count == 0 %>
+        <div class="alert alert-warning">
+          <p>The FAQ is currently empty. Populate it by asking a question!</p>
+        </div>
+        <% end %>
 
         <% @faqs.each do |faq| %>
         <div class="faq-item">
