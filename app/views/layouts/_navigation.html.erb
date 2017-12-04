@@ -15,8 +15,7 @@
                         </span>
                     </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                        <li><a href="">Profile</a>
-                        </li>
+                        <li><%= link_to 'Profile', show_player_path(current_user.steamid) %></li>
                         <% if !current_user.team_id.nil? %>
                         <li><%= link_to 'My Team', team_path(current_user.team) %></li>
                         <% end %>

@@ -1,2 +1,167 @@
-<h1>Players#show</h1>
-<p>Find me in app/views/players/show.html.erb</p>
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>Player Profile</h2>
+    <ol class="breadcrumb">
+      <li>
+        <%= link_to 'Home', root_path %>
+      </li>
+      <li>
+        <%= link_to 'Players', index_players_path %>
+      </li>
+      <li class="active">
+        <strong><%= @player.personaname %></strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-2"></div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row m-b-lg m-t-lg">
+    <div class="col-md-6">
+      <div class="profile-image">
+        <%= image_tag @player.avatar, class: 'img-circle circle-border m-b-md' %>
+      </div>
+      <div class="profile-info">
+        <div>
+          <div>
+            <h2 class="no-margins"><%= @player.personaname %></h2>
+            <h4>
+              <% if @player.team_id != nil && @player.team_join_approved %>
+                <% if @player.team_captain %>
+                  <span class="text-info">Captain</span> of team <%= @player.team.name %>
+                <% else %>
+                  Player on team <%= @player.team.name %>
+                <% end %>
+              <% else %>
+              Currently not on a team
+              <% end %>
+            </h4>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3"></div>
+    <div class="col-md-3 text-right">
+      <div class="widget style1">
+        <div class="row">
+          <div class="col-xs-4 text-center"><i class="fa fa-trophy fa-5x"></i></div>
+          <div class="col-xs-8 text-right">
+            <span>Medal Tier</span>
+            <h2 class="font-bold">
+              <% if !@rank_info.nil? %>
+                  <%= @rank_info['medal']['name'] %> <%= @rank_info['stars'] %>
+              <% else %>
+                  Uncalibrated
+              <% end %>
+            </h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+
+    <div class="col-lg-3">
+      <div class="ibox">
+        <div class="ibox-content">
+          <h3>About <%= @player.personaname %></h3>
+          <ul class="list-group clear-list m-t">
+            <li class="list-group-item fist-item">
+              <span class="pull-right">
+                <% if @player.team_id != nil && @player.team_join_approved %>
+                  <%= link_to @player.team.name, team_path(@player.team) %>
+                <% else %>
+                  No team
+                <% end %>
+              </span>
+              Team
+            </li>
+            <li class="list-group-item">
+              <span class="pull-right">
+                <% if @player.team_id != nil && @player.team_join_approved %>
+                  <% if @player.team_captain %>
+                    <span class="label label-info">Captain</span>
+                  <% end %>
+                  <% if @player.team_admin %>
+                    <span class="label label-primary">Admin</span>
+                  <% end %>
+                  <% if !@player.team_captain || !@player.team_admin %>
+                    <span class="label label-default">Player</span>
+                  <% end %>
+                <% else %>
+                  N/A
+                <% end %>
+              </span>
+              Team role
+            </li>
+            <li class="list-group-item">
+              <span class="pull-right">
+                <% if @player.is_global_admin %>
+                  <span class="label label-danger">Global Admin</span>
+                <% end %>
+                <% if @player.is_league_admin %>
+                  <span class="label label-danger">Admin</span>
+                <% end %>
+                <% if @player.is_league_caster %>
+                  <span class="label label-success">Caster</span>
+                <% end %>
+              </span>
+              League role
+            </li>
+            <li class="list-group-item">
+              <span class="pull-right">
+                <%= link_to 'Dotabuff', "https://www.dotabuff.com/players/#{@player.get_short_steamid}/", target: :_blank %> /
+                <%= link_to 'OpenDota', "https://www.opendota.com/players/#{@player.get_short_steamid}/", target: :_blank %> /
+                <%= link_to 'Steam Community', @player.profileurl, target: :_blank %>
+              </span>
+              Profiles
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="ibox">
+        <div class="ibox-content">
+          <h3>Biography</h3>
+          <% if @player.biography.nil? %>
+            <div class="alert alert-info">Player has not provided a biography.</div>
+          <% else %>
+            <%= simple_format(@player.biography, class: 'small', sanitize: true) %>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="ibox">
+        <div class="ibox-content">
+          <h3>Teammates</h3>
+          <% if !@player.team_id.nil? && @player.team_join_approved %>
+          <p class="small">Click an avatar to view player profile</p>
+          <div class="user-friends">
+            <% @player.team.users.each do |user| %>
+              <% if user.id != @player.id %>
+                <%= link_to image_tag(user.avatar, class: 'img-circle', data: { toggle: 'tooltip', placement: 'top'}, title: user.personaname), show_player_path(user.steamid) %>
+              <% end %>
+            <% end %>
+          </div>
+          <% else %>
+          <p class="small">Player has not joined a team.</p>
+          <% end %>
+        </div>
+      </div>
+
+
+    </div>
+
+    <div class="col-lg-5"></div>
+
+    <div class="col-lg-4 m-b-lg"></div>
+
+  </div>
+</div>
+<script type="text/javascript">
+    $(function() {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
