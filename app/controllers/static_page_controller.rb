@@ -30,4 +30,27 @@ class StaticPageController < ApplicationController
   def distributions
     @rank_hash = get_rank_tier_player_distribution
   end
+
+  def faq
+    @faqs = Faq.where(is_visible: true, is_deleted: false).all
+  end
+
+  def faq_create
+    authorize! :isplayer, current_user
+
+    @faq = Faq.create({
+                          question: new_faq_params,
+                          asked_by_user_id: current_user.id
+                      })
+    @faq.save!
+
+    flash[:success] = 'New FAQ question successfully submitted'
+    redirect_to faq_path
+  end
+
+  private
+
+  def new_faq_params
+    params.require(:question)
+  end
 end

@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  question: MyText
+  answer: MyText
+  asked_by_user_id: 1
+  answered_by_user_id: 1
+  is_visible: false
+  is_deleted: false
+
+two:
+  question: MyText
+  answer: MyText
+  asked_by_user_id: 1
+  answered_by_user_id: 1
+  is_visible: false
+  is_deleted: false

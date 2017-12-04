@@ -21,6 +21,9 @@ class User < ApplicationRecord
 
   has_many :user_series_predictions
 
+  has_many :faq_questions, foreign_key: 'asked_by_user_id', class_name: 'Faq'
+  has_many :faq_answers, foreign_key: 'answered_by_user_id', class_name: 'Faq'
+
   def get_short_steamid
     return self.steamid.to_i - 76561197960265728
   end

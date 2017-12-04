@@ -1,0 +1,81 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>FAQ Administration</h2>
+    <ol class="breadcrumb">
+      <li>
+        <%= link_to 'Home', root_path %>
+      </li>
+      <li>
+        <%= link_to 'Administration', admin_path %>
+      </li>
+      <li class="active">
+        <strong>FAQ</strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-2"></div>
+</div>
+
+<div class="wrapper wrapper-content">
+  <div class="row animated fadeInRight">
+
+    <div class="col-md-6">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Manage Questions</h5>
+        </div>
+        <div class="ibox-content">
+          <table class="table">
+            <thead>
+            <tr>
+              <td>Question</td>
+              <td>Asked by</td>
+              <td>Answered by</td>
+              <td>When</td>
+              <td>Visible</td>
+              <td></td>
+            </tr>
+            </thead>
+            <tbody>
+            <% @faqs.each do |faq| %>
+            <tr class="<%= faq.answerer.nil? ? 'bg-warning' : '' %>">
+              <td><%= faq.question %></td>
+              <td><%= faq.asker.personaname %></td>
+              <td><%= faq.answerer.nil? ? '-' : faq.answerer.personaname %></td>
+              <td><%= timeago_tag(faq.created_at, force: true) %></td>
+              <td>
+                <% if faq.is_visible %>
+                <i class="fa fa-thumbs-o-up"></i>
+                <% else %>
+                <i class="fa fa-thumbs-o-down"></i>
+                <% end %>
+              </td>
+              <td>
+                <%= link_to 'Edit', faq_edit_admin_path(faq), class: 'btn btn-xs btn-success' %>
+              </td>
+            </tr>
+            <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Create new FAQ item</h5>
+        </div>
+        <div class="ibox-content">
+          <%= bootstrap_form_tag url: faq_create_admin_path do |f| %>
+              <%= f.text_field :question %>
+              <%= f.text_area :answer, label: true, rows: 10, data: { provide: 'markdown' } %>
+              <div class="text-right">
+                <%= f.submit 'Create FAQ Item', class: 'btn btn-primary' %>
+              </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

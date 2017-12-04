@@ -22,6 +22,41 @@ class AdminController < ApplicationController
     render json: response_hash
   end
 
+  def faq
+    authorize! :leagueadmin, Group
+
+    @faqs = Faq.all
+  end
+
+  def faq_create
+    authorize! :leagueadmin, Group
+
+    @faq = Faq.create(faq_params)
+    @faq.asked_by_user_id = current_user.id
+    @faq.answered_by_user_id = current_user.id
+    @faq.save!
+
+    flash[:success] = 'New FAQ item successfully created!'
+    redirect_to faq_admin_path
+  end
+
+  def faq_edit
+    authorize! :leagueadmin, Group
+
+    @faq = Faq.find(params[:id])
+  end
+
+  def faq_update
+    authorize! :leagueadmin, Group
+
+    @faq = Faq.find(params[:id])
+    @faq.update!(faq_update_params)
+    @faq.save!
+
+    flash[:success] = 'FAQ successfully updated'
+    redirect_to faq_admin_path
+  end
+
   def inhouse
     authorize! :leagueadmin, Group
     @users = User.where.not(:is_banned => true, :is_deleted => true).order('personaname ASC').all
@@ -348,6 +383,14 @@ class AdminController < ApplicationController
 
   def update_player_params
     params.require(:user).permit(:team_captain, :is_league_admin, :is_league_caster, :is_banned)
+  end
+
+  def faq_params
+    params.permit(:question, :answer)
+  end
+
+  def faq_update_params
+    params.require(:faq).permit(:question, :answer, :is_visible)
   end
 
 end

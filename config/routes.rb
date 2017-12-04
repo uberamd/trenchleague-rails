@@ -38,6 +38,10 @@ Rails.application.routes.draw do
   post '/admin/update_page', to: 'admin#update_page', as: 'update_page_admin'
   get '/admin/images', to: 'admin#images', as: 'images_admin'
   post '/admin/images', to: 'admin#upload_images', as: 'upload_images_admin'
+  get '/admin/faq', to: 'admin#faq', as: 'faq_admin'
+  post '/admin/faq', to: 'admin#faq_create', as: 'faq_create_admin'
+  get '/admin/faq/:id', to: 'admin#faq_edit', as: 'faq_edit_admin'
+  patch '/admin/faq/:id', to: 'admin#faq_update', as: 'faq_update_admin'
 
   get '/admin/autocomplete_user_personaname', to: 'admin#autocomplete_user_personaname', as: 'autocomplete_user_personaname_admin_index'
 
@@ -74,4 +78,6 @@ Rails.application.routes.draw do
   get '/changelog', to: 'static_page#changelog', as: 'changelog'
   get '/staff', to: 'static_page#staff', as: 'staff'
   get '/distributions', to: 'static_page#distributions', as: 'distributions'
+  get '/faq', to: 'static_page#faq', as: 'faq'
+  post '/faq', to: 'static_page#faq_create', as: 'faq_create'
 end

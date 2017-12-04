@@ -1,0 +1,43 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>Edit FAQ</h2>
+    <ol class="breadcrumb">
+      <li>
+        <%= link_to 'Home', root_path %>
+      </li>
+      <li>
+        <%= link_to 'Administration', admin_path %>
+      </li>
+      <li>
+        <%= link_to 'FAQ', faq_admin_path %>
+      </li>
+      <li class="active">
+        <strong>Edit FAQ</strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-2"></div>
+</div>
+
+<div class="wrapper wrapper-content">
+  <div class="row animated fadeInRight">
+
+    <div class="col-md-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Edit FAQ Entry</h5>
+        </div>
+        <div class="ibox-content">
+          <%= bootstrap_form_for(@faq, url: faq_update_admin_path) do |f| %>
+              <%= f.text_field :question, value: @faq.question %>
+              <%= f.text_area :answer, value: @faq.answer, label: true, rows: 10, data: { provide: 'markdown' } %>
+              <%= f.check_box :is_visible, label: 'Display question in FAQ?' %>
+              <div class="text-right">
+                <%= f.submit 'Save Changes', class: 'btn btn-primary' %>
+              </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

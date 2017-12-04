@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171130134636) do
+ActiveRecord::Schema.define(version: 20171204145418) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,6 +44,17 @@ ActiveRecord::Schema.define(version: 20171130134636) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_chat_rooms_on_user_id"
+  end
+
+  create_table "faqs", force: :cascade do |t|
+    t.text "question"
+    t.text "answer"
+    t.integer "asked_by_user_id"
+    t.integer "answered_by_user_id"
+    t.boolean "is_visible", default: true
+    t.boolean "is_deleted", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
@@ -197,7 +208,7 @@ ActiveRecord::Schema.define(version: 20171130134636) do
     t.boolean "is_paid", default: false
     t.string "paid_amount"
     t.integer "paid_by"
-    t.datetime "paid_on"
+    t.datetime "paid_on", default: "2017-10-16 17:41:16"
     t.string "paid_stripe_token"
     t.string "paid_stripe_token_type"
     t.string "paid_stripe_email"
