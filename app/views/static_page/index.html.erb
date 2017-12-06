@@ -1,9 +1,21 @@
-<div class="row border-bottom white-bg dashboard-header">
+<div class="row dashboard-header">
   <div class="col-lg-12">
-    <div class="text-center">
-      <img src="/assets/trenchwhite.png">
+    <div class="jumbotron">
+      <h1>Dota 2 Trench League</h1>
+      <p>To get started, sign in with your Steam account and create a new team or join an existing one!</p>
+      <p>
+        <% if current_user.id.nil? %>
+        <%= link_to 'Login with Steam', '/auth/steam', class: 'btn btn-primary btn-lg' %>
+        <% elsif current_user.team_id.nil? %>
+        <%= link_to 'Create a new team', new_team_path, class: 'btn btn-primary btn-lg' %>
+        <% else %>
+        <%= link_to 'View your team', team_path(current_user.team), class: 'btn btn-primary btn-lg' %>
+        <% end %>
+      </p>
     </div>
   </div>
+</div>
+<div class="row border-bottom">
   <div class="col-lg-2">
     <div class="widget p-lg text-center">
       <div class="m-b-md">

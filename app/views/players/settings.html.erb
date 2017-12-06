@@ -1,0 +1,66 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>Update Settings</h2>
+    <ol class="breadcrumb">
+      <li>
+        <%= link_to 'Home', root_path %>
+      </li>
+      <li>
+        <%= link_to 'Players', index_players_path %>
+      </li>
+      <li class="active">
+        <strong>Settings</strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-2"></div>
+</div>
+
+<div class="wrapper wrapper-content">
+  <div class="row animated fadeInRight">
+
+    <div class="col-md-9">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>My settings</h5>
+        </div>
+        <div class="ibox-content">
+          <%= bootstrap_form_tag url: update_settings_player_path, layout: :horizontal do |f| %>
+            <%= f.text_field :email, label: 'Email Address' %>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">In-house Participation</label>
+              <div class="col-sm-10">
+                <%= f.check_box :inhouse, label: 'Check to participate in the In-house league' %>
+              </div>
+            </div>
+            <%= f.select :position, [['Support (Pos. 5)', 1], ['Roamer/Support (Pos. 4)', 2], ['Offlane', 3], ['Safelane Carry', 4], ['Mid', 5], ['Mid/Safelane Core', 6], ['Support', 7]], { label: 'Preferred role/position:' } %>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Looking for team</label>
+              <div class="col-sm-10">
+                <%= f.check_box :free_agent, label: "Check to indicate you're looking for a team" %>
+              </div>
+            </div>
+            <%= f.text_area :biography, label: 'About', rows: 10 %>
+            <div class="text-right">
+              <%= f.submit 'Update Profile', class: 'btn btn-primary' %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="wrapper wrapper-content project-manager">
+        <h4>What is this used for?</h4>
+        <p class="small">The <strong>email address</strong> is used for site notifications. It is optional.</p>
+        <p class="small">Checking the <strong>in-hosue participation</strong> box lets the in-house admin know you want
+        to be added to the in-house roster.</p>
+        <p class="small">If you are in need of a team still, using the <strong>position</strong> selector and
+        <strong>looking for team</strong> checkbox will include you in the free agent listing on the players page. Teams
+        can use this information to fill empty slots in their lineup.</p>
+        <p class="small">Finally, the <strong>about</strong> section is simply a blurb of information that displays on
+        your profile. Put whatever you want there, but keep it PG.</p>
+      </div>
+    </div>
+  </div>
+</div>

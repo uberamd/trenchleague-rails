@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171204183409) do
+ActiveRecord::Schema.define(version: 20171205192926) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -258,6 +258,10 @@ ActiveRecord::Schema.define(version: 20171204183409) do
     t.boolean "lobby_ready_state", default: false
     t.integer "rank_tier"
     t.text "biography"
+    t.string "email"
+    t.boolean "inhouse", default: false
+    t.string "position"
+    t.boolean "free_agent", default: false
   end
 
   add_foreign_key "chat_rooms", "users"
