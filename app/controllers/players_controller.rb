@@ -1,5 +1,6 @@
 class PlayersController < ApplicationController
   include RankTierHelper
+  include PlayersHelper
 
   def index
 
@@ -30,6 +31,6 @@ class PlayersController < ApplicationController
   private
 
   def settings_params
-    params.permit(:email, :inhouse, :position, :free_agent, :biography)
+    params.require(:user).permit(:email, :inhouse, :position, :free_agent, :biography)
   end
 end

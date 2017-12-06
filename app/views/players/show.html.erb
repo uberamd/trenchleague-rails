@@ -118,6 +118,30 @@
               </span>
               Profiles
             </li>
+            <% if @player.inhouse %>
+            <li class="list-group-item">
+              <span class="pull-right text-info">
+                Yes
+              </span>
+              In-house Participant
+            </li>
+            <% end %>
+            <% if @player.free_agent %>
+            <li class="list-group-item">
+              <span class="pull-right text-info">
+                Yes
+              </span>
+              Looking for team
+            </li>
+            <% end %>
+            <% if !@player.position.nil? %>
+            <li class="list-group-item">
+              <span class="pull-right text-info">
+                <%= translate_role_number_to_string(@player.position.to_i) %>
+              </span>
+              Position
+            </li>
+            <% end %>
           </ul>
         </div>
       </div>
