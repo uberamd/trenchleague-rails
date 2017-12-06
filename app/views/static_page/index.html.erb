@@ -81,9 +81,9 @@
             </div>
             <div class="ibox-content">
               <p>
-                Great question! DotA 2 has a form of skill rating for each player called MMR, which goes from 0 to infinity,
-                although the highest anyone has ever gotten is a little over 9000. The "Trench" is anywhere under 3000 MMR,
-                and it's called that because once players fall in, it's a very long and treacherous climb to get out, filled
+                Great question! DotA 2 has a new form of skill rating for each player called Medal Tiers, which goes from Herald to Divine 5.
+                The "Trench" is anywhere around <strong>Archon 5</strong>, which translates to roughly anyone below 3360 MMR.
+                It's called a trench because once players fall in, it's a very long and treacherous climb to get out, filled
                 with feeders, flamers, and some of DotA 2's worst players. The Trench League is a tournament meant only
                 for those players.
               </p>
@@ -96,13 +96,13 @@
               <h5>How do I sign up?</h5>
             </div>
             <div class="ibox-content">
-              <p>
-                Registration is super easy. All you have to do is sign in with your Steam account and then connect your
-                Discord account. After that, you can access our growing Discord community, and use our super awesome
-                online portal to create and manage your team, as well as schedule matches and scrims with other Trench
-                League teams. When your team is ready to compete, there is a small $5 registration fee which is handled
-                by our secure payment provider, Stripe.
-              </p>
+              <p>Registration is super easy and only takes a few steps!</p>
+              <ul>
+                <li>Start by logging in with your <%= link_to 'Steam account', '/auth/steam' %> (top right corner)</li>
+                <li>Once you have logged in you can either <%= link_to 'Create a new team', new_team_path %> or join an existing team. NO money is due at time of team creation.</li>
+                <li>Next either wait until your team join request is accepted by the team captain, or tell your friends to visit the site and join your newly created team</li>
+                <li>Finally, once Season 3 begins you will be seeded into a group of teams and schedule matches against them using this site</li>
+              </ul>
             </div>
           </div>
         </div>
