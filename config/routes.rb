@@ -69,7 +69,7 @@ Rails.application.routes.draw do
   get '/players/:id', to: 'players#show', as: 'show_player'
   get '/players', to: 'players#index', as: 'index_players'
   get '/settings', to: 'players#settings', as: 'settings_player'
-  post '/settings', to: 'players#update_settings', as: 'update_settings_player'
+  patch '/settings', to: 'players#update_settings', as: 'update_settings_player'
 
   # schedules
   get '/schedules', to: 'schedules#index', as: 'schedules'

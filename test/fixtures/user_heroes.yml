@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 1
+  hero_id: 1
+  last_played: 2017-12-06 07:24:21
+  games: 1
+  win: 1
+  with_games: 1
+  with_win: 1
+  against_games: 1
+  against_win: 1
+
+two:
+  user_id: 1
+  hero_id: 1
+  last_played: 2017-12-06 07:24:21
+  games: 1
+  win: 1
+  with_games: 1
+  with_win: 1
+  against_games: 1
+  against_win: 1

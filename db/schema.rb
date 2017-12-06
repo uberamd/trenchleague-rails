@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171205192926) do
+ActiveRecord::Schema.define(version: 20171206132421) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -82,6 +82,19 @@ ActiveRecord::Schema.define(version: 20171205192926) do
 
   create_table "groups", force: :cascade do |t|
     t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "heroes", force: :cascade do |t|
+    t.string "name"
+    t.string "localized_name"
+    t.string "primary_attr"
+    t.string "attack_type"
+    t.string "roles"
+    t.integer "odota_hero_id"
+    t.integer "legs"
+    t.string "image"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -208,10 +221,26 @@ ActiveRecord::Schema.define(version: 20171205192926) do
     t.boolean "is_paid", default: false
     t.string "paid_amount"
     t.integer "paid_by"
-    t.datetime "paid_on", default: "2017-10-16 17:41:16"
+    t.datetime "paid_on"
     t.string "paid_stripe_token"
     t.string "paid_stripe_token_type"
     t.string "paid_stripe_email"
+  end
+
+  create_table "user_heroes", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "hero_id"
+    t.datetime "last_played"
+    t.integer "games"
+    t.integer "win"
+    t.integer "with_games"
+    t.integer "with_win"
+    t.integer "against_games"
+    t.integer "against_win"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["hero_id"], name: "index_user_heroes_on_hero_id"
+    t.index ["user_id"], name: "index_user_heroes_on_user_id"
   end
 
   create_table "user_series_predictions", force: :cascade do |t|
@@ -269,4 +298,6 @@ ActiveRecord::Schema.define(version: 20171205192926) do
   add_foreign_key "messages", "users"
   add_foreign_key "notifications", "users"
   add_foreign_key "series_matches", "series"
+  add_foreign_key "user_heroes", "heroes"
+  add_foreign_key "user_heroes", "users"
 end

@@ -1,4 +1,4 @@
-<div class="row wrapper border-bottom white-bg page-heading">
+<div class="row wrapper border-bottom white-bg page-heading" xmlns:div="http://www.w3.org/1999/html">
   <div class="col-lg-10">
     <h2>Player Profile</h2>
     <ol class="breadcrumb">
@@ -114,7 +114,7 @@
               <span class="pull-right">
                 <%= link_to 'Dotabuff', "https://www.dotabuff.com/players/#{@player.get_short_steamid}/", target: :_blank %> /
                 <%= link_to 'OpenDota', "https://www.opendota.com/players/#{@player.get_short_steamid}/", target: :_blank %> /
-                <%= link_to 'Steam Community', @player.profileurl, target: :_blank %>
+                <%= link_to 'Steam', @player.profileurl, target: :_blank %>
               </span>
               Profiles
             </li>
@@ -139,7 +139,7 @@
           <% if !@player.team_id.nil? && @player.team_join_approved %>
           <p class="small">Click an avatar to view player profile</p>
           <div class="user-friends">
-            <% @player.team.users.each do |user| %>
+            <% @player.team.users.where(team_join_approved: true).each do |user| %>
               <% if user.id != @player.id %>
                 <%= link_to image_tag(user.avatar, class: 'img-circle', data: { toggle: 'tooltip', placement: 'top'}, title: user.personaname), show_player_path(user.steamid) %>
               <% end %>
@@ -154,9 +154,44 @@
 
     </div>
 
-    <div class="col-lg-5"></div>
+    <div class="col-lg-5">
 
-    <div class="col-lg-4 m-b-lg"></div>
+      <div class="ibox">
+        <div class="ibox-content">
+          <h3>Recent League Matches</h3>
+          <div class="alert alert-info">User has not played any league matches</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4 m-b-lg">
+
+      <div class="ibox">
+        <div class="ibox-content">
+          <h3>Most Played Heroes</h3>
+          <% if @player.user_heroes.count > 0 %>
+          <div>
+            <% @player.user_heroes.order('games DESC').limit(10).each do |hero| %>
+            <div class="row m-b-sm">
+              <div class="col-md-4">
+                <%= image_tag "/assets/heroes/#{hero.hero[:image]}.png", class: 'img-responsive', style: 'height: 40px;', data: { toggle: 'tooltip', placement: 'left' }, title: hero.hero[:localized_name] %>
+              </div>
+              <div class="col-md-8">
+                <% win_rate = ((hero[:win].to_f / hero[:games].to_f) * 100 ).round %>
+                <small><%= win_rate %>% win rate - <%= "#{hero[:games]} games" %></small>
+                <div class="progress progress-mini">
+                  <div style="width: <%= win_rate %>%;" class="progress-bar"></div>
+                </div>
+              </div>
+            </div>
+            <% end %>
+          </div>
+          <% else %>
+          <div class="alert alert-info">No match data loaded for this player.</div>
+          <% end %>
+        </div>
+      </div>
+    </div>
 
   </div>
 </div>
