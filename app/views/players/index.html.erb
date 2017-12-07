@@ -16,57 +16,104 @@
 <div class="wrapper wrapper-content">
   <div class="row animated fadeInRight">
 
-    <div class="col-md-9">
+    <div class="col-md-12">
       <div class="ibox float-e-margins">
-        <div class="ibox-title">
-          <h5>All Players</h5>
-        </div>
         <div class="ibox-content">
+          <div class="m-b-lg">
+            <p>
+              This is a table of all players who are not banned. This can be used to find players in need of a team by
+              searching for the term "free agent". You can also narrow down players based on role, team name, and in-house
+              participation status (search "in-house").
+            </p>
+          </div>
+          <table class="table table-striped table-bordered table-hover player-dataTable">
+            <thead>
+            <tr>
+              <th>Player</th>
+              <th>Team</th>
+              <th>Free Agent</th>
+              <th>Role</th>
+              <th>In-house</th>
+              <th>In-house ELO</th>
+              <th>Medal Tier</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% User.where(is_banned: false).all.each do |user| %>
+            <tr>
+              <td><%= link_to user.personaname, show_player_path(user.steamid) %></td>
+              <td>
+                <% if !user.team.nil? %>
+                <%= link_to user.team.name, team_path(user.team) %>
+                <% end %>
+              </td>
+              <% if user.free_agent %>
+              <td data-search="free agent">
+              <% else %>
+              <td data-search="">
+              <% end %>
+                <% if user.free_agent %>
+                <i class="fa fa-check"></i>
+                <% end %>
+              </td>
+              <td>
+                <% if user.position %>
+                  <%= translate_role_number_to_string(user.position.to_i) %>
+                <% end %>
+              </td>
+              <% if user.inhouse %>
+              <td data-search="in-house">
+              <% else %>
+              <td data-search="">
+              <% end %>
+              <% if user.inhouse %>
+                  <i class="fa fa-check"></i>
+              <% end %>
+              </td>
+              <td>
+                <% if !user.in_house_elo.nil? %>
+                <%= user.in_house_elo %>
+                <% end %>
+              </td>
+              <% if !user.rank_tier.nil? %>
+              <% rank = get_rank_tier_hash(user.rank_tier) %>
+              <% rank_wordage = "#{rank['medal']['name']} #{rank['stars']}" %>
+              <td data-search="<%= rank_wordage %>">
+              <% else %>
+              <td data-search="">
+              <% end %>
+                <% if !user.rank_tier.nil? %>
+                  <%= rank_wordage %>
+                <% end %>
+              </td>
+            </tr>
+            <% end %>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
 
-    <div class="col-md-3">
-      <div class="ibox float-e-margins">
-        <div class="ibox-title">
-          <h5>Medal Tier Distribution</h5>
-        </div>
-        <div class="ibox-content">
-          <div id="medal_graph"></div>
-        </div>
-      </div>
-    </div>
   </div>
 </div>
-
 <script type="text/javascript">
-  $(function() {
-      c3.generate({
-          bindto: '#medal_graph',
-          data: {
-              x: 'x',
-              columns: [
-                  ['x'
-                      <% @rank_hash.each do |k,v| %>
-                      ,'<%= v['name'] %>'
-                      <% end %>
-                  ],
-                  ['Players'
-                      <% @rank_hash.each do |k,v| %>
-                      ,'<%= v['count'] %>'
-                      <% end %>
-                  ]
-              ],
-              type: 'bar'
-          },
-          axis: {
-              x: {
-                  type: 'category',
-                  tick: {
-                      multiline: true
-                  }
-              }
-          }
-      });
-  });
+
+
+    $(function() {
+
+        $('.player-dataTable').DataTable({
+            pageLength: 25,
+            responsive: true,
+            dom: '<"html5buttons"B>lTfgitp',
+            buttons: [
+                { extend: 'copy'},
+                {extend: 'csv'},
+                {extend: 'excel', title: 'Players'},
+                {extend: 'pdf', title: 'Players'},
+            ]
+
+        });
+
+
+    });
 </script>

@@ -38,7 +38,7 @@
             </li>
             <li class="<%= is_active_controller('teams') %>">
                 <a href=""><i class="fa fa-users"></i> <span class="nav-label" data-i18n="nav.teams">Teams</span> <span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level collapse <%= is_active_controller('dashboards', 'in') %>">
+                <ul class="nav nav-second-level collapse <%= is_active_controller('teams', 'in') %>">
                   <% if can? :create, Team %>
                     <li><%= link_to 'Create new Team', new_team_path %></li>
                   <% end %>
@@ -46,6 +46,15 @@
                     <li><%= link_to team.name, team_path(team) %></li>
                   <% end %>
                 </ul>
+            </li>
+            <li class="<%= is_active_controller('players') %>">
+              <a href=""><i class="fa fa-user"></i> <span class="nav-label" data-i18n="nav.players">Players</span> <span class="fa arrow"></span></a>
+              <ul class="nav nav-second-level collapse <%= is_active_controller('teams', 'in') %>">
+                <li class="<%= is_active_action('index') %>"><%= link_to 'All Players', index_players_path %></li>
+                <% if !current_user.id.nil? %>
+                <li><%= link_to 'My Profile', show_player_path(current_user.steamid) %></li>
+                <% end %>
+              </ul>
             </li>
             <li class="<%= is_active_controller('schedules') %>">
               <%= link_to schedules_path do %>
@@ -63,6 +72,13 @@
                 <i class="fa fa-headphones"></i> <span class="nav-label" data-i18n="nav.discord">Discord</span>
               </a>
             </li>
+            <% if !current_user.id.nil? %>
+            <li>
+              <%= link_to settings_player_path do %>
+              <i class="fa fa-cog"></i> <span class="nav-label" data-i18n="nav.settings">Settings</span>
+              <% end %>
+            </li>
+            <% end %>
             <li class="<%= is_active_controller('static_page') %>">
               <a href=""><i class="fa fa-info-circle"></i> <span class="nav-label" data-i18n="nav.about">About</span> <span class="fa arrow"></span></a>
               <ul class="nav nav-second-level collapse <%= is_active_controller('static_page', 'in') %>">

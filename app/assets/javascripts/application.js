@@ -25,6 +25,7 @@
 //= require typehead/bootstrap3-typeahead.min.js
 //= require bootstrap-markdown/bootstrap-markdown.js
 //= require bootstrap-markdown/markdown.js
+//= require dataTables/datatables.min.js
 //= require editable/rails
 // require jquery-ui
 // require autocomplete-rails

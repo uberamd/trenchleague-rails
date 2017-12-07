@@ -176,7 +176,7 @@
               <div class="contact-box">
                 <div class="col-sm-2">
                   <div class="text-center">
-                    <%= image_tag user.avatar, class: 'img-circle m-t-xs img-responsive' %>
+                    <%= link_to (image_tag user.avatar, class: 'img-circle m-t-xs img-responsive'), show_player_path(user.steamid) %>
                   </div>
                 </div>
                 <div class="col-sm-10">

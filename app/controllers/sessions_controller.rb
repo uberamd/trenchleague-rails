@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
     @user.save!
 
     session[:user_id] = @user.id
-    cookies.signed[:user_id] = @user.id
+    cookies.signed[:user_id] = { value: @user.id, expires: 1.month.from_now }
 
     redirect_to '/'
   end
