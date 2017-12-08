@@ -21,7 +21,7 @@ class PlayersController < ApplicationController
     }.reverse!.slice(0,9)
 
     safe = @player.odota_win_loss_records.find_by(lane_role: 1)
-    if !safe.nil?
+    if !safe.nil? && (safe['win'] > 0 || safe['lose'] > 0)
       if safe['lose'] > 0
         @safe_win_pct = ( (safe['win'].to_f / (safe['win'].to_f + safe['lose'].to_f)) * 100).round
       else
@@ -30,7 +30,7 @@ class PlayersController < ApplicationController
     end
 
     mid = @player.odota_win_loss_records.find_by(lane_role: 2)
-    if !mid.nil?
+    if !mid.nil? && (mid['win'] > 0 || mid['lose'] > 0)
       if mid['lose'] > 0
         @mid_win_pct = ( (mid['win'].to_f / (mid['win'].to_f + mid['lose'].to_f)) * 100).round
       else
@@ -39,7 +39,7 @@ class PlayersController < ApplicationController
     end
 
     off = @player.odota_win_loss_records.find_by(lane_role: 3)
-    if !off.nil?
+    if !off.nil? && (mid['win'] > 0 || mid['lose'] > 0)
       if off['lose'] > 0
         @off_win_pct = ( (off['win'].to_f / (off['win'].to_f + off['lose'].to_f)) * 100).round
       else
@@ -48,7 +48,7 @@ class PlayersController < ApplicationController
     end
 
     jungle = @player.odota_win_loss_records.find_by(lane_role: 4)
-    if !jungle.nil?
+    if !jungle.nil? && (jungle['win'] > 0 || jungle['lose'] > 0)
       if jungle['lose'] > 0
         @jungle_win_pct = ( (jungle['win'].to_f / (jungle['win'].to_f + jungle['lose'].to_f)) * 100).round
       else

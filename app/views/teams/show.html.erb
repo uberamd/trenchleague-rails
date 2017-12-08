@@ -164,72 +164,105 @@
   </div>
 
   <div class="row animated fadeInRight">
-    <div class="ibox float-e-margins">
-      <div class="ibox-title">
-        <h5>Roster</h5>
-      </div>
-      <div class="ibox-content">
+    <div class="col-md-4">
+          <h3>Roster</h3>
 
-        <% team_members = @team.users.order('personaname ASC').where(:team_join_approved => true).all %>
-        <% team_members.each do |user| %>
-            <div class="col-lg-4">
-              <div class="contact-box">
-                <div class="col-sm-2">
-                  <div class="text-center">
-                    <%= link_to (image_tag user.avatar, class: 'img-circle m-t-xs img-responsive'), show_player_path(user.steamid) %>
+          <% team_members = @team.users.order('personaname ASC').where(:team_join_approved => true).all %>
+          <% team_members.each do |user| %>
+                <div class="contact-box">
+                  <div class="col-sm-2">
+                    <div class="text-center">
+                      <%= link_to (image_tag user.avatar, class: 'img-circle m-t-xs img-responsive'), show_player_path(user.steamid) %>
+                    </div>
                   </div>
+                  <div class="col-sm-10">
+                    <h3>
+                      <% if can? :leagueadmin, Team %>
+                          <div class="btn-group">
+                            <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              <span class="glyphicon glyphicon-cog"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                              <li><%= link_to 'Smurf Approve', smurf_update_team_path(@team, user, 'approve') %></a></li>
+                              <li><%= link_to 'Smurf Deny', smurf_update_team_path(@team, user, 'deny') %></a></li>
+                              <li><%= link_to 'Smurf Reset', smurf_update_team_path(@team, user, 'reset') %></a></li>
+                              <li role="separator" class="divider"></li>
+                              <li><a href="#">Kick from team</a></li>
+                            </ul>
+                          </div>
+                      <% end %>
+                      <strong><%= user.personaname %></strong> <%= user.loccountrycode.nil? ? '' : flag_icon(user.loccountrycode.parameterize.underscore.to_sym) %>
+                    </h3>
+                    <p>
+                      <% if user.is_global_admin %><span class="label label-danger">Global Admin</span>&nbsp;&nbsp;&nbsp;<% end %>
+                      <% if user.is_league_admin %><span class="label label-danger">League Admin</span>&nbsp;&nbsp;&nbsp;<% end %>
+                      <% if user.team_admin %><span class="label label-primary">Team Admin</span>&nbsp;&nbsp;&nbsp;<% end %>
+                      <% if user.team_captain %><span class="label label-info">Captain</span>&nbsp;&nbsp;&nbsp;<% end %>
+                    </p>
+                    <p><strong>Profiles: </strong>
+                      <%= link_to 'Dotabuff', "https://www.dotabuff.com/players/#{user.get_short_steamid}/", target: :_blank %> /
+                      <%= link_to 'OpenDota', "https://www.opendota.com/players/#{user.get_short_steamid}/", target: :_blank %> /
+                      <%= link_to 'Steam Community', user.profileurl, target: :_blank %>
+                    </p>
+                    <p>
+                      <strong>Smurf check: </strong>
+                      <% if user.smurf_check == 1 %>
+                          <span class="text-info">APPROVED</span> for league play.
+                      <% elsif user.smurf_check == 2 %>
+                          <span class="text-danger">NOT APPROVED</span> for league play.
+                      <% else %>
+                          not evaluated yet.
+                      <% end %>
+                    </p>
+                    <p>
+                      <strong>Medal Tier: </strong>
+                      <%= user.rank_tier_name %> <%= user.rank_tier_stars %>
+                    </p>
+                  </div>
+                  <div class="clearfix"></div>
                 </div>
-                <div class="col-sm-10">
-                  <h3>
-                    <% if can? :leagueadmin, Team %>
-                        <div class="btn-group">
-                          <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="glyphicon glyphicon-cog"></span>
-                          </button>
-                          <ul class="dropdown-menu">
-                            <li><%= link_to 'Smurf Approve', smurf_update_team_path(@team, user, 'approve') %></a></li>
-                            <li><%= link_to 'Smurf Deny', smurf_update_team_path(@team, user, 'deny') %></a></li>
-                            <li><%= link_to 'Smurf Reset', smurf_update_team_path(@team, user, 'reset') %></a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="#">Kick from team</a></li>
-                          </ul>
-                        </div>
-                    <% end %>
-                    <strong><%= user.personaname %></strong> <%= user.loccountrycode.nil? ? '' : flag_icon(user.loccountrycode.parameterize.underscore.to_sym) %>
-                  </h3>
-                  <p>
-                    <% if user.is_global_admin %><span class="label label-danger">Global Admin</span>&nbsp;&nbsp;&nbsp;<% end %>
-                    <% if user.is_league_admin %><span class="label label-danger">League Admin</span>&nbsp;&nbsp;&nbsp;<% end %>
-                    <% if user.team_admin %><span class="label label-primary">Team Admin</span>&nbsp;&nbsp;&nbsp;<% end %>
-                    <% if user.team_captain %><span class="label label-info">Captain</span>&nbsp;&nbsp;&nbsp;<% end %>
-                  </p>
-                  <p><strong>Profiles: </strong>
-                    <%= link_to 'Dotabuff', "https://www.dotabuff.com/players/#{user.get_short_steamid}/", target: :_blank %> /
-                    <%= link_to 'OpenDota', "https://www.opendota.com/players/#{user.get_short_steamid}/", target: :_blank %> /
-                    <%= link_to 'Steam Community', user.profileurl, target: :_blank %>
-                  </p>
-                  <p>
-                    <strong>Smurf check: </strong>
-                    <% if user.smurf_check == 1 %>
-                      <span class="text-info">APPROVED</span> for league play.
-                    <% elsif user.smurf_check == 2 %>
-                      <span class="text-danger">NOT APPROVED</span> for league play.
-                    <% else %>
-                      not evaluated yet.
-                    <% end %>
-                  </p>
-                  <p>
-                    <strong>Medal Tier: </strong>
-                    <%= user.rank_tier_name %> <%= user.rank_tier_stars %>
-                  </p>
-                </div>
-                <div class="clearfix"></div>
-              </div>
+          <% end %>
+          <div class="clearfix"></div>
+    </div>
+    <div class="col-md-8">
+      <h3>Team Member Graphs</h3>
+      <div class="tabs-container">
+        <ul class="nav nav-tabs">
+          <li class="active"><a data-toggle="tab" href="#kda">KDA</a></li>
+          <li class=""><a data-toggle="tab" href="#pm">GPM/XPM</a></li>
+          <li class=""><a data-toggle="tab" href="#farm">Farm</a></li>
+          <li class=""><a data-toggle="tab" href="#support">Supporting</a></li>
+        </ul>
+        <div class="tab-content">
+
+          <div id="kda" class="tab-pane active">
+            <div class="panel-body">
+              <canvas id="kdaRadar"></canvas>
             </div>
-        <% end %>
-        <div class="clearfix"></div>
+          </div>
+
+          <div id="pm" class="tab-pane">
+            <div class="panel-body">
+              <canvas id="pmRadar"></canvas>
+            </div>
+          </div>
+
+          <div id="farm" class="tab-pane">
+            <div class="panel-body">
+              <canvas id="farmRadar"></canvas>
+            </div>
+          </div>
+
+          <div id="support" class="tab-pane">
+            <div class="panel-body">
+              <canvas id="supportRadar"></canvas>
+            </div>
+          </div>
+
+        </div>
       </div>
     </div>
+
   </div>
 
   <div class="row animated fadeInRight">
@@ -352,4 +385,111 @@
     </div>
   </div>
   <% end %>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="ibox">
+        <div class="ibox-content">
+
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+<script type="text/javascript">
+  $(function() {
+
+      var radarOptions = {
+          responsive: true,
+          scales: {
+              yAxes: [{
+                  ticks: {
+                      beginAtZero: true
+                  }
+              }]
+          }
+      };
+
+      var kdaRadar = {
+          labels: ["Kills", "Deaths", "Assists"],
+          datasets: [
+              <% @team.users.where(team_join_approved: true).all.each_with_index do |user,i| %>
+              {
+                  label: "<%= user.personaname %>",
+                  data: [
+                      <%= do_useful_division_on_values(user.odota_totals.find_by(field: 'kills').nil? ? nil : user.odota_totals.find_by(field: 'kills').total.to_f, user.odota_totals.find_by(field: 'kills').nil? ? nil : user.odota_totals.find_by(field: 'kills').sample_size.to_f) %>,
+                      <%= do_useful_division_on_values(user.odota_totals.find_by(field: 'deaths').nil? ? nil : user.odota_totals.find_by(field: 'deaths').total.to_f, user.odota_totals.find_by(field: 'deaths').nil? ? nil : user.odota_totals.find_by(field: 'deaths').sample_size.to_f) %>,
+                      <%= do_useful_division_on_values(user.odota_totals.find_by(field: 'assists').nil? ? nil : user.odota_totals.find_by(field: 'assists').total.to_f, user.odota_totals.find_by(field: 'assists').nil? ? nil : user.odota_totals.find_by(field: 'assists').sample_size.to_f) %>,
+                  ],
+                  backgroundColor: "<%= get_graph_color_string(i, 0.5) %>" ,
+                  borderColor: "<%= get_graph_color_string(i, 1) %>"
+              },
+              <% end %>
+          ]
+      }
+
+      var pmRadar = {
+          labels: ["GPM", "XPM", "APM"],
+          datasets: [
+              <% @team.users.where(team_join_approved: true).all.each_with_index do |user,i| %>
+              {
+                  label: "<%= user.personaname %>",
+                  data: [
+                      <%= do_useful_division_on_values(user.odota_totals.find_by(field: 'gold_per_min').nil? ? nil : user.odota_totals.find_by(field: 'gold_per_min').total.to_f, user.odota_totals.find_by(field: 'gold_per_min').nil? ? nil : user.odota_totals.find_by(field: 'gold_per_min').sample_size.to_f) %>,
+                      <%= do_useful_division_on_values(user.odota_totals.find_by(field: 'xp_per_min').nil? ? nil : user.odota_totals.find_by(field: 'xp_per_min').total.to_f, user.odota_totals.find_by(field: 'xp_per_min').nil? ? nil : user.odota_totals.find_by(field: 'xp_per_min').sample_size.to_f) %>,
+                      <%= do_useful_division_on_values(user.odota_totals.find_by(field: 'actions_per_min').nil? ? nil : user.odota_totals.find_by(field: 'actions_per_min').total.to_f, user.odota_totals.find_by(field: 'actions_per_min').nil? ? nil : user.odota_totals.find_by(field: 'actions_per_min').sample_size.to_f) %>,
+                  ],
+                  backgroundColor: "<%= get_graph_color_string(i, 0.5) %>" ,
+                  borderColor: "<%= get_graph_color_string(i, 1) %>"
+              },
+              <% end %>
+          ]
+      }
+
+      var farmRadar = {
+          labels: ["Neutral Kills", "Last Hits", "Denies", "Lane Efficiency %"],
+          datasets: [
+              <% @team.users.where(team_join_approved: true).all.each_with_index do |user,i| %>
+              {
+                  label: "<%= user.personaname %>",
+                  data: [
+                      <%= do_useful_division_on_values(user.odota_totals.find_by(field: 'neutral_kills').nil? ? nil : user.odota_totals.find_by(field: 'neutral_kills').total.to_f, user.odota_totals.find_by(field: 'neutral_kills').nil? ? nil : user.odota_totals.find_by(field: 'neutral_kills').sample_size.to_f) %>,
+                      <%= do_useful_division_on_values(user.odota_totals.find_by(field: 'last_hits').nil? ? nil : user.odota_totals.find_by(field: 'last_hits').total.to_f, user.odota_totals.find_by(field: 'last_hits').nil? ? nil : user.odota_totals.find_by(field: 'last_hits').sample_size.to_f) %>,
+                      <%= do_useful_division_on_values(user.odota_totals.find_by(field: 'denies').nil? ? nil : user.odota_totals.find_by(field: 'denies').total.to_f, user.odota_totals.find_by(field: 'denies').nil? ? nil : user.odota_totals.find_by(field: 'denies').sample_size.to_f) %>,
+                      <%= do_useful_division_on_values(user.odota_totals.find_by(field: 'lane_efficiency_pct').nil? ? nil : user.odota_totals.find_by(field: 'lane_efficiency_pct').total.to_f, user.odota_totals.find_by(field: 'lane_efficiency_pct').nil? ? nil : user.odota_totals.find_by(field: 'lane_efficiency_pct').sample_size.to_f) %>,
+                  ],
+                  backgroundColor: "<%= get_graph_color_string(i, 0.5) %>" ,
+                  borderColor: "<%= get_graph_color_string(i, 1) %>"
+              },
+              <% end %>
+          ]
+      }
+
+      var supportRadar = {
+          labels: ["Observers", "Sentries", "Gems"],
+          datasets: [
+              <% @team.users.where(team_join_approved: true).all.each_with_index do |user,i| %>
+              {
+                  label: "<%= user.personaname %>",
+                  data: [
+                      <%= do_useful_division_on_values(user.odota_totals.find_by(field: 'purchase_ward_observer').nil? ? nil : user.odota_totals.find_by(field: 'purchase_ward_observer').total.to_f, user.odota_totals.find_by(field: 'purchase_ward_observer').nil? ? nil : user.odota_totals.find_by(field: 'purchase_ward_observer').sample_size.to_f) %>,
+                      <%= do_useful_division_on_values(user.odota_totals.find_by(field: 'purchase_ward_sentry').nil? ? nil : user.odota_totals.find_by(field: 'purchase_ward_sentry').total.to_f, user.odota_totals.find_by(field: 'purchase_ward_sentry').nil? ? nil : user.odota_totals.find_by(field: 'purchase_ward_sentry').sample_size.to_f) %>,
+                      <%= do_useful_division_on_values(user.odota_totals.find_by(field: 'purchase_gem').nil? ? nil : user.odota_totals.find_by(field: 'purchase_gem').total.to_f, user.odota_totals.find_by(field: 'purchase_gem').nil? ? nil : user.odota_totals.find_by(field: 'purchase_gem').sample_size.to_f) %>,
+                  ],
+                  backgroundColor: "<%= get_graph_color_string(i, 0.5) %>" ,
+                  borderColor: "<%= get_graph_color_string(i, 1) %>"
+              },
+              <% end %>
+          ]
+      }
+
+      var ctx5 = document.getElementById("kdaRadar").getContext("2d");
+      var pm = document.getElementById("pmRadar").getContext("2d");
+      var farm = document.getElementById("farmRadar").getContext("2d");
+      var support = document.getElementById("supportRadar").getContext("2d");
+      new Chart(ctx5, { type: 'bar', data: kdaRadar, options: radarOptions });
+      new Chart(pm, { type: 'bar', data: pmRadar, options: radarOptions });
+      new Chart(farm, { type: 'bar', data: farmRadar, options: radarOptions });
+      new Chart(support, { type: 'bar', data: supportRadar, options: radarOptions });
+  });
+</script>

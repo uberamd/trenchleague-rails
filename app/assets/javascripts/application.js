@@ -21,6 +21,7 @@
 //= require editable/bootstrap-editable
 //= require d3/d3.min.js
 //= require c3/c3.min.js
+//= require chartjs/Chart.min.js
 //= require toastr/toastr.min.js
 //= require typehead/bootstrap3-typeahead.min.js
 //= require bootstrap-markdown/bootstrap-markdown.js

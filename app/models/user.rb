@@ -29,6 +29,8 @@ class User < ApplicationRecord
 
   has_many :odota_win_loss_records
 
+  has_many :odota_totals
+
   def get_short_steamid
     return self.steamid.to_i - 76561197960265728
   end
