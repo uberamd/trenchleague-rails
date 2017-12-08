@@ -190,19 +190,85 @@
 
     <div class="col-lg-4 m-b-lg">
 
+      <% if !@safe_win_pct.nil? || !@mid_win_pct.nil? || !@off_win_pct.nil? || !@jungle_win_pct.nil? %>
+      <h3>Win Rate By Lane</h3>
+      <div class="row">
+
+        <% if !@safe_win_pct.nil? %>
+        <div class="col-lg-6">
+          <div class="ibox">
+            <div class="ibox-content">
+              <h5>Safe</h5>
+              <h2><%= @safe_win_pct %>%</h2>
+              <div class="progress progress-mini">
+                <div style="width: <%= @safe_win_pct %>%;" class="progress-bar <%= @safe_win_pct < 50 ? 'progress-bar-danger' : '' %>"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <% end %>
+
+        <% if !@mid_win_pct.nil? %>
+        <div class="col-lg-6">
+          <div class="ibox">
+            <div class="ibox-content">
+              <h5>Mid</h5>
+              <h2><%= @mid_win_pct %>%</h2>
+              <div class="progress progress-mini">
+                <div style="width: <%= @mid_win_pct %>%;" class="progress-bar <%= @mid_win_pct < 50 ? 'progress-bar-danger' : '' %>"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <% end %>
+
+
+        <% if !@off_win_pct.nil? %>
+        <div class="col-lg-6">
+          <div class="ibox">
+            <div class="ibox-content">
+              <h5>Off</h5>
+              <h2><%= @off_win_pct %>%</h2>
+              <div class="progress progress-mini">
+                <div style="width: <%= @off_win_pct %>%;" class="progress-bar <%= @off_win_pct < 50 ? 'progress-bar-danger' : '' %>"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <% end %>
+
+
+        <% if !@jungle_win_pct.nil? %>
+        <div class="col-lg-6">
+          <div class="ibox">
+            <div class="ibox-content">
+              <h5>Jungle</h5>
+              <h2><%= @jungle_win_pct %>%</h2>
+              <div class="progress progress-mini">
+                <div style="width: <%= @jungle_win_pct %>%;" class="progress-bar <%= @jungle_win_pct < 50 ? 'progress-bar-danger' : '' %>"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <% end %>
+
+
+      </div>
+      <% end %>
+
       <div class="ibox">
         <div class="ibox-content">
           <h3>Most Played Heroes</h3>
           <% if @player.user_heroes.count > 0 %>
           <div>
-            <% @player.user_heroes.order('games DESC').limit(10).each do |hero| %>
+            <% @player.user_heroes.order('games DESC').limit(5).each do |hero| %>
             <div class="row m-b-sm">
               <div class="col-md-4">
                 <%= image_tag "/assets/heroes/#{hero.hero[:image]}.png", class: 'img-responsive', style: 'height: 40px;', data: { toggle: 'tooltip', placement: 'left' }, title: hero.hero[:localized_name] %>
               </div>
               <div class="col-md-8">
                 <% win_rate = ((hero[:win].to_f / hero[:games].to_f) * 100 ).round %>
-                <small><%= win_rate %>% win rate - <%= "#{hero[:games]} games" %></small>
+                <small><%= win_rate %>% win - <%= "#{hero[:games]} games" %></small>
                 <div class="progress progress-mini">
                   <div style="width: <%= win_rate %>%;" class="progress-bar"></div>
                 </div>
@@ -212,6 +278,30 @@
           </div>
           <% else %>
           <div class="alert alert-info">No match data loaded for this player.</div>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="ibox">
+        <div class="ibox-content">
+          <h3>Most Successful Heroes <small> - more than 20 games</small></h3>
+          <% if @top_heroes.count > 0 %>
+          <% @top_heroes.each do |hero| %>
+          <div class="row m-b-sm">
+            <div class="col-md-4">
+              <%= image_tag "/assets/heroes/#{hero.hero[:image]}.png", class: 'img-responsive', style: 'height: 40px;',  data: { toggle: 'tooltip', placement: 'left' }, title: hero.hero[:localized_name] %>
+            </div>
+            <div class="col-md-8">
+              <% win_rate = ((hero[:win].to_f / hero[:games].to_f) * 100 ).round %>
+              <small><%= win_rate %>% wins - <%= "#{hero[:games]} games" %></small>
+              <div class="progress progress-mini">
+                <div style="width: <%= win_rate %>%;" class="progress-bar"></div>
+              </div>
+            </div>
+          </div>
+          <% end %>
+          <% else %>
+              <div class="alert alert-info">No match data loaded for this player.</div>
           <% end %>
         </div>
       </div>

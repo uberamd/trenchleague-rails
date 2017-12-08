@@ -19,4 +19,19 @@ module PlayersHelper
         return 'Unknown'
     end
   end
+
+  def translate_lane_role_number_to_string(rolenum)
+    case rolenum
+      when 0
+        return 'Unknown'
+      when 1
+        return 'Safe'
+      when 2
+        return 'Mid'
+      when 3
+        return 'Off'
+      when 4
+        return 'Jungle'
+    end
+  end
 end

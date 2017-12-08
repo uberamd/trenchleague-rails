@@ -27,5 +27,6 @@ class OpendotaAllHeroesRefreshJob < ApplicationJob
 
     # once this task is done refresh the hero mappings
     RefreshAllHeroesJob.perform_later
+    RefreshAllRoleWinLossJob.perform_later
   end
 end
