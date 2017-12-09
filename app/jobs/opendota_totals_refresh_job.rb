@@ -12,13 +12,17 @@ class OpendotaTotalsRefreshJob < ApplicationJob
 
     api_hash.each do |total|
       # create or find an entry for that user and the corresponding hero
-      tmp_total = user.odota_totals.find_or_create_by(field: total['field'])
+      begin
+        tmp_total = user.odota_totals.find_or_create_by(field: total['field'])
 
-      # finally update the wins and losses
-      tmp_total.update_attributes({
-                                          total: total['sum'],
-                                          sample_size: total['n']
-                                      })
+        # finally update the wins and losses
+        tmp_total.update_attributes({
+                                        total: total['sum'],
+                                        sample_size: total['n']
+                                    })
+      rescue
+        logger.error("JOB: OpendotaTotalsRefreshJob, USER: #{user.id}, ERROR inserting total: #{total.inspect}")
+      end
     end
   end
 end

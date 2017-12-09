@@ -359,6 +359,38 @@ class AdminController < ApplicationController
     @staff = Page.where(:shortname => 'staff').all.first
   end
 
+  def jobs
+    authorize! :leagueadmin, Group
+  end
+
+  def run_job
+    authorize! :leagueadmin, Group
+
+    users = User.all.where.not(:is_deleted => true, :is_banned => true).all
+
+    case params[:job]
+      when 'ranktier'
+        users.each do |user|
+          OpendotaMmrRefreshJob.perform_later(user)
+        end
+      when 'totals'
+        users.each do |user|
+          OpendotaTotalsRefreshJob.perform_later(user)
+        end
+      when 'heroes'
+        users.each do |user|
+          OpendotaHeroRefreshJob.perform_later(user)
+        end
+      when 'winloss'
+        users.each do |user|
+          OpendotaRoleWinLossRefreshJob.perform_later(user)
+        end
+    end
+
+    flash[:success] = "Successfully queued jobs of type #{params[:job]}"
+    redirect_to jobs_admin_path
+  end
+
   private
 
   def create_group_params

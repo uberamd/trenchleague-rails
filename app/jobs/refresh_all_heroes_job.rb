@@ -9,6 +9,6 @@ class RefreshAllHeroesJob < ApplicationJob
       OpendotaHeroRefreshJob.perform_later(user)
     end
 
-    self.class.set(wait: 1.hour).perform_later
+    self.class.set(wait: 4.hour).perform_later
   end
 end

@@ -1,0 +1,39 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>Background Jobs</h2>
+    <ol class="breadcrumb">
+      <li>
+        <%= link_to 'Home', root_path %>
+      </li>
+      <li>
+        <%= link_to 'Administration', admin_path %>
+      </li>
+      <li class="active">
+        <strong>Jobs</strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-2"></div>
+</div>
+
+<div class="wrapper wrapper-content">
+  <div class="row animated fadeInRight">
+
+
+    <div class="col-md-6">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>Run Jobs</h5>
+        </div>
+        <div class="ibox-content">
+          <%= link_to 'Player Rank Tier', run_job_admin_path('ranktier'), class: 'btn btn-lg btn-success' %>
+          <%= link_to 'Player Totals', run_job_admin_path('totals'), class: 'btn btn-lg btn-success' %>
+          <%= link_to 'Player Heroes', run_job_admin_path('heroes'), class: 'btn btn-lg btn-success' %>
+          <%= link_to 'Player Win Loss', run_job_admin_path('winloss'), class: 'btn btn-lg btn-success' %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6"></div>
+  </div>
+</div>

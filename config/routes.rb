@@ -42,6 +42,8 @@ Rails.application.routes.draw do
   post '/admin/faq', to: 'admin#faq_create', as: 'faq_create_admin'
   get '/admin/faq/:id', to: 'admin#faq_edit', as: 'faq_edit_admin'
   patch '/admin/faq/:id', to: 'admin#faq_update', as: 'faq_update_admin'
+  get '/admin/jobs', to: 'admin#jobs', as: 'jobs_admin'
+  get '/admin/jobs/:job', to: 'admin#run_job', as: 'run_job_admin'
 
   get '/admin/autocomplete_user_personaname', to: 'admin#autocomplete_user_personaname', as: 'autocomplete_user_personaname_admin_index'
 

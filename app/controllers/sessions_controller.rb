@@ -13,6 +13,12 @@ class SessionsController < ApplicationController
     session[:user_id] = @user.id
     cookies.signed[:user_id] = { value: @user.id, expires: 1.month.from_now }
 
+    # queue jobs for user on login
+    OpendotaHeroRefreshJob.perform_later(@user)
+    OpendotaMmrRefreshJob.perform_later(@user)
+    OpendotaTotalsRefreshJob.perform_later(@user)
+    OpendotaRoleWinLossRefreshJob.perform_later(@user)
+
     redirect_to '/'
   end
 
