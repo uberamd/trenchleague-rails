@@ -31,6 +31,8 @@ Rails.application.routes.draw do
   post '/admin/groups/seed', to: 'admin#seed_series_update', as: 'groups_update_seeds_admin'
   get '/admin/players', to: 'admin#players', as: 'players_admin'
   put '/admin/players/update_player/:id', to: 'admin#update_player_admin', as: 'update_player_admin'
+  get '/admin/teams', to: 'admin#teams', as: 'teams_admin'
+  get '/admin/teams/delete_team/:id', to: 'admin#teams_delete', as: 'delete_team_admin'
   get '/admin/settings', to: 'admin#settings', as: 'league_setting'
   patch '/admin/settings', to: 'admin#update_settings', as: 'league_settings'
   get '/admin/rules', to: 'admin#rules', as: 'rules_admin'

@@ -302,6 +302,37 @@ class AdminController < ApplicationController
     @settings = LeagueSetting.all.first
   end
 
+  def teams
+    authorize! :leagueadmin, Group
+
+    @teams = Team.order('name').all
+  end
+
+  def teams_delete
+    authorize! :leagueadmin, Group
+
+    team = Team.find(params[:id])
+
+    if team.group != nil
+      flash[:danger] = "Unable to delete team. Please remove team from group before deleting."
+
+      redirect_to teams_admin_path and return
+    end
+
+    # now that we've verified the team isn't assigned in a group
+    # release players
+    team.users.each do |team_user|
+      team_user.clear_user_from_team
+    end
+
+    # now that the team is empty, remove it
+    team.destroy!
+
+    flash[:success] = 'Team deleted successfully!'
+    
+    redirect_to teams_admin_path
+  end
+
   def settings
     authorize! :leagueadmin, Group
 

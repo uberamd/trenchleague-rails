@@ -60,4 +60,14 @@ class User < ApplicationRecord
 
     return self.rank_tier_hash['stars']
   end
+
+  def clear_user_from_team
+    self.team_id               = nil
+    self.team_admin            = false
+    self.team_captain          = false
+    self.team_join_approved    = false
+    self.team_join_date        = nil
+    self.team_join_approved_by = nil
+    self.save!
+  end
 end
