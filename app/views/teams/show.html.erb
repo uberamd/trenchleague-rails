@@ -289,9 +289,17 @@
               <tr>
                 <td width="60px">
                   <% if series.teams[0].id == @team.id %>
+                    <% if !series.teams[1].nil?
                       <%= image_tag series.teams[1].logo.url(:tiny_square) %>
+                    <% else %>
+                      BYE
+                    <% end %>
                   <% else %>
+                    <% if !series.teams[0].nil? %>
                       <%= image_tag series.teams[0].logo.url(:tiny_square) %>
+                    <% else %>
+                      BYE
+                    <% end %>
                   <% end %>
                 </td>
                 <td>
