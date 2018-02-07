@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171208134749) do
+ActiveRecord::Schema.define(version: 20180206233841) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -194,6 +194,8 @@ ActiveRecord::Schema.define(version: 20171208134749) do
     t.datetime "updated_at", null: false
     t.integer "admin_user_id"
     t.integer "caster_user_id"
+    t.bigint "group_id"
+    t.index ["group_id"], name: "index_series_on_group_id"
   end
 
   create_table "series_matches", force: :cascade do |t|
@@ -319,6 +321,7 @@ ActiveRecord::Schema.define(version: 20171208134749) do
   add_foreign_key "notifications", "users"
   add_foreign_key "odota_totals", "users"
   add_foreign_key "odota_win_loss_records", "users"
+  add_foreign_key "series", "groups"
   add_foreign_key "series_matches", "series"
   add_foreign_key "user_heroes", "heroes"
   add_foreign_key "user_heroes", "users"

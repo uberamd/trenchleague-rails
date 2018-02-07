@@ -36,6 +36,11 @@
               <i class="fa fa-home"></i> <span class="nav-label" data-i18n="nav.home">Home</span>
               <% end %>
             </li>
+            <li class="<%= is_active_controller('groups') %>">
+              <%= link_to groups_path do %>
+              <i class="fa fa-ticket"></i> <span class="nav-label">Groups</span>
+              <% end %>
+            </li>
             <li class="<%= is_active_controller('teams') %>">
                 <a href=""><i class="fa fa-users"></i> <span class="nav-label" data-i18n="nav.teams">Teams</span> <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level collapse <%= is_active_controller('teams', 'in') %>">

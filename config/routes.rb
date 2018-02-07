@@ -75,6 +75,9 @@ Rails.application.routes.draw do
   get '/settings', to: 'players#settings', as: 'settings_player'
   patch '/settings', to: 'players#update_settings', as: 'update_settings_player'
 
+  # groups routes
+  get '/groups', to: 'groups#index', as: 'groups'
+
   # schedules
   get '/schedules', to: 'schedules#index', as: 'schedules'
 

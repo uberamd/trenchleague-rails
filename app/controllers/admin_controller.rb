@@ -228,11 +228,13 @@ class AdminController < ApplicationController
     @seeds_sorted.each do |series,series_value|
       series_value.each do |group,group_value|
         group_value.each do |matchup|
+          group_ided = Group.find_by(name: group)
           new_series = Series.new
           tmp_target_begin_date = Date.strptime(params["start_#{series}".parameterize.underscore.to_sym], "%m/%d/%Y")
           tmp_target_end_date = Date.strptime(params["end_#{series}".parameterize.underscore.to_sym], "%m/%d/%Y")
           new_series.target_begin_date = tmp_target_begin_date
           new_series.target_end_date = tmp_target_end_date
+          new_series.group_id = group_ided.id
           new_series.save!
 
           new_series.team_series.create([{
@@ -329,7 +331,7 @@ class AdminController < ApplicationController
     team.destroy!
 
     flash[:success] = 'Team deleted successfully!'
-    
+
     redirect_to teams_admin_path
   end
 
