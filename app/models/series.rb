@@ -9,6 +9,8 @@ class Series < ApplicationRecord
 
   has_many :user_series_predictions
 
+  has_one :group
+
   # lets us know if the series has been confirmed
   def confirmed?
     if self.team_series[0].team_approved_date && self.team_series[1].team_approved_date

@@ -1,0 +1,116 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>Groups</h2>
+    <ol class="breadcrumb">
+      <li>
+        <%= link_to 'Home', root_path %>
+      </li>
+      <li class="active">
+        <strong>Groups</strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-2"></div>
+</div>
+
+<div class="wrapper wrapper-content">
+  <% if Series.all.count > 0 %>
+  <div class="row animated fadeInRight">
+
+    <% @groups.each do |group| %>
+    <div class="col-md-6">
+      <div class="widget-head-color-box lazur-bg p-lg text-center">
+        <div class="m-b-md">
+          <h2 class="font-bold no-margins">Group <%= group.name %></h2>
+        </div>
+      </div>
+      <div class="widget-text-box">
+
+        <table class="table table-bordered table-hover">
+        <thead>
+        <tr>
+          <th class="text-right">Team 1</th>
+          <th colspan="3" class="text-center">Score</th>
+          <th>Team 2</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% group.series.each do |series| %>
+          <tr>
+            <td class="text-right">
+              <% if series.teams[0] %>
+                <%= series.teams[0].name %>
+                <%= image_tag series.teams[0].logo(:tiny_square), class: 'img-circle' %>
+              <% else %>
+              BYE
+              <% end %>
+            </td>
+
+            <td class="text-center" style="vertical-align: middle !important">-</td>
+            <td class="text-center" style="vertical-align: middle !important">
+              <%= link_to show_series_path(series) do %>
+              <i class="fa fa-question"></i>
+              <% end %>
+            </td>
+            <td class="text-center" style="vertical-align: middle !important">-</td>
+            <td>
+              <% if series.teams[1] %>
+                <%= image_tag series.teams[1].logo(:tiny_square), class: 'img-circle' %>
+                <%= series.teams[1].name %>
+              <% else %>
+                BYE
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+        </tbody>
+        </table>
+
+      </div>
+    </div>
+    <% end %>
+  </div>
+  <% else %>
+  <div class="row animated fadeInRight">
+    <% @groups.each do |group| %>
+
+      <div class="col-md-6">
+        <div class="widget-head-color-box lazur-bg p-lg text-center">
+          <div class="m-b-md">
+            <h2 class="font-bold no-margins">Group <%= group.name %></h2>
+          </div>
+        </div>
+        <div class="widget-text-box">
+          <% group.teams.each do |team| %>
+
+            <div class="contact-box">
+              <div class="col-sm-2">
+                <div class="text-center">
+                  <%= link_to (image_tag team.logo, class: 'img-circle m-t-xs img-responsive'), team_path(team) %>
+                </div>
+              </div>
+              <div class="col-sm-10">
+                <h3>
+                  <strong><%= team.name %></strong>
+                </h3>
+                <p>
+                  <strong>Average Medal Tier: </strong>
+                  <% avg_rank_tier = team.get_average_rank_tier %>
+                  <%= avg_rank_tier[:rank_tier][:medal] %> <%= avg_rank_tier[:rank_tier][:stars] %>
+                </p>
+                <p>
+                  <strong>Players: </strong>
+                  <%= team.users.count %>
+                </p>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+
+          <% end %>
+        </div>
+      </div>
+
+    <% end %>
+  </div>
+  <% end %>
+</div>

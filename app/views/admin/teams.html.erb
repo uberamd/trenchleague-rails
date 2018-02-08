@@ -1,0 +1,72 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>Team Administration</h2>
+    <ol class="breadcrumb">
+      <li>
+        <%= link_to 'Home', root_path %>
+      </li>
+      <li>
+        <%= link_to 'Administration', admin_path %>
+      </li>
+      <li class="active">
+        <strong>Teams</strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-2"></div>
+</div>
+
+<div class="wrapper wrapper-content">
+  <div class="row animated fadeInRight">
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h5>Registered Teams</h5>
+      </div>
+      <div class="ibox-content">
+
+        <p><strong>Note:</strong> Use <span class="text-danger">EXTREME</span> care when removing teams. It is a destructive action and should not be done
+        without understanding the downstream impact. All people on the deleted team will have their current team assignment removed.</p>
+        <table class="table table-hover" id="admin_team_table">
+          <thead>
+          <tr>
+            <th>Name</th>
+            <th>Registered Players</th>
+            <th>Group</th>
+            <th>Captain</th>
+            <th></th>
+          </tr>
+          </thead>
+          <tbody>
+          <% @teams.each do |team| %>
+            <tr>
+              <td><%= link_to team.name, team_path(team) %></td>
+              <td class="<%= team.users.count < 5 ? 'warning' : '' %>"><%= team.users.count %></td>
+              <td>
+                <% if team.group != nil %>
+                  <%= team.group.name %>
+                <% else %>
+                  No Assigned Group
+                <% end %>
+              </td>
+              <td>
+                <% capt = team.users.where(team_captain: true).first %>
+                <% if capt == nil %>
+                  No Captain
+                <% else %>
+                  <%= link_to capt.personaname, show_player_path(capt) %>
+                <% end %>
+              </td>
+              <td class="text-right">
+                <%= link_to 'Delete Team', delete_team_admin_path(team.id), data: { confirm: "Are you sure you want to delete this team? You can NOT go back!" }, class: 'btn btn-danger btn-xs' %>
+              </td>
+            </tr>
+          <% end %>
+          </tbody>
+          <script type="text/javascript">
+              $('.editable').editable();
+          </script>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
