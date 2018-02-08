@@ -286,27 +286,32 @@
           </thead>
           <tbody>
           <% @team.series.order('target_begin_date ASC').all.each do |series| %>
+            <% next if series.teams[0].nil? || series.teams[1].nil? %>
               <tr>
                 <td width="60px">
                   <% if series.teams[0].id == @team.id %>
-                    <% if !series.teams[1].nil?
+                    <% if !series.teams[1].nil? %>
                       <%= image_tag series.teams[1].logo.url(:tiny_square) %>
-                    <% else %>
-                      BYE
                     <% end %>
                   <% else %>
                     <% if !series.teams[0].nil? %>
                       <%= image_tag series.teams[0].logo.url(:tiny_square) %>
-                    <% else %>
-                      BYE
                     <% end %>
                   <% end %>
                 </td>
                 <td>
                   <% if series.teams[0].id == @team.id %>
+                    <% if !series.teams[1].nil? %>
                       <%= series.teams[1].name %>
+                    <% else %>
+                      BYE
+                    <% end %>
                   <% else %>
+                    <% if !series.teams[0].nil? %>
                       <%= series.teams[0].name %>
+                    <% else %>
+                      BYE
+                    <% end %>
                   <% end %>
                 </td>
                 <td>
