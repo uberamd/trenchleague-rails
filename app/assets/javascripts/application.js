@@ -5,7 +5,8 @@
 // or vendor/assets/javascripts of plugins, if any, can be referenced here using a relative path.
 //
 //
-//= require jquery/jquery-3.1.1.min.js
+// require jquery/jquery-3.1.1.min.js
+//= require jquery
 //= require jquery_ujs
 //= require bootstrap-sprockets
 //= require metisMenu/jquery.metisMenu.js
@@ -28,7 +29,5 @@
 //= require bootstrap-markdown/markdown.js
 //= require dataTables/datatables.min.js
 //= require editable/rails
-// require jquery-ui
-// require autocomplete-rails
 //= require cable
 

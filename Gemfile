@@ -60,6 +60,8 @@ gem 'json', '~> 2'
 gem 'omniauth-steam'
 gem 'bootstrap_form'
 gem 'redis' # for actioncable
+gem 'redis-rails'
+
 gem 'paperclip', git: 'https://github.com/thoughtbot/paperclip.git'
 gem 'aws-sdk', '~> 2.3'
 gem 'access-granted', git: 'https://github.com/chaps-io/access-granted.git'
@@ -74,7 +76,5 @@ gem 'elo_rating', '~> 1.0'
 gem 'x-editable-rails'
 
 gem 'redcarpet' # used to show markdown
-
-gem 'redis'
 
 gem 'stripe'

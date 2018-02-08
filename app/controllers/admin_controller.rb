@@ -72,18 +72,16 @@ class AdminController < ApplicationController
     params.each do |param,v|
       next if v == '' # we want to
 
-      tmp_user = { :elo => 1000, :user_id => 0, :won => false }
-      if param =~ /^winner_/
-        tmp_user[:won] = true
-      end
+      tmp_user = { elo: 1000, user_id: 0, won: false }
+      tmp_user[:won] = true if param =~ /^winner_/
 
       if param =~ /^(winner_|loser_)/
         user = User.find_by(personaname: v)
         tmp_user[:user_id] = user.id
-        if !user.in_house_elo.nil?
-          tmp_user[:elo]     = user.in_house_elo
-        end
+        tmp_user[:elo]     = user.in_house_elo unless user.in_house_elo.nil?
         user_arr << tmp_user
+      else
+        next
       end
     end
 
@@ -171,8 +169,8 @@ class AdminController < ApplicationController
 
         tmp_team_arr = [tmp_team_arr[0]] + tmp_team_arr[1..-1].rotate(-1)
       end
-      @rounds["#{group.name}"] = tmp_rounds
-      @groups_seeded["#{group.name}"] = tmp_team_arr
+      @rounds[group.name.to_s] = tmp_rounds
+      @groups_seeded[group.name.to_s] = tmp_team_arr
     end
 
     @seeds_sorted = Hash.new{ |h, k| h[k] = { } }
@@ -180,7 +178,7 @@ class AdminController < ApplicationController
       # here we iterate over groups
       rounds.each do |round,v|
         # here we are iterating over each round
-        @seeds_sorted["#{round}"]["#{group}"] = v
+        @seeds_sorted[round.to_s][group.to_s] = v
       end
     end
   end
@@ -211,26 +209,26 @@ class AdminController < ApplicationController
 
         tmp_team_arr = [tmp_team_arr[0]] + tmp_team_arr[1..-1].rotate(-1)
       end
-      @rounds["#{group.name}"] = tmp_rounds
-      @groups_seeded["#{group.name}"] = tmp_team_arr
+      @rounds[group.name.to_s] = tmp_rounds
+      @groups_seeded[group.name.to_s] = tmp_team_arr
     end
 
     @seeds_sorted = Hash.new{ |h, k| h[k] = { } }
-    @rounds.each do |group,rounds|
+    @rounds.each do |_ ,rounds|
       # here we iterate over groups
       rounds.each do |round,v|
         # here we are iterating over each round
-        @seeds_sorted["#{round}"]["#{group}"] = v
+        @seeds_sorted[round.to_s][round.to_s] = v
       end
     end
 
     # iterate over all of the series (1, 2, 3, 4 etc)
     @seeds_sorted.each do |series,series_value|
-      series_value.each do |group,group_value|
+      series_value.each do |_ ,group_value|
         group_value.each do |matchup|
           new_series = Series.new
-          tmp_target_begin_date = Date.strptime(params["start_#{series}".parameterize.underscore.to_sym], "%m/%d/%Y")
-          tmp_target_end_date = Date.strptime(params["end_#{series}".parameterize.underscore.to_sym], "%m/%d/%Y")
+          tmp_target_begin_date = Date.strptime(params["start_#{series}".parameterize.underscore.to_sym], '%m/%d/%Y')
+          tmp_target_end_date = Date.strptime(params["end_#{series}".parameterize.underscore.to_sym], '%m/%d/%Y')
           new_series.target_begin_date = tmp_target_begin_date
           new_series.target_end_date = tmp_target_end_date
           new_series.save!
@@ -289,6 +287,8 @@ class AdminController < ApplicationController
         team = Team.find(team_id)
         team.group_id = v
         team.save!
+      else
+        next
       end
     end
 
@@ -306,15 +306,13 @@ class AdminController < ApplicationController
     authorize! :leagueadmin, Group
 
     @settings = LeagueSetting.all.first
-    if @settings.nil?
-      @settings = LeagueSetting.create
-    end
+    @settings = LeagueSetting.create if @settings.nil?
   end
 
   def update_settings
     authorize! :leagueadmin, Group
 
-    if LeagueSetting.all.count == 0
+    if LeagueSetting.all.count.zero?
       @settings = LeagueSetting.create(league_settings_params)
     else
       @settings = LeagueSetting.all.first
@@ -329,7 +327,7 @@ class AdminController < ApplicationController
   def rules
     authorize! :leagueadmin, Group
 
-    if Page.where(:shortname => 'rules').all.count == 0
+    if Page.where(:shortname => 'rules').all.count.zero?
       Page.create(:shortname => 'rules')
     end
 
@@ -352,7 +350,7 @@ class AdminController < ApplicationController
   def staff
     authorize! :leagueadmin, Group
 
-    if Page.where(:shortname => 'staff').all.count == 0
+    if Page.where(:shortname => 'staff').all.count.zero?
       Page.create(:shortname => 'staff')
     end
 
@@ -381,6 +379,8 @@ class AdminController < ApplicationController
         users.each do |user|
           OpendotaHeroRefreshJob.perform_later(user)
         end
+      when 'dota_heroes'
+        OpendotaAllHeroesRefreshJob.perform_later
       when 'winloss'
         users.each do |user|
           OpendotaRoleWinLossRefreshJob.perform_later(user)
