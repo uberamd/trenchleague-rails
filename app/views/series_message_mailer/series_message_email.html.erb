@@ -5,10 +5,14 @@
   <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
 </head>
 <body>
-<h1><%= @user.personaname %></h1>
+<h2>TrenchLeague - New Message</h2>
 <p>
-  A new message has been posted in one of your series. You can click to
-  view the message here: <%= @url %>.<br>
+  A new message has been posted in one of your series. You can  view the new
+  message here: <%= @url %>.
 </p>
+<p>
+  The following message was posted by <%= @message.user.personaname %>:
+</p>
+<p><%= simple_format(@message.message, {}, sanitize: true) %></p>
 </body>
 </html>

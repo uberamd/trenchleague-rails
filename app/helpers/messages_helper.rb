@@ -14,7 +14,12 @@ module MessagesHelper
     notify_uids.each do |uid|
       Notification.create(user_id: uid, resource_type: 'seriesmessage', resource_id: message.id )
 
-      SeriesMessageMailer.series_message_email(User.find(uid)).deliver_later
+      tmp_user = User.find(uid)
+
+      unless tmp_user.email.nil?
+        SeriesMessageMailer.series_message_email(tmp_user, series, message).deliver_later
+      end
+
     end
   end
 end
