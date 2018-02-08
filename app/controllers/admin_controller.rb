@@ -209,27 +209,27 @@ class AdminController < ApplicationController
 
         tmp_team_arr = [tmp_team_arr[0]] + tmp_team_arr[1..-1].rotate(-1)
       end
-      @rounds[group.name.to_s] = tmp_rounds
-      @groups_seeded[group.name.to_s] = tmp_team_arr
+      @rounds["#{group.name}"] = tmp_rounds
+      @groups_seeded["#{group.name}"] = tmp_team_arr
     end
 
     @seeds_sorted = Hash.new{ |h, k| h[k] = { } }
-    @rounds.each do |_ ,rounds|
+    @rounds.each do |group,rounds|
       # here we iterate over groups
       rounds.each do |round,v|
         # here we are iterating over each round
-        @seeds_sorted[round.to_s][round.to_s] = v
+        @seeds_sorted["#{round}"]["#{group}"] = v
       end
     end
 
     # iterate over all of the series (1, 2, 3, 4 etc)
     @seeds_sorted.each do |series,series_value|
-      series_value.each do |_ ,group_value|
+      series_value.each do |group,group_value|
         group_value.each do |matchup|
           group_ided = Group.find_by(name: group)
           new_series = Series.new
-          tmp_target_begin_date = Date.strptime(params["start_#{series}".parameterize.underscore.to_sym], '%m/%d/%Y')
-          tmp_target_end_date = Date.strptime(params["end_#{series}".parameterize.underscore.to_sym], '%m/%d/%Y')
+          tmp_target_begin_date = Date.strptime(params["start_#{series}".parameterize.underscore.to_sym], "%m/%d/%Y")
+          tmp_target_end_date = Date.strptime(params["end_#{series}".parameterize.underscore.to_sym], "%m/%d/%Y")
           new_series.target_begin_date = tmp_target_begin_date
           new_series.target_end_date = tmp_target_end_date
           new_series.group_id = group_ided.id

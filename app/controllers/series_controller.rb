@@ -1,6 +1,7 @@
 class SeriesController < ApplicationController
 
   include SeriesHelper
+  include MessagesHelper
 
   def calendar_feed
     response_hash = []
@@ -315,27 +316,11 @@ class SeriesController < ApplicationController
 
     notify_uids = []
     if @message.save
-      # check to see if each captain should receive this notification
-      @series.teams.each do |team|
-        tmp_user = team.users.where(:team_captain => true).first
-
-        if tmp_user.id != current_user.id
-          # this user didn't send the message, create notification
-          notify_uids << tmp_user.id
-        end
-      end
-
-      notify_uids.each do |uid|
-        Notification.create({
-            user_id: uid,
-            resource_type: 'seriesmessage',
-            resource_id: @message.id
-                            })
-      end
+      generate_message_notification(@series, @message)
     end
 
     flash[:success] = 'Message successfully posted.'
-    redirect_to show_series_path(@series, :anchor => "message-#{@message.id}") and return
+    redirect_to show_series_path(@series, :anchor => "message-#{@message.id}")
   end
 
   def predict_winner
@@ -366,7 +351,7 @@ class SeriesController < ApplicationController
                                                 })
 
     flash[:success] = 'Prediction successfully recorded, good luck!'
-    redirect_to show_series_path(params['id']) and return
+    redirect_to show_series_path(params['id'])
   end
 
   def index
