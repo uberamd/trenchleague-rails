@@ -14,7 +14,8 @@ class AccessPolicy
       can [:leagueadmin, :admin], User
       can [:leagueadmin, :admin], Team
       can [:leagueadmin, :admin], Group
-      can [:leagueadmin, :admin, :cast], Series
+      can [:leagueadmin, :admin], Series
+      can [:leagueadmin, :cast], Series
     end
 
     role :team_admin do
