@@ -191,6 +191,7 @@ class SeriesController < ApplicationController
         @series.save!
 
         flash[:success] = 'You have successfully been assigned as admin for this series.'
+        redirect_to show_series_path(@series) and return
 
       when 'recordresults'
         authorize! :leagueadmin, @series

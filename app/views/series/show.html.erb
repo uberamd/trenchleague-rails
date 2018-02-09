@@ -30,7 +30,7 @@
             <p>Nobody has predicted <%= @series.teams[0].name %> to win this series.</p>
           <% end %>
           <% tmp_predictions.each do |user| %>
-              <%= link_to image_tag(user.user.avatar, class: 'img-circle m-t-xs', data: { toggle: 'tooltip', placement: 'top'}, title: user.user.personaname ), show_player_path(user.user) %>
+              <%= link_to image_tag(user.user.avatar, class: 'img-circle m-t-xs', data: { toggle: 'tooltip', placement: 'top'}, title: user.user.personaname ), show_player_path(user.user.steamid) %>
           <% end %>
         </div>
         <% if !current_user.id.nil? && current_user.user_series_predictions.where(:series_id => @series.id).all.count == 0 %>
@@ -159,7 +159,7 @@
               <p>Nobody has predicted <%= @series.teams[1].name %> to win this series.</p>
           <% end %>
           <% tmp_predictions.each do |user| %>
-              <%= link_to image_tag(user.user.avatar, class: 'img-circle m-t-xs', data: { toggle: 'tooltip', placement: 'top'}, title: user.user.personaname ), show_player_path(user.user) %>
+              <%= link_to image_tag(user.user.avatar, class: 'img-circle m-t-xs', data: { toggle: 'tooltip', placement: 'top'}, title: user.user.personaname ), show_player_path(user.user.steamid) %>
           <% end %>
         </div>
         <% if !current_user.id.nil? && current_user.user_series_predictions.where(:series_id => @series.id).all.count == 0 %>
