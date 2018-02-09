@@ -130,6 +130,34 @@
                       </div>
                     </div>
                   </div>
+                  <div>
+                    <table class="table">
+                      <thead>
+                      <tr>
+                        <th>Admin</th>
+                        <th>Caster</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr>
+                        <td style="vertical-align: center;">
+                          <% if @series.has_admin? %>
+                          <%= link_to @series.admin.personaname, show_player_path(@series.admin.steamid) %>
+                          <% else %>
+                          <strong>No Admin Assigned</strong>
+                          <% end %>
+                        </td>
+                        <td style="vertical-align: center;">
+                          <% if @series.has_caster? %>
+                          <%= link_to @series.caster.personaname, show_player_path(@series.caster.steamid) %>
+                          <% else %>
+                          <strong>No Caster Assigned</strong>
+                          <% end %>
+                        </td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
               <% elsif @series.scheduled_date.nil? %>
                   <p>This match has not been scheduled.</p>
               <% end %>

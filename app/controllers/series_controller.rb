@@ -41,10 +41,9 @@ class SeriesController < ApplicationController
   def update
     @series = Series.find(params[:id])
 
-    authorize! :scheduleseries, @series
-
     case params[:seriesaction]
       when 'propose'
+        authorize! :scheduleseries, @series
         # this is what is triggered when you propose a time
 
         if @series.scheduled_date.nil?
@@ -84,6 +83,7 @@ class SeriesController < ApplicationController
           redirect_to show_series_path(@series) and return
         end
       when 'selfreject'
+        authorize! :scheduleseries, @series
         # this is what is triggered when you remove your own proposal
 
         @team_series = TeamSeries.where(:team_id => current_user.team_id, :series_id => @series.id).first
@@ -113,6 +113,7 @@ class SeriesController < ApplicationController
         redirect_to show_series_path(@series) and return
 
       when 'proposereject'
+        authorize! :scheduleseries, @series
         # this is what is triggered when you reject your opponents proposal
         @team_series = TeamSeries.where(:team_id => current_user.team_id, :series_id => @series.id).first
         @opponent_series = TeamSeries.where(:series_id => @series.id).where.not(:team_id => current_user.team_id).first
@@ -153,6 +154,7 @@ class SeriesController < ApplicationController
         redirect_to show_series_path(@series) and return
 
       when 'acceptseries'
+        authorize! :scheduleseries, @series
         # when the other team is good with your proposed time (impossible right??)
         @team_series = TeamSeries.where(:team_id => current_user.team_id, :series_id => @series.id).first
         @opponent_series = TeamSeries.where(:series_id => @series.id).where.not(:team_id => current_user.team_id).first
@@ -191,6 +193,26 @@ class SeriesController < ApplicationController
         @series.save!
 
         flash[:success] = 'You have successfully been assigned as admin for this series.'
+        redirect_to show_series_path(@series) and return
+
+      when 'resetadmin'
+        # this allows a league admin to remove the current series admin
+        authorize! :leagueadmin, @series
+
+        @series.admin_user_id = nil
+        @series.save!
+
+        flash[:success] = 'You have successfully reset the admin of the series.'
+        redirect_to show_series_path(@series) and return
+
+      when 'resetcaster'
+        # this allows a league admin to remove the current series caster
+        authorize! :leagueadmin, @series
+
+        @series.caster_user_id = nil
+        @series.save!
+
+        flash[:success] = 'You have successfully reset the caster of the series.'
         redirect_to show_series_path(@series) and return
 
       when 'recordresults'
