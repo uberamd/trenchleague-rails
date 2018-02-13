@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180206233841) do
+ActiveRecord::Schema.define(version: 20180213035316) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -200,7 +200,7 @@ ActiveRecord::Schema.define(version: 20180206233841) do
 
   create_table "series_matches", force: :cascade do |t|
     t.bigint "series_id"
-    t.integer "match_id"
+    t.bigint "match_id"
     t.integer "winning_team_id"
     t.integer "losing_team_id"
     t.string "vod_url"
