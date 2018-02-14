@@ -349,6 +349,7 @@ class SeriesController < ApplicationController
   def predict_winner
     # check to see if the current_user is a player (or if they are even logged in)
     authorize! :isplayer, current_user
+    # we should eventually check to see if the series has already started
 
     # determine if the user already voted
     if current_user.user_series_predictions.where(:series_id => params['id']).all.count > 0
@@ -357,9 +358,14 @@ class SeriesController < ApplicationController
       redirect_to show_series_path(params['id']) and return
     end
 
-    # we should eventually check to see if the series has already started
 
     series = Series.find(params['id'])
+
+    # we should eventually check to see if the series has already started
+    if DateTime.now() > series.scheduled_date
+      flash[:danger] = "You can not vote for this series, it has already started"
+      redirect_to show_series_path(params['id']) and return
+    end
 
     # user is trying to vote for a team that isnt playing... screw this guy...
     if (series.teams[0].id != params['team_id'].to_i) && (series.teams[1].id != params['team_id'].to_i)
