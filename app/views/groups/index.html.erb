@@ -35,27 +35,36 @@
         </tr>
         </thead>
         <tbody>
-        <% group.series.each do |series| %>
+        <% group.series.order('target_begin_date ASC').each do |series| %>
+          <% next if series.teams[0].id.nil? || series.teams[1].nil? %>
           <tr>
-            <td class="text-right">
+            <td class="text-right <%= winner_series_style(series, 0) %>">
               <% if series.teams[0] %>
                 <%= series.teams[0].name %>
-                <%= image_tag series.teams[0].logo(:tiny_square), class: 'img-circle' %>
+                <%= link_to image_tag(series.teams[0].logo(:tiny_square), class: 'img-circle'), team_path(series.teams[0]) %>
               <% else %>
               BYE
               <% end %>
             </td>
 
-            <td class="text-center" style="vertical-align: middle !important">-</td>
             <td class="text-center" style="vertical-align: middle !important">
-              <%= link_to show_series_path(series) do %>
-              <i class="fa fa-question"></i>
+              <% if series.completed? %>
+                <%= series.series_matches.where(winning_team_id: series.teams[0].id).all.count %>
               <% end %>
             </td>
-            <td class="text-center" style="vertical-align: middle !important">-</td>
-            <td>
+            <td class="text-center" style="vertical-align: middle !important">
+              <%= link_to show_series_path(series), class: 'btn btn-xs btn-primary' do %>
+              View
+              <% end %>
+            </td>
+            <td class="text-center" style="vertical-align: middle !important">
+              <% if series.completed? %>
+                <%= series.series_matches.where(winning_team_id: series.teams[1].id).all.count %>
+              <% end %>
+            </td>
+            <td class="<%= winner_series_style(series, 1) %>">
               <% if series.teams[1] %>
-                <%= image_tag series.teams[1].logo(:tiny_square), class: 'img-circle' %>
+                <%= link_to image_tag(series.teams[1].logo(:tiny_square), class: 'img-circle'), team_path(series.teams[1]) %>
                 <%= series.teams[1].name %>
               <% else %>
                 BYE
