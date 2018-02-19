@@ -20,5 +20,8 @@ module TrenchleagueRails
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
+    Raven.configure do |config|
+      config.dsn = 'https://a1df8ea497b04a25bd6debac7d1d3185:3b46ab1c370e49af8f694ba5562f7137@sentry.stevem.io/2'
+    end
   end
 end

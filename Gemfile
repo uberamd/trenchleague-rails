@@ -78,3 +78,7 @@ gem 'x-editable-rails'
 gem 'redcarpet' # used to show markdown
 
 gem 'stripe'
+
+# event logging
+gem 'sentry-raven'
+

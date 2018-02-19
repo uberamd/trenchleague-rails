@@ -2,6 +2,8 @@ class ApplicationController < ActionController::Base
   # commented out per https://github.com/omniauth/omniauth/issues/237
   #protect_from_forgery with: :exception
 
+  before_action :set_raven_context
+
   rescue_from AccessGranted::AccessDenied do |exception|
     redirect_to root_path, alert: "You don't have permissions to access this page."
   end
@@ -34,5 +36,10 @@ class ApplicationController < ActionController::Base
     else
       User.new
     end
+  end
+
+  def set_raven_context
+    Raven.user_context(id: session[:user_id])
+    Raven.extra_context(params: params.to_unsafe_h, url: request.url)
   end
 end
