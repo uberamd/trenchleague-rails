@@ -18,7 +18,8 @@ elsif ENV['RAILS_ENV'] == 'staging'
               host: "redis",
               port: 6379,
               db: 0,
-              namespace: "session"
+              namespace: "session",
+              password: ENV['REDIS_password']
           },
       ],
       expire_after: 30.days,
