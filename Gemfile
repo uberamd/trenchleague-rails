@@ -84,3 +84,4 @@ gem 'stripe'
 # event logging
 gem 'sentry-raven'
 
+gem 'redmon', require: false
