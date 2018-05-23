@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
   mount ActionCable.server => '/cable'
+  mount Redmon::App => '/redmon'
 
   get 'schedules/index'
 
