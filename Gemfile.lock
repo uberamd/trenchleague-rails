@@ -264,6 +264,7 @@ DEPENDENCIES
   byebug
   coffee-rails (~> 4.2)
   elo_rating (~> 1.0)
+  faraday (= 0.15.2)
   flag-icons-rails!
   font-awesome-rails
   friendly_id

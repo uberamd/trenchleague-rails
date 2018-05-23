@@ -83,4 +83,4 @@ gem 'stripe'
 
 # event logging
 gem 'sentry-raven'
-
+gem 'faraday', '0.15.2'
