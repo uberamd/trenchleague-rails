@@ -12,10 +12,10 @@ RUN bundle
 
 COPY . .
 
-USER 1001
+RUN bundle exec rake RAILS_ENV=production DATABASE_URL=postgresql://user:pass@127.0.0.1/dbname SECRET_TOKEN=pickasecuretoken assets:precompile
 
 RUN chown -R 1001:0 /webapp
 
-RUN bundle exec rake RAILS_ENV=production DATABASE_URL=postgresql://user:pass@127.0.0.1/dbname SECRET_TOKEN=pickasecuretoken assets:precompile
+USER 1001
 
 CMD bundle exec puma
