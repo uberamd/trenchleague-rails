@@ -15,9 +15,3 @@ if ENV['RAILS_ENV'] == 'production'
   end
 end
 
-if ENV['RAILS_ENV'] == 'staging'
-  unless ( File.basename($0) == 'rake')
-    RedmonWorkerJob.perform_later
-  end
-end
-
