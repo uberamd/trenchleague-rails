@@ -8,6 +8,8 @@ end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.2'
+# Pin rake to 12.3.0 for build reasons
+gem 'rake', '12.3.0'
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 0.18'
 # Use Puma as the app server
@@ -81,4 +83,4 @@ gem 'stripe'
 
 # event logging
 gem 'sentry-raven'
-
+gem 'faraday', '0.15.2'
