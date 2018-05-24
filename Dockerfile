@@ -12,7 +12,7 @@ RUN bundle
 
 COPY . .
 
-RUN bundle exec rake RAILS_ENV=production DATABASE_URL=postgresql://user:pass@127.0.0.1/dbname SECRET_TOKEN=pickasecuretoken assets:precompile
+RUN bundle exec rake RAILS_ENV=production DATABASE_URL=postgresql://user:pass@127.0.0.1/dbname SECRET_KEY_BASE=blah SECRET_TOKEN=pickasecuretoken assets:precompile
 
 RUN chown -R 1001:0 /webapp
 RUN chmod -R 777 /webapp
