@@ -27,6 +27,32 @@
       <div class="widget-text-box">
 
         <table class="table table-bordered table-hover">
+          <thead>
+          <tr>
+            <th>Pos.</th>
+            <th>Team</th>
+            <th>Record</th>
+          </tr>
+          </thead>
+          <tbody>
+          <% team_rank_hash = {} %>
+          <% group.teams.each do |team| %>
+            <% team_rank_hash[team.id] = { :wins => SeriesMatch.where(:winning_team_id => team.id).all.count, :losses => SeriesMatch.where(:losing_team_id => team.id).all.count} %>
+          <% end %>
+          <% team_rank_hash = Hash[ team_rank_hash.sort_by { |_,v| [-v[:wins], v[:losses]] } ] %>
+          <% team_rank_hash.each_with_index do |v, i| %>
+          <% i += 1 %>
+          <tr class="<%= i <= 2 ? 'success' : 'warning' %>">
+            <% tmp_team = Team.find(v[0]) %>
+            <td><%= i %></td>
+            <td><%= tmp_team.name %></td>
+            <td><%= "#{v[1][:wins]}-#{v[1][:losses]}" %></td>
+          </tr>
+          <% end %>
+          </tbody>
+        </table>
+
+        <table class="table table-bordered table-hover">
         <thead>
         <tr>
           <th class="text-right">Team 1</th>

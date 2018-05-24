@@ -28,6 +28,28 @@ class AdminController < ApplicationController
     @faqs = Faq.all
   end
 
+  def oneoff_series
+    authorize! :leagueadmin, Group
+  end
+
+  def oneoff_series_create
+    authorize! :leagueadmin, Group
+
+    series = Series.new
+    series.target_begin_date = Date.strptime(params["start"], "%m/%d/%Y")
+    series.target_end_date   = Date.strptime(params["end"], "%m/%d/%Y")
+
+    series.save!
+
+    series.team_series.create([{
+        :team_id => params["team_1"]
+                               }, {
+        :team_id => params["team_2"]
+                               }])
+
+    redirect_to oneoff_series_admin_path
+  end
+
   def faq_create
     authorize! :leagueadmin, Group
 

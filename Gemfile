@@ -57,13 +57,13 @@ gem 'bootstrap-sass', '~> 3.3.7'
 gem 'font-awesome-rails'
 gem 'json', '~> 2'
 
-gem 'omniauth-steam'
+gem 'omniauth-steam', git: 'https://github.com/iJJi/omniauth-steam.git'
 gem 'bootstrap_form'
 gem 'redis' # for actioncable
 gem 'redis-rails'
 
 gem 'paperclip', git: 'https://github.com/thoughtbot/paperclip.git'
-gem 'aws-sdk', '~> 2.3'
+gem 'aws-sdk-s3'
 gem 'access-granted', git: 'https://github.com/chaps-io/access-granted.git'
 gem 'jquery-rails'
 gem 'friendly_id'

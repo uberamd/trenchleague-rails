@@ -19,6 +19,10 @@ class StaticPageController < ApplicationController
     # nothing here
   end
 
+  def bracket
+
+  end
+
   def staff
     @staff = Page.where(:shortname => 'staff').all.first
 

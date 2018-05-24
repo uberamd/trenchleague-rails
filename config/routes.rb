@@ -47,6 +47,8 @@ Rails.application.routes.draw do
   patch '/admin/faq/:id', to: 'admin#faq_update', as: 'faq_update_admin'
   get '/admin/jobs', to: 'admin#jobs', as: 'jobs_admin'
   get '/admin/jobs/:job', to: 'admin#run_job', as: 'run_job_admin'
+  get '/admin/oneoff_series', to: 'admin#oneoff_series', as: 'oneoff_series_admin'
+  post '/admin/oneoff_series', to: 'admin#oneoff_series_create', as: 'create_oneoff_series_admin'
 
   get '/admin/autocomplete_user_personaname', to: 'admin#autocomplete_user_personaname', as: 'autocomplete_user_personaname_admin_index'
 
@@ -89,5 +91,6 @@ Rails.application.routes.draw do
   get '/staff', to: 'static_page#staff', as: 'staff'
   get '/distributions', to: 'static_page#distributions', as: 'distributions'
   get '/faq', to: 'static_page#faq', as: 'faq'
+  get '/bracket', to: 'static_page#bracket', as: 'bracket'
   post '/faq', to: 'static_page#faq_create', as: 'faq_create'
 end

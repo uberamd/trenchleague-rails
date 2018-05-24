@@ -66,6 +66,11 @@
               <i class="fa fa-calendar"></i> <span class="nav-label" data-i18n="nav.schedule">Schedule</span>
               <% end %>
             </li>
+          <li class="<%= is_active_action('bracket') %>">
+            <%= link_to bracket_path do %>
+              <i class="fa fa-cubes"></i> <span class="nav-label" data-i18n="nav.bracket">Bracket</span>
+            <% end %>
+          </li>
             <li class="<%= is_active_controller('in_house') %>">
               <a href=""><i class="fa fa-crosshairs"></i> <span class="nav-label" data-i18n="nav.inhouse">In-house</span> <span class="fa arrow"></span></a>
               <ul class="nav nav-second-level collapse <%= is_active_controller('inhouse', 'in') %>">
@@ -102,6 +107,7 @@
                 <li class="<%= is_active_action('teams') %>"><%= link_to 'Teams', teams_admin_path %></li>
                 <li class="<%= is_active_action('groups') %>"><%= link_to 'Groups', groups_admin_path %></li>
                 <li class="<%= is_active_action('seed_series') %>"><%= link_to 'Seed Series', groups_seed_admin_path %></li>
+                <li class="<%= is_active_action('oneoff_series') %>"><%= link_to 'One-Off Series', oneoff_series_admin_path %></li>
                 <li class="<%= is_active_action('inhouse') %>"><%= link_to 'In-house', inhouse_admin_path %></li>
                 <li class="<%= is_active_action('faq') %>"><%= link_to 'FAQ', faq_admin_path %></li>
                 <li class="<%= is_active_action('rules') %>"><%= link_to 'Edit Rules', rules_admin_path %></li>
