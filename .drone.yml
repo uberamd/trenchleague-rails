@@ -7,9 +7,7 @@ pipeline:
       - DOCKER_LAUNCH_DEBUG=false
     repo: registry.stevem.io/trenchleague/webapp
     registry: registry.stevem.io
-    tags:
-      - beta
-      - latest
+    auto_tag: true
     dockerfile: Dockerfile
     insecure: false
     secrets: [ docker_username, docker_password ]
