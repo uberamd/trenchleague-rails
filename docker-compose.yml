@@ -5,9 +5,9 @@ services:
     ports:
       - 15432:5432
     environment:
-      POSTGRES_USER: tl_prod
-      POSTGRES_DB: tl_prod
-      POSTGRES_PASSWORD: ub3rl33tPassw0rDzMeng
+      POSTGRES_USER: tl_dev
+      POSTGRES_DB: tl_dev
+      POSTGRES_PASSWORD: password
     volumes:
       - ./postgres:/var/lib/postgresql/data
   cache:
