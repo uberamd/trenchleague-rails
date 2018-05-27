@@ -15,4 +15,4 @@ RUN bundle && \
 
 USER 1001
 
-CMD bundle exec puma
+ENTRYPOINT ./entrypoint.sh

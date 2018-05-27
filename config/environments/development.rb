@@ -68,12 +68,18 @@ Rails.application.configure do
   config.paperclip_defaults = {
       storage: :s3,
       s3_credentials: {
-          bucket: ENV["AWS_S3_BUCKET_NAME"],
-          access_key_id: ENV["AWS_ACCESS_KEY"],
-          secret_access_key: ENV["AWS_SECRET_KEY"],
-          s3_region: 'us-west-2',
-          s3_host_name: 's3-us-west-2.amazonaws.com',
-      }
+          bucket: 'my-dev-bucket',
+          access_key_id: ENV['AWS_ACCESS_KEY'],
+          secret_access_key: ENV['AWS_SECRET_KEY'],
+          region: 'us-east-1'
+      },
+      s3_options: {
+          force_path_style: true,
+          endpoint: 'http://localhost:9000'
+      },
+      s3_region: 'us-east-1',
+      s3_host_name: 'minio:9000',
+      path: '/:class/:attachment/:id_partition/:style/:filename'
   }
 
   config.autoload_paths += %W(#{config.root}/app/policies)

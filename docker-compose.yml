@@ -9,8 +9,53 @@ services:
       POSTGRES_DB: tl_dev
       POSTGRES_PASSWORD: password
     volumes:
-      - ./postgres:/var/lib/postgresql/data
+      - db-data:/var/lib/postgresql/data
   cache:
     image: redis
     ports:
-      - 16379:6379
+      - 6379
+  minio:
+    # S3 equiv API for logo storage
+    image: minio/minio
+    ports:
+      - 9000:9000
+    environment:
+      MINIO_ACCESS_KEY: public
+      MINIO_SECRET_KEY: privatepass
+    command: minio server /data
+  createbuckets:
+    # this service is used to create the minio bucket for logo storage
+    image: minio/mc
+    entrypoint: >
+          /bin/sh -c "
+          /usr/bin/mc config host add myminio http://minio:9000 public privatepass;
+          /usr/bin/mc rm -r --force my-dev-bucket;
+          /usr/bin/mc mb my-dev-bucket;
+          /usr/bin/mc policy download my-dev-bucket;
+          exit 0;
+          "
+    links:
+      - minio
+  webapp:
+    build: .
+    ports:
+      - 3000:3000
+    environment:
+      DB_USER: tl_dev
+      DB_PASS: password
+      DB_HOST: db
+      DB_PORT: 5432
+      RAILS_ENV: development
+      SMTP_DOMAIN: example.com
+      SMTP_USERNAME: user
+      SMTP_PASSWORD: password
+      AWS_S3_BUCKET_NAME: tl_dev
+      AWS_ACCESS_KEY: public
+      AWS_SECRET_KEY: privatepass
+      # you can set SENTRY_DSN if you wish to use Sentry
+    links:
+      - db
+      - cache
+      - minio
+volumes:
+  db-data:
